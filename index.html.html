@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SSAFY 서울캠퍼스 주간 식단표</title>
+<style>
+:root{--bg:#f4f7fb;--card:#fff;--text:#172033;--muted:#6b7280;--line:#dfe5ef;--primary:#2563eb;--floor20:#6d5ce7;--floor20-soft:#f0edff;--floor10:#0891b2;--floor10-soft:#e6f8fc;--accent:#f97316;--shadow:0 10px 30px rgba(31,41,55,.08)}
+*{box-sizing:border-box} body{margin:0;font-family:"Pretendard","Noto Sans KR",Arial,sans-serif;color:var(--text);background:linear-gradient(180deg,#eef5ff 0,var(--bg) 240px)}
+.wrap{width:min(1500px,calc(100% - 32px));margin:0 auto;padding:34px 0 60px} header{display:flex;justify-content:space-between;align-items:end;gap:20px;margin-bottom:20px}
+h1{margin:0 0 8px;font-size:clamp(28px,4vw,46px);letter-spacing:-.04em}.subtitle{margin:0;color:var(--muted);font-size:15px}.legend{display:flex;gap:10px;flex-wrap:wrap}.legend span{display:inline-flex;align-items:center;gap:7px;padding:8px 12px;border-radius:999px;background:white;border:1px solid var(--line);font-size:13px;font-weight:700}.dot{width:9px;height:9px;border-radius:50%}.dot.floor20{background:var(--floor20)}.dot.floor10{background:var(--floor10)}
+.week-picker{display:flex;align-items:center;gap:10px;margin-bottom:14px}.week-picker label{font-size:13px;font-weight:800;color:#4b5563}.week-picker select{min-width:220px;padding:11px 38px 11px 13px;border:1px solid var(--line);border-radius:12px;background:white;font:inherit;font-weight:800;color:var(--text);box-shadow:var(--shadow)}
+.toolbar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:18px;padding:14px;background:rgba(255,255,255,.84);backdrop-filter:blur(8px);border:1px solid rgba(223,229,239,.9);border-radius:18px;box-shadow:var(--shadow);position:sticky;top:10px;z-index:20}.date-buttons,.floor-buttons{display:flex;gap:8px;flex-wrap:wrap}button{border:0;cursor:pointer;font:inherit}.date-btn,.floor-btn{padding:9px 13px;border-radius:10px;background:#fff;color:var(--text);border:1px solid var(--line);font-size:13px;font-weight:700}.date-btn.active{background:var(--primary);color:white;border-color:var(--primary)}.floor-btn.active[data-floor="20"]{background:var(--floor20);color:white;border-color:var(--floor20)}.floor-btn.active[data-floor="10"]{background:var(--floor10);color:white;border-color:var(--floor10)}.floor-btn.active[data-floor="all"]{background:#111827;color:white;border-color:#111827}
+.week-grid{display:grid;grid-template-columns:repeat(5,minmax(270px,1fr));gap:18px;align-items:start;overflow-x:auto;padding-bottom:10px;scroll-snap-type:x mandatory}.day-card{min-width:270px;background:var(--card);border:1px solid var(--line);border-radius:22px;overflow:hidden;box-shadow:var(--shadow);scroll-snap-align:start;transition:transform .2s ease,box-shadow .2s ease}.day-card:hover{transform:translateY(-3px);box-shadow:0 14px 36px rgba(31,41,55,.12)}.day-head{padding:18px 18px 15px;background:linear-gradient(135deg,#1d4ed8,#4f46e5);color:white}.day-head .date{display:block;font-size:23px;font-weight:900;letter-spacing:-.03em}.day-head .weekday{display:block;margin-top:3px;font-size:13px;opacity:.82;font-weight:700}.floor-section{padding:16px;border-top:1px solid var(--line)}.floor-section:first-of-type{border-top:0}.floor-title{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}.floor-title h2{display:flex;align-items:center;gap:8px;margin:0;font-size:17px}.floor-badge{padding:5px 9px;border-radius:999px;font-size:11px;font-weight:900}.floor-20 .floor-badge{background:var(--floor20-soft);color:var(--floor20)}.floor-10 .floor-badge{background:var(--floor10-soft);color:var(--floor10)}.menu-list{display:grid;gap:10px}.menu-box{border:1px solid var(--line);border-radius:14px;padding:13px;background:#fbfcfe}.menu-box.main20{border-left:5px solid var(--floor20)}.menu-box.main10{border-left:5px solid var(--floor10)}.menu-name{display:flex;justify-content:space-between;align-items:center;gap:8px;margin:0 0 8px;font-size:15px;font-weight:900}.type{flex:0 0 auto;font-size:10px;padding:4px 7px;border-radius:999px;background:#eef2f7;color:#4b5563}.items{margin:0;padding:0;list-style:none;color:#3f4756;font-size:13px;line-height:1.65;word-break:keep-all}.items li::before{content:"·";margin-right:6px;color:var(--accent);font-weight:900}.notice{margin-top:22px;padding:16px 18px;border-radius:16px;background:#fff8e8;border:1px solid #f4dc9a;color:#76540c;font-size:13px;line-height:1.6}.hidden{display:none!important}
+@media(max-width:900px){header{align-items:flex-start;flex-direction:column}.toolbar{align-items:flex-start;flex-direction:column}.week-grid{grid-template-columns:repeat(5,minmax(290px,82vw))}.week-picker{align-items:flex-start;flex-direction:column}.week-picker select{width:100%}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header><div><h1>SSAFY 서울캠퍼스 주간 식단</h1><p class="subtitle" id="subtitle"></p></div><div class="legend"><span><i class="dot floor20"></i>20층 일반식</span><span><i class="dot floor10"></i>10층 공존식당</span></div></header>
+<div class="week-picker"><label for="weekSelect">이전 식단표 보기</label><select id="weekSelect" aria-label="주차 선택"></select></div>
+<nav class="toolbar" aria-label="식단 필터"><div class="date-buttons"><button class="date-btn active" data-day="all">전체 요일</button><button class="date-btn" data-day="mon">월</button><button class="date-btn" data-day="tue">화</button><button class="date-btn" data-day="wed">수</button><button class="date-btn" data-day="thu">목</button><button class="date-btn" data-day="fri">금</button></div><div class="floor-buttons"><button class="floor-btn active" data-floor="all">두 층 모두</button><button class="floor-btn" data-floor="20">20층만</button><button class="floor-btn" data-floor="10">10층만</button></div></nav>
+<main class="week-grid" id="weekGrid"></main>
+<div class="notice">식단은 식자재 수급과 운영 상황에 따라 변경될 수 있습니다. 알레르기·원산지 정보는 원본 식단표에서 확인해 주세요.</div>
+</div>
+<script>
+const weeks = [
+{key:'2026-08-03',label:'2026년 8월 1주차 (8/3~8/7)',subtitle:'2026년 8월 1주차 · 10층과 20층 메뉴를 날짜별로 한 화면에서 비교하세요.',days:[
+['mon','8월 3일','월요일 · MON',
+[['돼지고기김치볶음','A 한식',['보리밥/쌀밥','미역국/마일드볼카츠','두부양념구이','샐러드&드레싱/깍두기','유자차']],['장조림버터밥','B 일품',['미역국','마일드볼카츠','쫄면채소무침','샐러드&드레싱','단무지/유자차']]],
+[['고구마치즈돈까스','도시락',['알리오올리오','백미밥','양송이스프','코울슬로','포기김치']],['함박스테이크샌드위치','브런치',['감자무스샐러드','오리엔탈드레싱','음료']],['불고기두부샐러드','샐러드',['오리엔탈드레싱','음료']]]],
+['tue','8월 4일','화요일 · TUE',
+[['뼈없는닭갈비','A 한식',['차조밥/쌀밥','아욱된장국','오이부추무침','푸실리샐러드','일식양배추샐러드&드레싱','김치/매실차']],['카레라이스','B 일품',['냉우동','치킨가스&머스타드','푸실리샐러드','일식양배추샐러드&드레싱','김치/매실차']]],
+[['오징어불고기','도시락',['어묵간장볶음','흑미밥','콩나물국','단호박샐러드','포기김치']],['핫치킨샌드위치','브런치',['병아리콩샐러드','오렌지드레싱','음료']],['치즈함박감자샐러드','샐러드',['렌치드레싱','음료']]]],
+['wed','8월 5일','수요일 · WED',
+[['놀부부대찌개 세트','통합 메뉴',['혼합잡곡밥/쌀밥','돼지고기김말이강정','미역줄기게맛살볶음','숙주미나리나물/콘샐러드','깍두기','츄러스/아이스초코']]],
+[['통마늘수제닭강정','도시락',['조랭이떡볶이','백미밥','미역오이냉국','오징어미나리초무침','포기김치']],['당근라페샌드위치','브런치',['치킨텐더샐러드','크리미양파드레싱','음료']],['닭가슴살아보카도보울','샐러드',['크리미양파드레싱','음료']]]],
+['thu','8월 6일','목요일 · THU',
+[['수제 오므라이스','A 한식',['가다랑어국','비엔나소시지케첩볶음','단호박샐러드','샐러드&드레싱/김치','복분자홍초']],['국물떡볶이','B 일품',['가다랑어국','유부양념밥','수제채소튀김','샐러드&드레싱','사각단무지/복분자홍초']]],
+[['쭈꾸미순대볶음','도시락',['치킨까스','기장밥','소고기해장국','브로컬리숙회','포기김치']],['에그마요샌드위치','브런치',['돈까스샐러드','무지방오리엔탈드레싱','음료']],['새우파스타샐러드','샐러드',['무지방오리엔탈드레싱','음료']]]],
+['fri','8월 7일','금요일 · FRI',
+[['사골떡국','A 한식',['미니수수밥/고기산적조림','잡채/깻잎순겉절이','배추겉절이','아이스티(복숭아맛)']],['명태회냉면','B 일품',['사골온육수','김가루양념밥','교자만두찜&초간장','마카로니콘샐러드/냉면김치','아이스티(복숭아맛)']]],
+[['매운굴소스청경채소고기볶음','도시락',['챔피온순세지&치킨링','백미밥','냉우동','오이부추무침','포기김치']],['클럽샌드위치','브런치',['푸실리샐러드','자두드레싱','음료']],['불고기버섯보울','샐러드',['자두드레싱','음료']]]]
+]},
+{key:'2026-08-10',label:'2026년 8월 2주차 (8/10~8/14)',subtitle:'2026년 8월 2주차 식단표입니다. 10층과 20층 메뉴를 날짜별로 한 화면에서 비교하세요.',days:[
+['mon','8월 10일','월요일 · MON',
+[['순대국밥','A 한식',['수수밥/쌀밥','연근땅콩강정','건새우마늘종볶음','매운콩나물무침/깍두기','아이스티(레몬)']],['새우필라프&토마토살사소스','B 일품',['일식장국','등심돈까스&소스','건새우마늘종볶음','샐러드&드레싱/김치','아이스티(레몬)']]],
+[['육즙가득함박스테이크','도시락',['매콤감자조림','백미밥','참치김치찌개','마늘쫑파무침','깍두기']],['단호박샌드위치','브런치',['훈제오리샐러드','오렌지드레싱','음료']],['목살스테이크샐러드','샐러드',['오렌지드레싱','음료']]]],
+['tue','8월 11일','화요일 · TUE',
+[['돼지고기고추장볶음','A 한식',['혼합잡곡밥/쌀밥','감자수제비국','옥수수전','양배추쌈&쌈장','깍두기','석류차']],['간자장면','B 일품',['미니쌀밥/계란후라이','짬뽕튀김&연유','땅콩튀김','짜사이채무침/김치','석류차']]],
+[['바베큐폭찹스테이크','도시락',['어묵강정','기장밥','얼갈이된장국','명엽채고추장볶음','포기김치']],['햄계란샌드위치','브런치',['리코타치즈샐러드','오렌지망고드레싱','음료']],['흑임자닭가슴살단호박샐러드','샐러드',['렌치망고드레싱','음료']]]],
+['wed','8월 12일','수요일 · WED',
+[['이화수 전통육개장','A 한식',['차조밥/쌀밥','분홍소세지전&케찹','미나리무생채/샐러드&드레싱','깍두기','매실차']],['봉골레파스타','B 일품',['제로음료','모닝롤마늘빵','오렌고구마샐러드','샐러드&드레싱/수제피클','매실차']]],
+[['돼지고기수육','도시락',['고로케,김말이','수수밥','장터국밥','보쌈무김치','백김치']],['참치샌드위치','브런치',['치즈스틱샐러드','오리엔탈드레싱','음료']],['함박스테이크고구마샐러드','샐러드',['오리엔탈드레싱','음료']]]],
+['thu','8월 13일','목요일 · THU',
+[['순두부찌개','A 한식',['보리밥/쌀밥','생선가스&타르타르소스','후랑크소시지채소볶음','시래기된장조림','일식양배추샐러드&드레싱','깍두기','수정과']],['베이컨쇼유라멘','B 일품',['후랑크소시지채소볶음','유부양념밥','생선가스&타르타르소스','일식양배추샐러드&드레싱','단무지/김치','수정과']]],
+[['마파두부','도시락',['고추잡채&꽃빵','백미밥','양파계란국','유자청단무지무침','포기김치']],['돈까스샌드위치','브런치',['알리오올리오샐러드','유자파인드레싱','음료']],['로스트치킨샐러드','샐러드',['유자파인드레싱','음료']]]],
+['fri','8월 14일','금요일 · FRI',
+[['함박닭다리백숙','통합 메뉴',['흑미찹쌀밥/쌀밥','김치전','궁중떡볶이','도토리묵무침/깍두기','수박/블루베리맛홍초']]],
+[['장어덮밥','도시락',['간장돼지불고기','볶음우동','팽이미소장국','새콤달콤무생채','포기김치']],['흑임자닭가슴살샌드위치','브런치',['아보카도샐러드','딸기드레싱','음료']],['참치마요바게트샐러드','샐러드',['딸기드레싱','음료']]]]
+]}
+];
+const weekSelect=document.getElementById('weekSelect'),grid=document.getElementById('weekGrid'),subtitle=document.getElementById('subtitle');
+weeks.forEach((w,i)=>{const o=document.createElement('option');o.value=w.key;o.textContent=w.label;weekSelect.appendChild(o)});weekSelect.value=weeks[weeks.length-1].key;
+function box(menu,floor){const [name,type,items]=menu;return `<div class="menu-box main${floor}"><p class="menu-name">${name}<span class="type">${type}</span></p><ul class="items">${items.map(x=>`<li>${x}</li>`).join('')}</ul></div>`}
+function render(){const w=weeks.find(x=>x.key===weekSelect.value);subtitle.textContent=w.subtitle;grid.innerHTML=w.days.map(d=>`<article class="day-card" data-day="${d[0]}"><div class="day-head"><span class="date">${d[1]}</span><span class="weekday">${d[2]}</span></div><section class="floor-section floor-20" data-floor="20"><div class="floor-title"><h2>20층</h2><span class="floor-badge">${d[3].length===1?'통합 메뉴':'2가지 메뉴'}</span></div><div class="menu-list">${d[3].map(m=>box(m,20)).join('')}</div></section><section class="floor-section floor-10" data-floor="10"><div class="floor-title"><h2>10층</h2><span class="floor-badge">3가지 메뉴</span></div><div class="menu-list">${d[4].map(m=>box(m,10)).join('')}</div></section></article>`).join('');applyFilters()}
+let currentDay='all',currentFloor='all';
+function applyFilters(){document.querySelectorAll('.day-card').forEach(c=>c.classList.toggle('hidden',currentDay!=='all'&&c.dataset.day!==currentDay));document.querySelectorAll('.floor-section').forEach(s=>s.classList.toggle('hidden',currentFloor!=='all'&&s.dataset.floor!==currentFloor))}
+document.querySelectorAll('.date-btn').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.date-btn').forEach(x=>x.classList.remove('active'));b.classList.add('active');currentDay=b.dataset.day;applyFilters()}));document.querySelectorAll('.floor-btn').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.floor-btn').forEach(x=>x.classList.remove('active'));b.classList.add('active');currentFloor=b.dataset.floor;applyFilters()}));weekSelect.addEventListener('change',render);render();
+</script>
+</body>
+</html>
