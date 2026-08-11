@@ -19,7 +19,14 @@ h1{margin:0 0 8px;font-size:clamp(28px,4vw,46px);letter-spacing:-.04em}.subtitle
 .week-picker{display:flex;align-items:center;gap:10px;margin-bottom:14px}.week-picker label{font-size:13px;font-weight:800;color:#4b5563}.week-picker select{min-width:220px;padding:11px 38px 11px 13px;border:1px solid var(--line);border-radius:12px;background:white;font:inherit;font-weight:800;color:var(--text);box-shadow:var(--shadow)}
 .toolbar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:18px;padding:14px;background:rgba(255,255,255,.84);backdrop-filter:blur(8px);border:1px solid rgba(223,229,239,.9);border-radius:18px;box-shadow:var(--shadow);position:sticky;top:10px;z-index:20}.date-buttons,.floor-buttons{display:flex;gap:8px;flex-wrap:wrap}button{border:0;cursor:pointer;font:inherit}.date-btn,.floor-btn{padding:9px 13px;border-radius:10px;background:#fff;color:var(--text);border:1px solid var(--line);font-size:13px;font-weight:700}.date-btn.active{background:var(--primary);color:white;border-color:var(--primary)}.floor-btn.active[data-floor="20"]{background:var(--floor20);color:white;border-color:var(--floor20)}.floor-btn.active[data-floor="10"]{background:var(--floor10);color:white;border-color:var(--floor10)}.floor-btn.active[data-floor="all"]{background:#111827;color:white;border-color:#111827}
 .week-grid{display:grid;grid-template-columns:repeat(5,minmax(270px,1fr));gap:18px;align-items:start;overflow-x:auto;padding-bottom:10px;scroll-snap-type:x mandatory}.day-card{min-width:270px;background:var(--card);border:1px solid var(--line);border-radius:22px;overflow:hidden;box-shadow:var(--shadow);scroll-snap-align:start;transition:transform .2s ease,box-shadow .2s ease}.day-card:hover{transform:translateY(-3px);box-shadow:0 14px 36px rgba(31,41,55,.12)}.day-head{padding:18px 18px 15px;background:linear-gradient(135deg,#1d4ed8,#4f46e5);color:white}.day-head .date{display:block;font-size:23px;font-weight:900;letter-spacing:-.03em}.day-head .weekday{display:block;margin-top:3px;font-size:13px;opacity:.82;font-weight:700}.floor-section{padding:16px;border-top:1px solid var(--line)}.floor-section:first-of-type{border-top:0}.floor-title{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}.floor-title h2{display:flex;align-items:center;gap:8px;margin:0;font-size:17px}.floor-badge{padding:5px 9px;border-radius:999px;font-size:11px;font-weight:900}.floor-20 .floor-badge{background:var(--floor20-soft);color:var(--floor20)}.floor-10 .floor-badge{background:var(--floor10-soft);color:var(--floor10)}.menu-list{display:grid;gap:10px}.menu-box{border:1px solid var(--line);border-radius:14px;padding:13px;background:#fbfcfe}.menu-box.main20{border-left:5px solid var(--floor20)}.menu-box.main10{border-left:5px solid var(--floor10)}.menu-name{display:flex;justify-content:space-between;align-items:center;gap:8px;margin:0 0 8px;font-size:15px;font-weight:900}.type{flex:0 0 auto;font-size:10px;padding:4px 7px;border-radius:999px;background:#eef2f7;color:#4b5563}.items{margin:0;padding:0;list-style:none;color:#3f4756;font-size:13px;line-height:1.65;word-break:keep-all}.items li::before{content:"·";margin-right:6px;color:var(--accent);font-weight:900}.notice{margin-top:22px;padding:16px 18px;border-radius:16px;background:#fff8e8;border:1px solid #f4dc9a;color:#76540c;font-size:13px;line-height:1.6}.hidden{display:none!important}
-@media(max-width:900px){header{align-items:flex-start;flex-direction:column}.toolbar{align-items:flex-start;flex-direction:column}.week-grid{grid-template-columns:repeat(5,minmax(290px,82vw))}.week-picker{align-items:flex-start;flex-direction:column}.week-picker select{width:100%}}
+@media(max-width:900px){
+header{align-items:flex-start;flex-direction:column}
+.toolbar{align-items:flex-start;flex-direction:column}
+.week-grid{grid-template-columns:repeat(5,minmax(290px,82vw))}
+.week-grid.single-day{grid-template-columns:minmax(290px,82vw);justify-content:center}
+.week-picker{align-items:flex-start;flex-direction:column}
+.week-picker select{width:100%}
+}
 </style>
 </head>
 <body>
@@ -68,12 +75,51 @@ const weeks = [
 ]}
 ];
 const weekSelect=document.getElementById('weekSelect'),grid=document.getElementById('weekGrid'),subtitle=document.getElementById('subtitle');
-weeks.forEach((w,i)=>{const o=document.createElement('option');o.value=w.key;o.textContent=w.label;weekSelect.appendChild(o)});weekSelect.value=weeks[weeks.length-1].key;
+weeks.forEach((w,i)=>{const o=document.createElement('option');o.value=w.key;o.textContent=w.label;weekSelect.appendChild(o)});
+
+let currentDay='all',currentFloor='all';
+
+function getMondayKey(date){
+  const d=new Date(date);
+  const day=d.getDay();
+  const diff=day===0?-6:1-day;
+  d.setHours(12,0,0,0);
+  d.setDate(d.getDate()+diff);
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+}
+
+function setInitialView(){
+  const today=new Date();
+  const mondayKey=getMondayKey(today);
+  const matchedWeek=weeks.find(w=>w.key===mondayKey);
+
+  // 이번 주 식단이 있으면 그 주차, 없으면 가장 최신 주차
+  weekSelect.value=matchedWeek ? matchedWeek.key : weeks[weeks.length-1].key;
+
+  // 모바일(900px 이하)에서만 오늘 요일 자동 선택
+  if(window.matchMedia('(max-width: 900px)').matches && matchedWeek){
+    const dayMap={1:'mon',2:'tue',3:'wed',4:'thu',5:'fri'};
+    const todayCode=dayMap[today.getDay()];
+    if(todayCode){
+      currentDay=todayCode;
+      document.querySelectorAll('.date-btn').forEach(btn=>{
+        btn.classList.toggle('active',btn.dataset.day===todayCode);
+      });
+    }
+  }
+}
+
 function box(menu,floor){const [name,type,items]=menu;return `<div class="menu-box main${floor}"><p class="menu-name">${name}<span class="type">${type}</span></p><ul class="items">${items.map(x=>`<li>${x}</li>`).join('')}</ul></div>`}
 function render(){const w=weeks.find(x=>x.key===weekSelect.value);subtitle.textContent=w.subtitle;grid.innerHTML=w.days.map(d=>`<article class="day-card" data-day="${d[0]}"><div class="day-head"><span class="date">${d[1]}</span><span class="weekday">${d[2]}</span></div><section class="floor-section floor-20" data-floor="20"><div class="floor-title"><h2>20층</h2><span class="floor-badge">${d[3].length===1?'통합 메뉴':'2가지 메뉴'}</span></div><div class="menu-list">${d[3].map(m=>box(m,20)).join('')}</div></section><section class="floor-section floor-10" data-floor="10"><div class="floor-title"><h2>10층</h2><span class="floor-badge">3가지 메뉴</span></div><div class="menu-list">${d[4].map(m=>box(m,10)).join('')}</div></section></article>`).join('');applyFilters()}
-let currentDay='all',currentFloor='all';
-function applyFilters(){document.querySelectorAll('.day-card').forEach(c=>c.classList.toggle('hidden',currentDay!=='all'&&c.dataset.day!==currentDay));document.querySelectorAll('.floor-section').forEach(s=>s.classList.toggle('hidden',currentFloor!=='all'&&s.dataset.floor!==currentFloor))}
-document.querySelectorAll('.date-btn').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.date-btn').forEach(x=>x.classList.remove('active'));b.classList.add('active');currentDay=b.dataset.day;applyFilters()}));document.querySelectorAll('.floor-btn').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.floor-btn').forEach(x=>x.classList.remove('active'));b.classList.add('active');currentFloor=b.dataset.floor;applyFilters()}));weekSelect.addEventListener('change',render);render();
+function applyFilters(){
+  document.querySelectorAll('.day-card').forEach(c=>c.classList.toggle('hidden',currentDay!=='all'&&c.dataset.day!==currentDay));
+  document.querySelectorAll('.floor-section').forEach(s=>s.classList.toggle('hidden',currentFloor!=='all'&&s.dataset.floor!==currentFloor));
+  grid.classList.toggle('single-day',window.matchMedia('(max-width: 900px)').matches && currentDay!=='all');
+}
+document.querySelectorAll('.date-btn').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.date-btn').forEach(x=>x.classList.remove('active'));b.classList.add('active');currentDay=b.dataset.day;applyFilters()}));document.querySelectorAll('.floor-btn').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.floor-btn').forEach(x=>x.classList.remove('active'));b.classList.add('active');currentFloor=b.dataset.floor;applyFilters()}));weekSelect.addEventListener('change',render);
+
+setInitialView();
+render();
 </script>
 </body>
 </html>
