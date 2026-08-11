@@ -48,7 +48,7 @@ linear-gradient(180deg,#fcfaf3 0%,#f8f5ea 100%);min-height:100vh}
 .date-controls{display:grid;grid-template-columns:1fr auto;gap:14px;align-items:center;margin-bottom:16px}
 .date-navigator{display:grid;grid-template-columns:auto 1fr auto;grid-template-areas:"prev center next" "days days days";align-items:center;gap:10px 14px;padding:11px 14px;border:1px solid var(--line);background:rgba(255,254,249,.9);border-radius:18px;box-shadow:var(--shadow)}
 .nav-arrow{width:38px;height:38px;padding:0;border-radius:50%;background:#fffef8;border:1px solid var(--line);font-size:24px;color:var(--text);display:grid;place-items:center;line-height:1}.nav-arrow span{display:block;line-height:1;transform:translateY(-1px)}
-.date-center{display:flex;align-items:center;justify-content:center;gap:8px;position:relative;grid-area:center}.date-center strong{font-size:14px}.calendar-button{cursor:pointer;width:36px;height:36px;padding:0;display:grid;place-items:center;border-radius:12px;background:var(--lemon-soft);font-size:17px;line-height:1;color:#6f684d}.calendar-button span{display:block;line-height:1;transform:translate(-1px,0)}
+.date-center{display:flex;align-items:center;justify-content:center;gap:8px;position:relative;grid-area:center}.date-center strong{font-size:14px}.calendar-button{cursor:pointer;width:36px;height:36px;padding:0;display:grid;place-items:center;border-radius:12px;background:var(--lemon-soft);font-size:17px;line-height:1;color:#6f684d}.calendar-button span{display:block;line-height:1;transform:translate(-1px,0)}.week-view-button{height:36px;padding:0 14px;border-radius:12px;background:#fffef8;color:#615c45;border:1px solid var(--line);font-size:12px;font-weight:900;white-space:nowrap}
 #prevWeek{grid-area:prev}#nextWeek{grid-area:next}
 .mobile-date-bar{display:grid;grid-template-columns:repeat(5,minmax(72px,1fr));gap:8px;grid-area:days;width:100%;margin-top:2px}.mobile-day{display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 5px;border-radius:14px;background:#fffef8;border:1px solid var(--line);font-size:11px;font-weight:850;color:var(--muted);position:relative}.mobile-day .num{font-size:16px;color:var(--text)}.mobile-day.active{background:var(--lemon);border-color:var(--lemon-deep)}.mobile-day.today:after{content:"";width:6px;height:6px;border-radius:50%;background:#383529;position:absolute;bottom:4px;left:50%;transform:translateX(-50%)}
 @media(max-width:900px){.date-controls{grid-template-columns:1fr}.date-navigator{grid-template-columns:auto 1fr auto}.date-center{flex-direction:row;gap:8px}.mobile-date-bar{grid-template-columns:repeat(5,1fr);gap:6px}.floor-buttons{width:100%}}
@@ -217,8 +217,14 @@ linear-gradient(180deg,#fcfaf3 0%,#f8f5ea 100%);min-height:100vh}
 
 @media(max-width:900px){
   .week-grid{touch-action:pan-y}
+  .week-view-button{display:none}
   .week-grid.is-swiping{overflow:hidden}
   .week-grid.is-swiping .day-card{pointer-events:none;will-change:transform,opacity}
+}
+@media(min-width:901px){
+  .week-grid.week-view{display:grid;grid-template-columns:repeat(5,minmax(240px,1fr));gap:16px;align-items:start;overflow-x:auto}
+  .week-grid.week-view .day-layout{display:block}
+  .week-grid.week-view .day-card{min-width:240px}
 }
 
 </style>
@@ -246,6 +252,7 @@ linear-gradient(180deg,#fcfaf3 0%,#f8f5ea 100%);min-height:100vh}
       <div class="date-center">
         <strong id="weekRange">날짜 불러오는 중...</strong>
         <button class="calendar-button" id="calendarButton" type="button" aria-label="캘린더 열기" title="날짜 선택"><span aria-hidden="true">📅</span></button>
+        <button class="week-view-button" id="weekViewButton" type="button">주간 메뉴</button>
         <div id="calendarPanel" class="calendar-panel hidden" aria-label="날짜 선택 캘린더"></div>
       </div>
       <button class="nav-arrow" id="nextWeek" aria-label="다음 주"><span aria-hidden="true">›</span></button>
@@ -264,9 +271,11 @@ const weekRange=document.getElementById('weekRange');
 const mobileDateBar=document.getElementById('mobileDateBar');
 const calendarButton=document.getElementById('calendarButton');
 const calendarPanel=document.getElementById('calendarPanel');
+const weekViewButton=document.getElementById('weekViewButton');
 let calendarMonth;
 let pendingCalendarDate=null;
 let availableDates=[], currentMonday, selectedDate, currentFloor='all';
+let desktopWeekView=false;
 const pad=n=>String(n).padStart(2,'0');
 const key=d=>`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
 const parseKey=k=>{const [y,m,d]=k.split('-').map(Number);return new Date(y,m-1,d,12)};
@@ -274,9 +283,9 @@ function mondayOf(d){const x=new Date(d);const day=x.getDay();x.setDate(x.getDat
 function addDays(d,n){const x=new Date(d);x.setDate(x.getDate()+n);return x}
 async function loadDay(k){if(!availableDates.includes(k))return null;try{const r=await fetch(`./data/${k}.json?v=${Date.now()}`);return r.ok?await r.json():null}catch{return null}}
 function box(menu,floor){const [name,type,items]=menu;return `<div class="menu-box main${floor}"><p class="menu-name">${name}<span class="type">${type}</span></p><ul class="items">${items.map(x=>`<li>${x}</li>`).join('')}</ul></div>`}
-function card(d){return `<article class="day-card single-date-card" data-date="${d.date}"><div class="day-head"><div class="day-head-copy"><span class="date">${d.dateLabel}</span><span class="weekday">${d.weekdayLabel}</span></div><div class="floor-buttons" aria-label="층 필터"><button class="floor-btn ${currentFloor==='all'?'active':''}" data-floor="all">전체</button><button class="floor-btn ${currentFloor==='20'?'active':''}" data-floor="20">20층</button><button class="floor-btn ${currentFloor==='10'?'active':''}" data-floor="10">10층</button></div></div><div class="day-layout"><section class="floor-section floor-20" data-floor="20"><div class="floor-title"><h2>20층</h2><span class="floor-badge">${d.floors['20'].length===1?'통합 메뉴':d.floors['20'].length+'가지 메뉴'}</span></div><div class="menu-list">${d.floors['20'].map(m=>box(m,20)).join('')}</div></section><section class="floor-section floor-10" data-floor="10"><div class="floor-title"><h2>10층</h2><span class="floor-badge">${d.floors['10'].length}가지 메뉴</span></div><div class="menu-list">${d.floors['10'].map(m=>box(m,10)).join('')}</div></section></div></article>`}
+function card(d,single=true){const floorButtons=single?`<div class="floor-buttons" aria-label="층 필터"><button class="floor-btn ${currentFloor==='all'?'active':''}" data-floor="all">전체</button><button class="floor-btn ${currentFloor==='20'?'active':''}" data-floor="20">20층</button><button class="floor-btn ${currentFloor==='10'?'active':''}" data-floor="10">10층</button></div>`:'';return `<article class="day-card ${single?'single-date-card':''}" data-date="${d.date}"><div class="day-head"><div class="day-head-copy"><span class="date">${d.dateLabel}</span><span class="weekday">${d.weekdayLabel}</span></div>${floorButtons}</div><div class="day-layout"><section class="floor-section floor-20" data-floor="20"><div class="floor-title"><h2>20층</h2><span class="floor-badge">${d.floors['20'].length===1?'통합 메뉴':d.floors['20'].length+'가지 메뉴'}</span></div><div class="menu-list">${d.floors['20'].map(m=>box(m,20)).join('')}</div></section><section class="floor-section floor-10" data-floor="10"><div class="floor-title"><h2>10층</h2><span class="floor-badge">${d.floors['10'].length}가지 메뉴</span></div><div class="menu-list">${d.floors['10'].map(m=>box(m,10)).join('')}</div></section></div></article>`}
 function applyFloor(){document.querySelectorAll('.floor-section').forEach(s=>s.classList.toggle('hidden',currentFloor!=='all'&&s.dataset.floor!==currentFloor));document.querySelectorAll('.day-layout').forEach(layout=>layout.classList.toggle('single-floor',currentFloor!=='all'))}
-function renderDateBar(){const today=key(new Date());mobileDateBar.innerHTML=[0,1,2,3,4].map(i=>{const d=addDays(currentMonday,i),k=key(d);const names=['월','화','수','목','금'];return `<button class="mobile-day ${k===selectedDate?'active':''} ${k===today?'today':''}" data-date="${k}" ${availableDates.includes(k)?'':'disabled'}><span class="num">${d.getDate()}</span><span>${names[i]}</span></button>`}).join('');mobileDateBar.querySelectorAll('.mobile-day').forEach(b=>b.addEventListener('click',()=>{selectedDate=b.dataset.date;render()}))}
+function renderDateBar(){const today=key(new Date());mobileDateBar.innerHTML=[0,1,2,3,4].map(i=>{const d=addDays(currentMonday,i),k=key(d);const names=['월','화','수','목','금'];return `<button class="mobile-day ${(window.innerWidth<=900||!desktopWeekView)&&k===selectedDate?'active':''} ${k===today?'today':''}" data-date="${k}" ${availableDates.includes(k)?'':'disabled'}><span class="num">${d.getDate()}</span><span>${names[i]}</span></button>`}).join('');mobileDateBar.querySelectorAll('.mobile-day').forEach(b=>b.addEventListener('click',()=>{selectedDate=b.dataset.date;desktopWeekView=false;render()}))}
 let isSwipeAnimating=false;
 const prefersReducedMotion=window.matchMedia('(prefers-reduced-motion: reduce)');
 async function animateMenu(element,keyframes,options){
@@ -325,6 +334,17 @@ grid.addEventListener('touchend',e=>{
   moveSelectedDay(deltaX<0?1:-1);
 },{passive:true});
 async function render(){
+  if(desktopWeekView&&window.innerWidth>900){
+    const friday=addDays(currentMonday,4);
+    weekRange.textContent=`${currentMonday.getFullYear()}년 ${currentMonday.getMonth()+1}월 ${currentMonday.getDate()}일 ~ ${friday.getMonth()+1}월 ${friday.getDate()}일`;
+    renderDateBar();
+    const days=await Promise.all([0,1,2,3,4].map(i=>loadDay(key(addDays(currentMonday,i)))));
+    grid.innerHTML=days.map(d=>d?card(d,false):'<div class="notice">식단 데이터가 아직 없습니다.</div>').join('');
+    grid.classList.remove('single-day');
+    grid.classList.add('week-view');
+    applyFloor();
+    return;
+  }
   const selected=parseKey(selectedDate);
   const weekdays=['일요일','월요일','화요일','수요일','목요일','금요일','토요일'];
   weekRange.textContent=`${selected.getFullYear()}년 ${selected.getMonth()+1}월 ${selected.getDate()}일 ${weekdays[selected.getDay()]}`;
@@ -333,11 +353,13 @@ async function render(){
   const d=await loadDay(selectedDate);
   grid.innerHTML=d?card(d):'<div class="notice">선택한 날짜의 식단 데이터가 아직 없습니다.</div>';
   grid.classList.add('single-day');
+  grid.classList.remove('week-view');
   applyFloor();
 }
-async function init(){try{const r=await fetch(`./data/index.json?v=${Date.now()}`);availableDates=(await r.json()).dates||[]}catch{availableDates=[]}const today=new Date();const todayKey=key(today);currentMonday=mondayOf(today);if(![1,2,3,4,5].includes(today.getDay())||!availableDates.includes(todayKey)){const latest=availableDates[availableDates.length-1];if(latest){selectedDate=latest;currentMonday=mondayOf(parseKey(latest))}}else selectedDate=todayKey;if(!selectedDate)selectedDate=key(currentMonday);await render()}
+async function init(){try{const r=await fetch(`./data/index.json?v=${Date.now()}`);availableDates=(await r.json()).dates||[]}catch{availableDates=[]}const today=new Date();const todayKey=key(today);currentMonday=mondayOf(today);if(![1,2,3,4,5].includes(today.getDay())||!availableDates.includes(todayKey)){const latest=availableDates[availableDates.length-1];if(latest){selectedDate=latest;currentMonday=mondayOf(parseKey(latest))}}else selectedDate=todayKey;if(!selectedDate)selectedDate=key(currentMonday);desktopWeekView=window.innerWidth>900;await render()}
 document.getElementById('prevWeek').addEventListener('click',()=>{const d=addDays(parseKey(selectedDate),-7);selectedDate=key(d);currentMonday=mondayOf(d);render()});
 document.getElementById('nextWeek').addEventListener('click',()=>{const d=addDays(parseKey(selectedDate),7);selectedDate=key(d);currentMonday=mondayOf(d);render()});
+weekViewButton.addEventListener('click',()=>{desktopWeekView=true;currentFloor='all';currentMonday=mondayOf(parseKey(selectedDate));render()});
 function renderCalendar(){
   const y=calendarMonth.getFullYear(),m=calendarMonth.getMonth();
   const first=new Date(y,m,1,12),last=new Date(y,m+1,0,12);
@@ -356,9 +378,9 @@ function renderCalendar(){
   document.getElementById('calNext').onclick=(e)=>{e.stopPropagation();calendarMonth=new Date(y,m+1,1,12);renderCalendar()};
   calendarPanel.querySelectorAll('.calendar-day:not(:disabled)').forEach(b=>b.onclick=(e)=>{e.stopPropagation();pendingCalendarDate=b.dataset.date;renderCalendar()});
   const todayBtn=document.getElementById('calToday');
-  if(todayBtn&&!todayBtn.disabled)todayBtn.onclick=(e)=>{e.stopPropagation();pendingCalendarDate=todayKey;selectedDate=todayKey;const td=parseKey(todayKey);calendarMonth=new Date(td.getFullYear(),td.getMonth(),1,12);currentMonday=mondayOf(td);calendarPanel.classList.add('hidden');render()};
+  if(todayBtn&&!todayBtn.disabled)todayBtn.onclick=(e)=>{e.stopPropagation();pendingCalendarDate=todayKey;selectedDate=todayKey;desktopWeekView=false;const td=parseKey(todayKey);calendarMonth=new Date(td.getFullYear(),td.getMonth(),1,12);currentMonday=mondayOf(td);calendarPanel.classList.add('hidden');render()};
   const confirmBtn=document.getElementById('calConfirm');
-  if(confirmBtn&&!confirmBtn.disabled)confirmBtn.onclick=(e)=>{e.stopPropagation();selectedDate=pendingCalendarDate;currentMonday=mondayOf(parseKey(selectedDate));calendarPanel.classList.add('hidden');render()};
+  if(confirmBtn&&!confirmBtn.disabled)confirmBtn.onclick=(e)=>{e.stopPropagation();selectedDate=pendingCalendarDate;desktopWeekView=false;currentMonday=mondayOf(parseKey(selectedDate));calendarPanel.classList.add('hidden');render()};
 }
 calendarButton.addEventListener('click',(e)=>{
   e.stopPropagation();
