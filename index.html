@@ -4,14 +4,22 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>싸밥서울 </title>
-<link rel="manifest" href="./manifest.webmanifest">
+<link rel="manifest" href="./manifest.webmanifest?v=20260811-2">
 <meta name="theme-color" content="#F3EFC8">
 <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png">
-<link rel="apple-touch-icon" href="./apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png?v=20260811-2">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="싸밥서울">
 <style>
+@font-face{
+  font-family:"DONGGUK UNIVERSITY";
+  src:url("./fonts/DONGGUK-UNIVERSITY.otf") format("opentype"),
+      url("./fonts/DONGGUK-UNIVERSITY.ttf") format("truetype");
+  font-style:normal;
+  font-weight:100 950;
+  font-display:swap;
+}
 :root{
   --cream:#fcfaf3;--cream2:#f8f3dd;--card:#fffdf8;--text:#383529;--muted:#7b7668;
   --lemon:#f3efc8;--lemon-deep:#d2c587;--lemon-soft:#faf6df;--leaf:#a6b1be;--leaf-soft:#eef2f6;
@@ -20,7 +28,7 @@
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{margin:0;font-family:"Pretendard","Noto Sans KR",Arial,sans-serif;color:var(--text);background:
+body{margin:0;font-family:"DONGGUK UNIVERSITY","Pretendard","Noto Sans KR",Arial,sans-serif;color:var(--text);background:
 radial-gradient(circle at 15% 2%,rgba(243,239,200,.55),transparent 24rem),
 radial-gradient(circle at 90% 25%,rgba(166,177,190,.16),transparent 22rem),
 linear-gradient(180deg,#fcfaf3 0%,#f8f5ea 100%);min-height:100vh}
