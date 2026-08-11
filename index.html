@@ -233,6 +233,10 @@ linear-gradient(180deg,#fcfaf3 0%,#f8f5ea 100%);min-height:100vh}
   .mobile-date-bar{margin-bottom:0 !important}
 }
 
+@media(max-width:900px){
+  .week-grid{touch-action:pan-y}
+}
+
 </style>
 </head>
 <body>
@@ -289,6 +293,29 @@ function box(menu,floor){const [name,type,items]=menu;return `<div class="menu-b
 function card(d){return `<article class="day-card single-date-card" data-date="${d.date}"><div class="day-head"><div class="day-head-copy"><span class="date">${d.dateLabel}</span><span class="weekday">${d.weekdayLabel}</span></div><div class="floor-buttons" aria-label="층 필터"><button class="floor-btn ${currentFloor==='all'?'active':''}" data-floor="all">전체</button><button class="floor-btn ${currentFloor==='20'?'active':''}" data-floor="20">20층</button><button class="floor-btn ${currentFloor==='10'?'active':''}" data-floor="10">10층</button></div></div><div class="day-layout"><section class="floor-section floor-20" data-floor="20"><div class="floor-title"><h2>20층</h2><span class="floor-badge">${d.floors['20'].length===1?'통합 메뉴':d.floors['20'].length+'가지 메뉴'}</span></div><div class="menu-list">${d.floors['20'].map(m=>box(m,20)).join('')}</div></section><section class="floor-section floor-10" data-floor="10"><div class="floor-title"><h2>10층</h2><span class="floor-badge">${d.floors['10'].length}가지 메뉴</span></div><div class="menu-list">${d.floors['10'].map(m=>box(m,10)).join('')}</div></section></div></article>`}
 function applyFloor(){document.querySelectorAll('.floor-section').forEach(s=>s.classList.toggle('hidden',currentFloor!=='all'&&s.dataset.floor!==currentFloor));document.querySelectorAll('.day-layout').forEach(layout=>layout.classList.toggle('single-floor',currentFloor!=='all'))}
 function renderDateBar(){const today=key(new Date());mobileDateBar.innerHTML=[0,1,2,3,4].map(i=>{const d=addDays(currentMonday,i),k=key(d);const names=['월','화','수','목','금'];return `<button class="mobile-day ${k===selectedDate?'active':''} ${k===today?'today':''}" data-date="${k}" ${availableDates.includes(k)?'':'disabled'}><span class="num">${d.getDate()}</span><span>${names[i]}</span></button>`}).join('');mobileDateBar.querySelectorAll('.mobile-day').forEach(b=>b.addEventListener('click',()=>{selectedDate=b.dataset.date;render()}))}
+function moveSelectedDay(direction){
+  const selected=parseKey(selectedDate);
+  const dayIndex=Math.round((selected-currentMonday)/86400000);
+  const nextIndex=dayIndex+direction;
+  if(nextIndex<0||nextIndex>4)return;
+  const nextDate=key(addDays(currentMonday,nextIndex));
+  if(!availableDates.includes(nextDate))return;
+  selectedDate=nextDate;
+  render();
+}
+let swipeStartX=0,swipeStartY=0;
+grid.addEventListener('touchstart',e=>{
+  if(window.innerWidth>900||e.touches.length!==1)return;
+  swipeStartX=e.touches[0].clientX;
+  swipeStartY=e.touches[0].clientY;
+},{passive:true});
+grid.addEventListener('touchend',e=>{
+  if(window.innerWidth>900||e.changedTouches.length!==1)return;
+  const deltaX=e.changedTouches[0].clientX-swipeStartX;
+  const deltaY=e.changedTouches[0].clientY-swipeStartY;
+  if(Math.abs(deltaX)<50||Math.abs(deltaX)<=Math.abs(deltaY)*1.25)return;
+  moveSelectedDay(deltaX<0?1:-1);
+},{passive:true});
 async function render(){
   const selected=parseKey(selectedDate);
   const weekdays=['일요일','월요일','화요일','수요일','목요일','금요일','토요일'];
