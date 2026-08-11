@@ -54,8 +54,8 @@ body:after{content:"";right:-20px;bottom:70px;transform:rotate(16deg)}
 
 .date-controls{display:grid;grid-template-columns:1fr auto;gap:14px;align-items:center;margin-bottom:16px}
 .date-navigator{display:grid;grid-template-columns:auto 1fr auto;grid-template-areas:"prev center next" "days days days";align-items:center;gap:10px 14px;padding:11px 14px;border:1px solid var(--line);background:rgba(255,254,249,.9);border-radius:18px;box-shadow:var(--shadow)}
-.nav-arrow{width:38px;height:38px;border-radius:50%;background:#fffef8;border:1px solid var(--line);font-size:24px;color:var(--text)}
-.date-center{display:flex;align-items:center;justify-content:center;gap:8px;position:relative;grid-area:center}.date-center strong{font-size:14px}.calendar-button{cursor:pointer;width:36px;height:36px;display:grid;place-items:center;border-radius:12px;background:var(--lemon-soft);font-size:17px;color:#6f684d}.calendar-input{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
+.nav-arrow{width:38px;height:38px;padding:0;border-radius:50%;background:#fffef8;border:1px solid var(--line);font-size:24px;color:var(--text);display:grid;place-items:center;line-height:1}.nav-arrow span{display:block;line-height:1;transform:translateY(-1px)}
+.date-center{display:flex;align-items:center;justify-content:center;gap:8px;position:relative;grid-area:center}.date-center strong{font-size:14px}.calendar-button{cursor:pointer;width:36px;height:36px;padding:0;display:grid;place-items:center;border-radius:12px;background:var(--lemon-soft);font-size:17px;line-height:1;color:#6f684d}.calendar-button span{display:block;line-height:1;transform:translateY(-1px)}.calendar-input{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
 #prevWeek{grid-area:prev}#nextWeek{grid-area:next}
 .mobile-date-bar{display:grid;grid-template-columns:repeat(5,minmax(72px,1fr));gap:8px;grid-area:days;width:100%;margin-top:2px}.mobile-day{display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 5px;border-radius:14px;background:#fffef8;border:1px solid var(--line);font-size:11px;font-weight:850;color:var(--muted);position:relative}.mobile-day .num{font-size:16px;color:var(--text)}.mobile-day.active{background:var(--lemon);border-color:var(--lemon-deep)}.mobile-day.today:after{content:"";width:6px;height:6px;border-radius:50%;background:#383529;position:absolute;bottom:4px;left:50%;transform:translateX(-50%)}
 .floor-toolbar{justify-content:flex-end}
@@ -264,13 +264,13 @@ body:after{content:"";right:-20px;bottom:70px;transform:rotate(16deg)}
 
   <div class="controls date-controls">
     <div class="date-navigator">
-      <button class="nav-arrow" id="prevWeek" aria-label="이전 주">‹</button>
+      <button class="nav-arrow" id="prevWeek" aria-label="이전 주"><span aria-hidden="true">‹</span></button>
       <div class="date-center">
         <strong id="weekRange">날짜 불러오는 중...</strong>
-        <button class="calendar-button" id="calendarButton" type="button" aria-label="캘린더 열기" title="날짜 선택">📅</button>
+        <button class="calendar-button" id="calendarButton" type="button" aria-label="캘린더 열기" title="날짜 선택"><span aria-hidden="true">📅</span></button>
         <div id="calendarPanel" class="calendar-panel hidden" aria-label="날짜 선택 캘린더"></div>
       </div>
-      <button class="nav-arrow" id="nextWeek" aria-label="다음 주">›</button>
+      <button class="nav-arrow" id="nextWeek" aria-label="다음 주"><span aria-hidden="true">›</span></button>
       <div class="mobile-date-bar" id="mobileDateBar" aria-label="날짜 선택"></div>
     </div>
 
