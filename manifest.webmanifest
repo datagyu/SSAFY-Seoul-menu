@@ -1,6 +1,6 @@
 {
-  "name": "싸밥 서울",
-  "short_name": "싸밥 서울",
+  "name": "싸밥서울",
+  "short_name": "싸밥서울",
   "start_url": "/SSAFY-Seoul-menu/",
   "display": "standalone",
   "background_color": "#f4f7fb",
