@@ -218,8 +218,8 @@ linear-gradient(180deg,#fcfaf3 0%,#f8f5ea 100%);min-height:100vh}
 @media(max-width:900px){
   .week-grid{touch-action:pan-y}
   .week-view-button{display:none}
-  .week-grid.is-swiping{overflow:hidden}
-  .week-grid.is-swiping .day-card{pointer-events:none;will-change:transform,opacity}
+  .week-grid.is-swiping{position:relative;overflow:hidden}
+  .week-grid.is-swiping .day-card{position:absolute;inset:0;width:100%;pointer-events:none;will-change:transform;backface-visibility:hidden;transform:translateZ(0)}
 }
 @media(min-width:901px){
   .week-grid.week-view{display:grid;grid-template-columns:repeat(5,minmax(240px,1fr));gap:16px;align-items:start;overflow-x:auto}
@@ -276,6 +276,7 @@ let calendarMonth;
 let pendingCalendarDate=null;
 let availableDates=[], currentMonday, selectedDate, currentFloor='all';
 let desktopWeekView=false;
+const weekdays=['일요일','월요일','화요일','수요일','목요일','금요일','토요일'];
 const pad=n=>String(n).padStart(2,'0');
 const key=d=>`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
 const parseKey=k=>{const [y,m,d]=k.split('-').map(Number);return new Date(y,m-1,d,12)};
@@ -284,13 +285,22 @@ function addDays(d,n){const x=new Date(d);x.setDate(x.getDate()+n);return x}
 async function loadDay(k){if(!availableDates.includes(k))return null;try{const r=await fetch(`./data/${k}.json?v=${Date.now()}`);return r.ok?await r.json():null}catch{return null}}
 function box(menu,floor){const [name,type,items]=menu;return `<div class="menu-box main${floor}"><p class="menu-name">${name}<span class="type">${type}</span></p><ul class="items">${items.map(x=>`<li>${x}</li>`).join('')}</ul></div>`}
 function card(d,single=true){const floorButtons=single?`<div class="floor-buttons" aria-label="층 필터"><button class="floor-btn ${currentFloor==='all'?'active':''}" data-floor="all">전체</button><button class="floor-btn ${currentFloor==='20'?'active':''}" data-floor="20">20층</button><button class="floor-btn ${currentFloor==='10'?'active':''}" data-floor="10">10층</button></div>`:'';return `<article class="day-card ${single?'single-date-card':''}" data-date="${d.date}"><div class="day-head"><div class="day-head-copy"><span class="date">${d.dateLabel}</span><span class="weekday">${d.weekdayLabel}</span></div>${floorButtons}</div><div class="day-layout"><section class="floor-section floor-20" data-floor="20"><div class="floor-title"><h2>20층</h2><span class="floor-badge">${d.floors['20'].length===1?'통합 메뉴':d.floors['20'].length+'가지 메뉴'}</span></div><div class="menu-list">${d.floors['20'].map(m=>box(m,20)).join('')}</div></section><section class="floor-section floor-10" data-floor="10"><div class="floor-title"><h2>10층</h2><span class="floor-badge">${d.floors['10'].length}가지 메뉴</span></div><div class="menu-list">${d.floors['10'].map(m=>box(m,10)).join('')}</div></section></div></article>`}
-function applyFloor(){document.querySelectorAll('.floor-section').forEach(s=>s.classList.toggle('hidden',currentFloor!=='all'&&s.dataset.floor!==currentFloor));document.querySelectorAll('.day-layout').forEach(layout=>layout.classList.toggle('single-floor',currentFloor!=='all'))}
+function applyFloor(root=document){root.querySelectorAll('.floor-section').forEach(s=>s.classList.toggle('hidden',currentFloor!=='all'&&s.dataset.floor!==currentFloor));root.querySelectorAll('.day-layout').forEach(layout=>layout.classList.toggle('single-floor',currentFloor!=='all'))}
 function renderDateBar(){const today=key(new Date());mobileDateBar.innerHTML=[0,1,2,3,4].map(i=>{const d=addDays(currentMonday,i),k=key(d);const names=['월','화','수','목','금'];return `<button class="mobile-day ${(window.innerWidth<=900||!desktopWeekView)&&k===selectedDate?'active':''} ${k===today?'today':''}" data-date="${k}" ${availableDates.includes(k)?'':'disabled'}><span class="num">${d.getDate()}</span><span>${names[i]}</span></button>`}).join('');mobileDateBar.querySelectorAll('.mobile-day').forEach(b=>b.addEventListener('click',()=>{selectedDate=b.dataset.date;desktopWeekView=false;render()}))}
 let isSwipeAnimating=false;
 const prefersReducedMotion=window.matchMedia('(prefers-reduced-motion: reduce)');
-async function animateMenu(element,keyframes,options){
-  if(!element||prefersReducedMotion.matches)return;
-  await element.animate(keyframes,options).finished.catch(()=>{});
+function updateSelectedDate(){
+  const selected=parseKey(selectedDate);
+  weekRange.textContent=`${selected.getFullYear()}년 ${selected.getMonth()+1}월 ${selected.getDate()}일 ${weekdays[selected.getDay()]}`;
+  calendarMonth=new Date(selected.getFullYear(),selected.getMonth(),1,12);
+  renderDateBar();
+}
+function showSingleDay(d){
+  updateSelectedDate();
+  grid.innerHTML=d?card(d):'<div class="notice">선택한 날짜의 식단 데이터가 아직 없습니다.</div>';
+  grid.classList.add('single-day');
+  grid.classList.remove('week-view');
+  applyFloor();
 }
 async function moveSelectedDay(direction){
   if(isSwipeAnimating)return;
@@ -301,22 +311,45 @@ async function moveSelectedDay(direction){
   const nextDate=key(addDays(currentMonday,nextIndex));
   if(!availableDates.includes(nextDate))return;
   isSwipeAnimating=true;
-  grid.classList.add('is-swiping');
   try{
-    const exitX=direction>0?'-42%':'42%';
-    await animateMenu(grid.querySelector('.day-card'),[
-      {transform:'translateX(0)',opacity:1},
-      {transform:`translateX(${exitX})`,opacity:0}
-    ],{duration:120,easing:'ease-in',fill:'forwards'});
+    const nextDay=await loadDay(nextDate);
+    if(!nextDay)return;
+    if(prefersReducedMotion.matches){
+      selectedDate=nextDate;
+      showSingleDay(nextDay);
+      return;
+    }
+    const outgoing=grid.querySelector('.day-card');
+    if(!outgoing)return;
+    const template=document.createElement('template');
+    template.innerHTML=card(nextDay);
+    const incoming=template.content.firstElementChild;
+    applyFloor(incoming);
+    const outgoingHeight=outgoing.getBoundingClientRect().height;
+    grid.appendChild(incoming);
+    const incomingHeight=incoming.getBoundingClientRect().height;
+    grid.style.height=`${Math.max(outgoingHeight,incomingHeight)}px`;
+    grid.classList.add('is-swiping');
+    const travel=direction>0?-100:100;
+    const options={duration:300,easing:'cubic-bezier(.22,.61,.36,1)',fill:'forwards'};
+    const outgoingAnimation=outgoing.animate([
+      {transform:'translate3d(0,0,0)'},
+      {transform:`translate3d(${travel}%,0,0)`}
+    ],options);
+    const incomingAnimation=incoming.animate([
+      {transform:`translate3d(${-travel}%,0,0)`},
+      {transform:'translate3d(0,0,0)'}
+    ],options);
+    await Promise.all([
+      outgoingAnimation.finished.catch(()=>{}),
+      incomingAnimation.finished.catch(()=>{})
+    ]);
+    grid.replaceChildren(incoming);
     selectedDate=nextDate;
-    await render();
-    const enterX=direction>0?'42%':'-42%';
-    await animateMenu(grid.querySelector('.day-card'),[
-      {transform:`translateX(${enterX})`,opacity:0},
-      {transform:'translateX(0)',opacity:1}
-    ],{duration:150,easing:'cubic-bezier(.22,.8,.32,1)',fill:'both'});
+    updateSelectedDate();
   }finally{
     grid.classList.remove('is-swiping');
+    grid.style.height='';
     isSwipeAnimating=false;
   }
 }
@@ -346,15 +379,8 @@ async function render(){
     return;
   }
   const selected=parseKey(selectedDate);
-  const weekdays=['일요일','월요일','화요일','수요일','목요일','금요일','토요일'];
-  weekRange.textContent=`${selected.getFullYear()}년 ${selected.getMonth()+1}월 ${selected.getDate()}일 ${weekdays[selected.getDay()]}`;
-  calendarMonth=new Date(selected.getFullYear(),selected.getMonth(),1,12);
-  renderDateBar();
   const d=await loadDay(selectedDate);
-  grid.innerHTML=d?card(d):'<div class="notice">선택한 날짜의 식단 데이터가 아직 없습니다.</div>';
-  grid.classList.add('single-day');
-  grid.classList.remove('week-view');
-  applyFloor();
+  showSingleDay(d);
 }
 async function init(){try{const r=await fetch(`./data/index.json?v=${Date.now()}`);availableDates=(await r.json()).dates||[]}catch{availableDates=[]}const today=new Date();const todayKey=key(today);currentMonday=mondayOf(today);if(![1,2,3,4,5].includes(today.getDay())||!availableDates.includes(todayKey)){const latest=availableDates[availableDates.length-1];if(latest){selectedDate=latest;currentMonday=mondayOf(parseKey(latest))}}else selectedDate=todayKey;if(!selectedDate)selectedDate=key(currentMonday);desktopWeekView=window.innerWidth>900;await render()}
 document.getElementById('prevWeek').addEventListener('click',()=>{const d=addDays(parseKey(selectedDate),-7);selectedDate=key(d);currentMonday=mondayOf(d);render()});
