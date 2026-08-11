@@ -11,6 +11,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="싸밥서울">
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.min.css" />
 <style>
 @font-face{
   font-family:"DONGGUK UNIVERSITY";
@@ -26,9 +27,12 @@
   --floor20:#e3d79f;--floor20-soft:#faf4d8;--floor10:#a9b4c1;--floor10-soft:#eff3f7;
   --line:#e8e1c9;--shadow:0 12px 30px rgba(111,105,82,.10);--shadow-hover:0 18px 38px rgba(111,105,82,.16)
 }
+
+/* 제목은 동국대학교 폰트, 식단 및 본문은 Pretendard */
+.brand,.hero h1,.today-card h2,.section-heading h2{font-family:"DONGGUK UNIVERSITY","Pretendard","Noto Sans KR",Arial,sans-serif}
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{margin:0;font-family:"DONGGUK UNIVERSITY","Pretendard","Noto Sans KR",Arial,sans-serif;color:var(--text);background:
+body{margin:0;font-family:"Pretendard","Noto Sans KR",Arial,sans-serif;color:var(--text);background:
 radial-gradient(circle at 15% 2%,rgba(243,239,200,.55),transparent 24rem),
 radial-gradient(circle at 90% 25%,rgba(166,177,190,.16),transparent 22rem),
 linear-gradient(180deg,#fcfaf3 0%,#f8f5ea 100%);min-height:100vh}
