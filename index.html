@@ -37,7 +37,7 @@ body:after{content:"";right:-20px;bottom:70px;transform:rotate(16deg)}
 .hero{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(320px,.9fr);gap:22px;align-items:stretch;margin-bottom:22px}
 .hero-copy,.today-card{border:1px solid var(--line);border-radius:28px;background:rgba(255,254,249,.94);box-shadow:var(--shadow)}
 .hero-copy{position:relative;overflow:hidden;padding:34px 36px}.hero-copy:after{content:"";position:absolute;right:28px;bottom:-15px;font-size:118px;transform:rotate(-10deg);filter:drop-shadow(0 10px 12px rgba(180,171,131,.15))}.eyebrow{display:inline-flex;align-items:center;gap:7px;padding:7px 11px;border-radius:999px;background:var(--leaf-soft);color:#768292;font-size:12px;font-weight:900}.hero h1{margin:18px 0 10px;font-size:clamp(31px,4vw,54px);letter-spacing:-.055em;line-height:1.08}.hero h1 strong{color:#8f9baa}.subtitle{margin:0;max-width:650px;color:var(--muted);font-size:15px;line-height:1.7}.fresh-sticker{display:inline-block;margin-top:20px;padding:10px 15px;border-radius:14px;background:var(--lemon);color:#677384;font-size:13px;font-weight:950;box-shadow:0 8px 18px rgba(177,168,126,.18);transform:rotate(-1deg)}
-.today-card{padding:25px 26px;position:relative;overflow:hidden}.today-card:before{content:"TODAY'S PICK";display:inline-flex;padding:6px 10px;border-radius:999px;background:var(--lemon-soft);color:#7e8795;font-size:11px;font-weight:950;letter-spacing:.08em}.today-card h2{margin:14px 0 6px;font-size:24px;letter-spacing:-.04em}.today-card p{margin:0;color:var(--muted);font-size:13px;line-height:1.6}.today-card .decor{position:absolute;right:18px;top:18px;font-size:50px;opacity:.78}
+.today-card{padding:25px 26px;position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:center;align-items:flex-start}.today-card:before{content:"SSAFY 파이팅";display:inline-flex;padding:6px 10px;border-radius:999px;background:var(--lemon-soft);color:#7e8795;font-size:11px;font-weight:950;letter-spacing:.08em}.today-card h2{margin:14px 0 6px;font-size:24px;letter-spacing:-.04em}.today-card p{margin:0;color:var(--muted);font-size:13px;line-height:1.6}.today-card .decor{position:absolute;right:18px;top:18px;font-size:50px;opacity:.78}
 .controls{display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:center;margin-bottom:16px}.week-picker{display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:17px;border:1px solid var(--line);background:rgba(255,254,249,.9);box-shadow:var(--shadow)}.week-picker label{font-size:12px;font-weight:900;color:#706a5a}.week-picker select{min-width:220px;padding:10px 36px 10px 12px;border:1px solid var(--line);border-radius:12px;background:#fffef8;font:inherit;font-weight:850;color:var(--text);outline:none}.week-picker select:focus{border-color:var(--lemon-deep);box-shadow:0 0 0 3px rgba(210,197,135,.18)}
 .toolbar{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 14px;background:rgba(255,254,249,.90);backdrop-filter:blur(10px);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow)}.date-buttons,.floor-buttons{display:flex;gap:7px;flex-wrap:wrap}button{border:0;cursor:pointer;font:inherit}.date-btn,.floor-btn{padding:9px 12px;border-radius:999px;background:#fffef8;color:#615c45;border:1px solid var(--line);font-size:12px;font-weight:850;transition:.18s}.date-btn:hover,.floor-btn:hover{transform:translateY(-1px);border-color:#cfc59c}.date-btn.active{background:var(--lemon);color:#5f5634;border-color:var(--lemon-deep);box-shadow:0 4px 10px rgba(177,168,126,.16)}.floor-btn.active[data-floor="20"]{background:var(--floor20);color:#665c33;border-color:var(--floor20)}.floor-btn.active[data-floor="10"]{background:var(--floor10);color:#ffffff;border-color:var(--floor10)}.floor-btn.active[data-floor="all"]{background:var(--leaf);color:white;border-color:var(--leaf)}
 .section-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:24px 3px 13px}.section-heading h2{margin:0;font-size:22px;letter-spacing:-.035em}.section-heading small{color:var(--muted)}
@@ -51,123 +51,309 @@ body:after{content:"";right:-20px;bottom:70px;transform:rotate(16deg)}
   .week-grid{grid-template-columns:repeat(5,minmax(290px,88vw))}.week-grid.single-day{grid-template-columns:minmax(290px,88vw);justify-content:center}.section-heading small{display:none}
 }
 @media(max-width:520px){.hero h1{font-size:30px}.hero-copy:after{font-size:72px;right:-6px}.date-buttons{display:grid;grid-template-columns:repeat(6,1fr)}.floor-buttons{display:grid;grid-template-columns:repeat(3,1fr)}.date-btn,.floor-btn{padding:9px 5px}.day-card{border-radius:21px}}
+
+.date-controls{display:grid;grid-template-columns:1fr auto;gap:14px;align-items:center;margin-bottom:16px}
+.date-navigator{display:grid;grid-template-columns:auto 1fr auto;grid-template-areas:"prev center next" "days days days";align-items:center;gap:10px 14px;padding:11px 14px;border:1px solid var(--line);background:rgba(255,254,249,.9);border-radius:18px;box-shadow:var(--shadow)}
+.nav-arrow{width:38px;height:38px;border-radius:50%;background:#fffef8;border:1px solid var(--line);font-size:24px;color:var(--text)}
+.date-center{display:flex;align-items:center;justify-content:center;gap:8px;position:relative;grid-area:center}.date-center strong{font-size:14px}.calendar-button{cursor:pointer;width:36px;height:36px;display:grid;place-items:center;border-radius:12px;background:var(--lemon-soft);font-size:17px;color:#6f684d}.calendar-input{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
+#prevWeek{grid-area:prev}#nextWeek{grid-area:next}
+.mobile-date-bar{display:grid;grid-template-columns:repeat(5,minmax(72px,1fr));gap:8px;grid-area:days;width:100%;margin-top:2px}.mobile-day{display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 5px;border-radius:14px;background:#fffef8;border:1px solid var(--line);font-size:11px;font-weight:850;color:var(--muted);position:relative}.mobile-day .num{font-size:16px;color:var(--text)}.mobile-day.active{background:var(--lemon);border-color:var(--lemon-deep)}.mobile-day.today:after{content:"";width:6px;height:6px;border-radius:50%;background:#383529;position:absolute;bottom:4px;left:50%;transform:translateX(-50%)}
+.floor-toolbar{justify-content:flex-end}
+@media(max-width:900px){.date-controls{grid-template-columns:1fr}.date-navigator{grid-template-columns:auto 1fr auto}.date-center{flex-direction:row;gap:8px}.mobile-date-bar{grid-template-columns:repeat(5,1fr);gap:6px}.floor-toolbar{align-items:stretch}.floor-buttons{width:100%}}
+
+/* 날짜 한 건만 표시하는 새 레이아웃 */
+.date-controls{grid-template-columns:1fr auto}
+.mobile-date-bar{grid-template-columns:repeat(5,minmax(72px,1fr));gap:8px;margin-top:2px}
+.mobile-day{min-height:58px;justify-content:center}
+.mobile-day:disabled{opacity:.38;cursor:not-allowed}
+.day-layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px;align-items:start}
+.day-card{width:100%;min-width:0}
+.day-card.single-date-card{overflow:visible;background:transparent;border:0;box-shadow:none}
+.day-card.single-date-card:hover{transform:none;box-shadow:none}
+.day-card.single-date-card .day-head{border:1px solid var(--line);border-radius:20px;margin-bottom:14px;box-shadow:var(--shadow)}
+.day-card.single-date-card .floor-section{border:1px solid var(--line);border-radius:22px;background:var(--card);box-shadow:var(--shadow);padding:18px}
+.day-card.single-date-card .floor-section:first-of-type{border-top:1px solid var(--line)}
+.week-grid,.week-grid.single-day{display:block;overflow:visible;padding:4px 1px 13px}
+.selected-date-label{font-size:14px;font-weight:950;color:var(--text);white-space:nowrap}
+@media(max-width:1100px){.day-layout{gap:14px}.day-card.single-date-card .floor-section{padding:15px}}
+@media(max-width:760px){
+  .day-layout{grid-template-columns:1fr}
+  .date-navigator{gap:8px}
+  .selected-date-label{font-size:13px}
+  .mobile-date-bar{grid-template-columns:repeat(5,1fr);gap:5px}
+  .mobile-day{min-width:0;padding:8px 3px}
+}
+@media(max-width:520px){.date-navigator{padding:9px 10px}.nav-arrow{width:34px;height:34px}.calendar-button{padding:7px 9px}.day-card.single-date-card .day-head{margin-bottom:10px}}
+
+/* 층 선택 버튼: 세로 배치 및 동일 크기 */
+.floor-buttons{display:flex;flex-direction:column;gap:7px;flex-wrap:nowrap;width:74px}
+.floor-btn{width:74px;min-width:74px;height:36px;padding:0 8px;text-align:center;display:flex;align-items:center;justify-content:center}
+@media(max-width:900px){.floor-buttons{width:74px}.floor-btn{width:74px;min-width:74px;flex:none}}
+@media(max-width:520px){.floor-buttons{display:flex;grid-template-columns:none;width:68px}.floor-btn{width:68px;min-width:68px;height:34px;padding:0 5px}}
+
+/* 층 선택/날짜 선택 박스 최종 정렬 */
+.date-controls{align-items:stretch}
+.floor-toolbar{height:100%;min-height:100%;padding:11px 14px;align-items:stretch;justify-content:center}
+.floor-buttons{height:100%;justify-content:space-between}
+.floor-btn.active[data-floor="all"],
+.floor-btn.active[data-floor="20"],
+.floor-btn.active[data-floor="10"]{background:var(--floor20);color:#665c33;border-color:var(--floor20);box-shadow:0 4px 10px rgba(177,168,126,.16)}
+@media(max-width:900px){
+  .date-controls{align-items:stretch}
+  .floor-toolbar{height:auto;padding:11px 14px}
+  .floor-buttons{height:auto}
+}
+
+/* 2026-08-11 레이아웃 조정 */
+.date-controls{display:block;margin-bottom:16px}
+.date-navigator{position:relative;padding-bottom:62px}
+.floor-toolbar{position:absolute;right:14px;bottom:12px;height:auto!important;min-height:0!important;padding:0;border:0;background:transparent;box-shadow:none;backdrop-filter:none}
+.floor-buttons{display:flex!important;flex-direction:row!important;width:auto!important;height:auto!important;gap:7px;justify-content:flex-end}
+.floor-btn{width:64px!important;min-width:64px!important;height:34px!important;padding:0 10px}
+.mobile-date-bar{padding-right:230px}
+.section-heading{display:none}
+@media(min-width:1250px){
+  .day-card.single-date-card .floor-section .menu-list{grid-template-columns:repeat(2,minmax(0,1fr));align-items:start}
+  .day-card.single-date-card .floor-section .menu-list:has(.menu-box:nth-child(3)){grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+@media(max-width:900px){
+  .date-navigator{padding-bottom:58px}
+  .floor-toolbar{right:10px;bottom:10px;width:auto}
+  .floor-buttons{width:auto!important}
+  .floor-btn{flex:none!important;width:58px!important;min-width:58px!important;height:32px!important}
+  .mobile-date-bar{padding-right:200px}
+}
+@media(max-width:620px){
+  .wrap{width:calc(100% - 40px);padding-top:10px}
+  .date-navigator{padding-bottom:56px}
+  .mobile-date-bar{padding-right:0;margin-bottom:48px}
+  .floor-toolbar{right:10px;bottom:10px}
+}
+@media(max-width:420px){
+  .wrap{width:calc(100% - 34px)}
+  .floor-btn{width:54px!important;min-width:54px!important;padding:0 7px}
+}
+
+/* 요청사항 반영: 2026-08-11 */
+@media(min-width:901px){
+  .wrap{width:min(1400px,calc(100% - 96px))}
+  .mobile-date-bar{justify-content:center;grid-template-columns:repeat(5,minmax(72px,120px));padding-right:0}
+}
+@media(max-width:900px){
+  .mobile-date-bar{margin-bottom:0}
+}
+
+
+.calendar-panel{position:absolute;top:44px;left:50%;transform:translateX(-50%);z-index:60;width:300px;padding:14px;border:1px solid var(--line);border-radius:16px;background:#fffef9;box-shadow:var(--shadow-hover)}
+.calendar-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;font-size:13px;font-weight:900}.calendar-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}.calendar-weekday{text-align:center;font-size:10px;color:var(--muted);padding:3px}.calendar-day{height:34px;border-radius:9px;background:#fffef8;border:1px solid var(--line);font-size:11px;font-weight:800}.calendar-day:disabled{opacity:.28;cursor:not-allowed;background:#f3f0e8}.calendar-day.active{background:var(--lemon);border-color:var(--lemon-deep)}.calendar-empty{height:34px}
+@media(max-width:520px){.calendar-panel{width:min(290px,calc(100vw - 54px))}}
+
+
+/* 2026-08-11 최종 요청: 층 필터를 day-head 안으로 이동 */
+.day-head{display:flex;align-items:center;justify-content:space-between;gap:16px}
+.day-head-copy{min-width:0}
+.day-head .floor-buttons{display:flex!important;flex-direction:row!important;justify-content:flex-end;align-items:center;gap:7px;width:auto!important;height:auto!important;flex:0 0 auto}
+.day-head .floor-btn{width:64px!important;min-width:64px!important;height:34px!important;padding:0 10px}
+.calendar-day{position:relative}
+.calendar-day.today:after{content:"";position:absolute;left:50%;bottom:2px;transform:translateX(-50%);width:5px;height:5px;border-radius:50%;background:#383529}
+/* 모든 반응형 구간에서 요일 선택 바 가운데 정렬 */
+.mobile-date-bar{justify-content:center;margin-left:auto;margin-right:auto}
+@media(min-width:901px){.mobile-date-bar{width:min(100%,720px)}}
+@media(max-width:900px){.mobile-date-bar{justify-content:center;margin-left:auto!important;margin-right:auto!important}.day-head{align-items:center}.day-head .floor-buttons{margin-left:auto}}
+@media(max-width:520px){.day-head{gap:10px}.day-head .floor-btn{width:52px!important;min-width:52px!important;height:32px!important;padding:0 6px;font-size:11px}}
+
+/* 요일 선택 영역: 반응형 구간에서도 항상 가운데 정렬 */
+@media (min-width:761px){
+  .mobile-date-bar{
+    width:fit-content!important;
+    max-width:100%;
+    grid-template-columns:repeat(5,minmax(96px,112px))!important;
+    justify-content:center!important;
+    justify-self:center;
+    margin-left:auto!important;
+    margin-right:auto!important;
+    padding-left:0!important;
+    padding-right:0!important;
+  }
+}
+@media (max-width:760px){
+  .mobile-date-bar{
+    width:100%!important;
+    justify-content:center!important;
+    justify-self:center;
+    margin-left:auto!important;
+    margin-right:auto!important;
+    padding-left:0!important;
+    padding-right:0!important;
+  }
+}
+
+/* 캘린더 임시 선택 + 하단 동작 버튼 */
+.calendar-footer{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:10px;padding-top:10px;border-top:1px solid var(--line)}
+.calendar-action{min-width:72px;height:34px;padding:0 14px;border-radius:999px;border:1px solid var(--line);font-size:12px;font-weight:900;transition:.18s}
+.calendar-today{background:#fffef8;color:#615c45;border-color:#ddd4b4}
+.calendar-confirm{background:#8f8762;color:#fff;border-color:#8f8762;box-shadow:0 4px 10px rgba(111,105,82,.16)}
+.calendar-action:hover:not(:disabled){transform:translateY(-1px)}
+.calendar-action:disabled{opacity:.38;cursor:not-allowed}
+.calendar-day.pending{background:var(--lemon);color:#5f5634;border-color:var(--lemon-deep);box-shadow:0 4px 10px rgba(177,168,126,.16)}
+
+
+/* 한 층만 선택했을 때 메뉴 영역 가운데 정렬 */
+.day-layout.single-floor{
+  grid-template-columns:minmax(0, min(760px, 100%));
+  justify-content:center;
+}
+@media(min-width:1250px){
+  .day-layout.single-floor{
+    grid-template-columns:minmax(0, min(900px, 100%));
+  }
+}
+
+
+/* 층 선택 버튼 - 캘린더 하단 버튼과 동일한 시각 체계 */
+.floor-btn{
+  background:#fffef8 !important;
+  color:#615c45 !important;
+  border-color:#ddd4b4 !important;
+}
+.floor-btn.active[data-floor="all"],
+.floor-btn.active[data-floor="20"],
+.floor-btn.active[data-floor="10"]{
+  background:#8f8762 !important;
+  color:#fff !important;
+  border-color:#8f8762 !important;
+  box-shadow:0 4px 10px rgba(111,105,82,.16) !important;
+}
+
+
+/* 요일 선택 영역 하단의 불필요한 공백 축소 */
+.date-navigator{
+  padding-bottom:14px !important;
+}
+.mobile-date-bar{
+  margin-bottom:0 !important;
+}
+@media(max-width:900px){
+  .date-navigator{padding-bottom:12px !important}
+  .mobile-date-bar{margin-bottom:0 !important}
+}
+@media(max-width:620px){
+  .date-navigator{padding-bottom:10px !important}
+  .mobile-date-bar{margin-bottom:0 !important}
+}
+
 </style>
 </head>
 <body>
 <div class="wrap">
   <div class="topbar">
     <div class="brand"><span>싸밥서울</span></div>
-    <div class="mini-nav"><span>주간메뉴</span><span>오늘의 메뉴</span><span>SSAFY 서울캠</span></div>
+    <div class="mini-nav"><span>오늘의 메뉴</span><span>SSAFY 서울캠</span></div>
   </div>
 
   <section class="hero">
     <div class="hero-copy">
-      <h1>이번 주 식단을<br><strong>한 눈에</strong> 확인하세요.</h1>
-      <p class="subtitle" id="subtitle"></p>
+      <h1>오늘의 식단을<br><strong>한 눈에</strong> 확인하세요.</h1>
+      <p class="subtitle">원하는 날짜를 선택해 20층과 10층의 메뉴를 확인하세요.</p>
     </div>
     <aside class="today-card">
       <span class="decor"></span>
-      <h2>오늘은 뭐 먹지?</h2>
-      <p>요일 버튼을 누르면 원하는 날짜만 빠르게 볼 수 있어요.<br>모바일에서는 접속한 오늘 메뉴가 자동으로 가운데 표시됩니다.</p>
+      <h2>오늘도 맛있는 점심과 함께<br>행복한 SSAFY 생활 되세요!</h2>
     </aside>
   </section>
 
-  <div class="controls">
-    <div class="week-picker"><label for="weekSelect">주차 선택</label><select id="weekSelect" aria-label="주차 선택"></select></div>
-    <nav class="toolbar" aria-label="식단 필터">
-      <div class="date-buttons"><button class="date-btn active" data-day="all">전체</button><button class="date-btn" data-day="mon">월</button><button class="date-btn" data-day="tue">화</button><button class="date-btn" data-day="wed">수</button><button class="date-btn" data-day="thu">목</button><button class="date-btn" data-day="fri">금</button></div>
-      <div class="floor-buttons"><button class="floor-btn active" data-floor="all">두 층 모두</button><button class="floor-btn" data-floor="20">20층</button><button class="floor-btn" data-floor="10">10층</button></div>
-    </nav>
+  <div class="controls date-controls">
+    <div class="date-navigator">
+      <button class="nav-arrow" id="prevWeek" aria-label="이전 주">‹</button>
+      <div class="date-center">
+        <strong id="weekRange">날짜 불러오는 중...</strong>
+        <button class="calendar-button" id="calendarButton" type="button" aria-label="캘린더 열기" title="날짜 선택">📅</button>
+        <div id="calendarPanel" class="calendar-panel hidden" aria-label="날짜 선택 캘린더"></div>
+      </div>
+      <button class="nav-arrow" id="nextWeek" aria-label="다음 주">›</button>
+      <div class="mobile-date-bar" id="mobileDateBar" aria-label="날짜 선택"></div>
+    </div>
+
   </div>
 
-  <div class="section-heading"><h2>주간 메뉴</h2></div>
   <main class="week-grid" id="weekGrid"></main>
   <div class="notice"> 식단은 식자재 수급과 운영 상황에 따라 변경될 수 있습니다. 알레르기·원산지 정보는 원본 식단표에서 확인해 주세요.</div>
   <div class="footer"><p><b>싸밥서울</b> · SSAFY 서울캠퍼스 주간 식단</p><p>식단 정보 출처: SSAFY 서울캠퍼스 구내식당 주간 식단표</p><p>본 페이지는 교육생 편의를 위해 식단 정보를 재구성한 비공식 페이지이며 SSAFY 공식 서비스가 아닙니다.</p></div>
 </div>
 <script>
-const weeks = [
-{key:'2026-08-03',label:'2026년 8월 1주차 (8/3~8/7)',subtitle:'2026년 8월 1주차 식단표입니다. 10층과 20층 메뉴를 날짜별로 한 화면에서 비교하세요.',days:[
-['mon','8월 3일','월요일 · MON',
-[['돼지고기김치볶음','A 한식',['보리밥/쌀밥','미역국/마일드볼카츠','두부양념구이','샐러드&드레싱/깍두기','유자차']],['장조림버터밥','B 일품',['미역국','마일드볼카츠','쫄면채소무침','샐러드&드레싱','단무지/유자차']]],
-[['고구마치즈돈까스','도시락',['알리오올리오','백미밥','양송이스프','코울슬로','포기김치']],['함박스테이크샌드위치','브런치',['감자무스샐러드','오리엔탈드레싱','음료']],['불고기두부샐러드','샐러드',['오리엔탈드레싱','음료']]]],
-['tue','8월 4일','화요일 · TUE',
-[['뼈없는닭갈비','A 한식',['차조밥/쌀밥','아욱된장국','오이부추무침','푸실리샐러드','일식양배추샐러드&드레싱','김치/매실차']],['카레라이스','B 일품',['냉우동','치킨가스&머스타드','푸실리샐러드','일식양배추샐러드&드레싱','김치/매실차']]],
-[['오징어불고기','도시락',['어묵간장볶음','흑미밥','콩나물국','단호박샐러드','포기김치']],['핫치킨샌드위치','브런치',['병아리콩샐러드','오렌지드레싱','음료']],['치즈함박감자샐러드','샐러드',['렌치드레싱','음료']]]],
-['wed','8월 5일','수요일 · WED',
-[['놀부부대찌개 세트','통합 메뉴',['혼합잡곡밥/쌀밥','돼지고기김말이강정','미역줄기게맛살볶음','숙주미나리나물/콘샐러드','깍두기','츄러스/아이스초코']]],
-[['통마늘수제닭강정','도시락',['조랭이떡볶이','백미밥','미역오이냉국','오징어미나리초무침','포기김치']],['당근라페샌드위치','브런치',['치킨텐더샐러드','크리미양파드레싱','음료']],['닭가슴살아보카도보울','샐러드',['크리미양파드레싱','음료']]]],
-['thu','8월 6일','목요일 · THU',
-[['수제 오므라이스','A 한식',['가다랑어국','비엔나소시지케첩볶음','단호박샐러드','샐러드&드레싱/김치','복분자홍초']],['국물떡볶이','B 일품',['가다랑어국','유부양념밥','수제채소튀김','샐러드&드레싱','사각단무지/복분자홍초']]],
-[['쭈꾸미순대볶음','도시락',['치킨까스','기장밥','소고기해장국','브로컬리숙회','포기김치']],['에그마요샌드위치','브런치',['돈까스샐러드','무지방오리엔탈드레싱','음료']],['새우파스타샐러드','샐러드',['무지방오리엔탈드레싱','음료']]]],
-['fri','8월 7일','금요일 · FRI',
-[['사골떡국','A 한식',['미니수수밥/고기산적조림','잡채/깻잎순겉절이','배추겉절이','아이스티(복숭아맛)']],['명태회냉면','B 일품',['사골온육수','김가루양념밥','교자만두찜&초간장','마카로니콘샐러드/냉면김치','아이스티(복숭아맛)']]],
-[['매운굴소스청경채소고기볶음','도시락',['챔피온순세지&치킨링','백미밥','냉우동','오이부추무침','포기김치']],['클럽샌드위치','브런치',['푸실리샐러드','자두드레싱','음료']],['불고기버섯보울','샐러드',['자두드레싱','음료']]]]
-]},
-{key:'2026-08-10',label:'2026년 8월 2주차 (8/10~8/14)',subtitle:'2026년 8월 2주차 식단표입니다. 10층과 20층 메뉴를 날짜별로 한 화면에서 비교하세요.',days:[
-['mon','8월 10일','월요일 · MON',
-[['순대국밥','A 한식',['수수밥/쌀밥','연근땅콩강정','건새우마늘종볶음','매운콩나물무침/깍두기','아이스티(레몬)']],['새우필라프&토마토살사소스','B 일품',['일식장국','등심돈까스&소스','건새우마늘종볶음','샐러드&드레싱/김치','아이스티(레몬)']]],
-[['육즙가득함박스테이크','도시락',['매콤감자조림','백미밥','참치김치찌개','마늘쫑파무침','깍두기']],['단호박샌드위치','브런치',['훈제오리샐러드','오렌지드레싱','음료']],['목살스테이크샐러드','샐러드',['오렌지드레싱','음료']]]],
-['tue','8월 11일','화요일 · TUE',
-[['돼지고기고추장볶음','A 한식',['혼합잡곡밥/쌀밥','감자수제비국','옥수수전','양배추쌈&쌈장','깍두기','석류차']],['간자장면','B 일품',['미니쌀밥/계란후라이','짬뽕튀김&연유','땅콩튀김','짜사이채무침/김치','석류차']]],
-[['바베큐폭찹스테이크','도시락',['어묵강정','기장밥','얼갈이된장국','명엽채고추장볶음','포기김치']],['햄계란샌드위치','브런치',['리코타치즈샐러드','오렌지망고드레싱','음료']],['흑임자닭가슴살단호박샐러드','샐러드',['렌치망고드레싱','음료']]]],
-['wed','8월 12일','수요일 · WED',
-[['이화수 전통육개장','A 한식',['차조밥/쌀밥','분홍소세지전&케찹','미나리무생채/샐러드&드레싱','깍두기','매실차']],['봉골레파스타','B 일품',['제로음료','모닝롤마늘빵','오렌고구마샐러드','샐러드&드레싱/수제피클','매실차']]],
-[['돼지고기수육','도시락',['고로케,김말이','수수밥','장터국밥','보쌈무김치','백김치']],['참치샌드위치','브런치',['치즈스틱샐러드','오리엔탈드레싱','음료']],['함박스테이크고구마샐러드','샐러드',['오리엔탈드레싱','음료']]]],
-['thu','8월 13일','목요일 · THU',
-[['순두부찌개','A 한식',['보리밥/쌀밥','생선가스&타르타르소스','후랑크소시지채소볶음','시래기된장조림','일식양배추샐러드&드레싱','깍두기','수정과']],['베이컨쇼유라멘','B 일품',['후랑크소시지채소볶음','유부양념밥','생선가스&타르타르소스','일식양배추샐러드&드레싱','단무지/김치','수정과']]],
-[['마파두부','도시락',['고추잡채&꽃빵','백미밥','양파계란국','유자청단무지무침','포기김치']],['돈까스샌드위치','브런치',['알리오올리오샐러드','유자파인드레싱','음료']],['로스트치킨샐러드','샐러드',['유자파인드레싱','음료']]]],
-['fri','8월 14일','금요일 · FRI',
-[['함박닭다리백숙','통합 메뉴',['흑미찹쌀밥/쌀밥','김치전','궁중떡볶이','도토리묵무침/깍두기','수박/블루베리맛홍초']]],
-[['장어덮밥','도시락',['간장돼지불고기','볶음우동','팽이미소장국','새콤달콤무생채','포기김치']],['흑임자닭가슴살샌드위치','브런치',['아보카도샐러드','딸기드레싱','음료']],['참치마요바게트샐러드','샐러드',['딸기드레싱','음료']]]]
-]}
-];
-const weekSelect=document.getElementById('weekSelect'),grid=document.getElementById('weekGrid'),subtitle=document.getElementById('subtitle');
-weeks.forEach((w,i)=>{const o=document.createElement('option');o.value=w.key;o.textContent=w.label;weekSelect.appendChild(o)});
-
-let currentDay='all',currentFloor='all';
-
-function getMondayKey(date){
-  const d=new Date(date);
-  const day=d.getDay();
-  const diff=day===0?-6:1-day;
-  d.setHours(12,0,0,0);
-  d.setDate(d.getDate()+diff);
-  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
-}
-
-function setInitialView(){
-  const today=new Date();
-  const mondayKey=getMondayKey(today);
-  const matchedWeek=weeks.find(w=>w.key===mondayKey);
-
-  // 이번 주 식단이 있으면 그 주차, 없으면 가장 최신 주차
-  weekSelect.value=matchedWeek ? matchedWeek.key : weeks[weeks.length-1].key;
-
-  // 모바일(900px 이하)에서만 오늘 요일 자동 선택
-  if(window.matchMedia('(max-width: 900px)').matches && matchedWeek){
-    const dayMap={1:'mon',2:'tue',3:'wed',4:'thu',5:'fri'};
-    const todayCode=dayMap[today.getDay()];
-    if(todayCode){
-      currentDay=todayCode;
-      document.querySelectorAll('.date-btn').forEach(btn=>{
-        btn.classList.toggle('active',btn.dataset.day===todayCode);
-      });
-    }
-  }
-}
-
+const grid=document.getElementById('weekGrid');
+const menuHeading=document.getElementById('menuHeading');
+const weekRange=document.getElementById('weekRange');
+const mobileDateBar=document.getElementById('mobileDateBar');
+const calendarButton=document.getElementById('calendarButton');
+const calendarPanel=document.getElementById('calendarPanel');
+let calendarMonth;
+let pendingCalendarDate=null;
+let availableDates=[], currentMonday, selectedDate, currentFloor='all';
+const isMobile=()=>window.matchMedia('(max-width: 900px)').matches;
+const pad=n=>String(n).padStart(2,'0');
+const key=d=>`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+const parseKey=k=>{const [y,m,d]=k.split('-').map(Number);return new Date(y,m-1,d,12)};
+function mondayOf(d){const x=new Date(d);const day=x.getDay();x.setDate(x.getDate()+(day===0?-6:1-day));x.setHours(12,0,0,0);return x}
+function addDays(d,n){const x=new Date(d);x.setDate(x.getDate()+n);return x}
+function fmt(d){return `${d.getMonth()+1}/${d.getDate()}`}
+async function loadDay(k){if(!availableDates.includes(k))return null;try{const r=await fetch(`./data/${k}.json?v=${Date.now()}`);return r.ok?await r.json():null}catch{return null}}
 function box(menu,floor){const [name,type,items]=menu;return `<div class="menu-box main${floor}"><p class="menu-name">${name}<span class="type">${type}</span></p><ul class="items">${items.map(x=>`<li>${x}</li>`).join('')}</ul></div>`}
-function render(){const w=weeks.find(x=>x.key===weekSelect.value);subtitle.textContent=w.subtitle;grid.innerHTML=w.days.map(d=>`<article class="day-card" data-day="${d[0]}"><div class="day-head"><span class="date">${d[1]}</span><span class="weekday">${d[2]}</span></div><section class="floor-section floor-20" data-floor="20"><div class="floor-title"><h2>20층</h2><span class="floor-badge">${d[3].length===1?'통합 메뉴':'2가지 메뉴'}</span></div><div class="menu-list">${d[3].map(m=>box(m,20)).join('')}</div></section><section class="floor-section floor-10" data-floor="10"><div class="floor-title"><h2>10층</h2><span class="floor-badge">3가지 메뉴</span></div><div class="menu-list">${d[4].map(m=>box(m,10)).join('')}</div></section></article>`).join('');applyFilters()}
-function applyFilters(){
-  document.querySelectorAll('.day-card').forEach(c=>c.classList.toggle('hidden',currentDay!=='all'&&c.dataset.day!==currentDay));
-  document.querySelectorAll('.floor-section').forEach(s=>s.classList.toggle('hidden',currentFloor!=='all'&&s.dataset.floor!==currentFloor));
-  grid.classList.toggle('single-day',currentDay!=='all');
+function card(d){return `<article class="day-card single-date-card" data-date="${d.date}"><div class="day-head"><div class="day-head-copy"><span class="date">${d.dateLabel}</span><span class="weekday">${d.weekdayLabel}</span></div><div class="floor-buttons" aria-label="층 필터"><button class="floor-btn ${currentFloor==='all'?'active':''}" data-floor="all">전체</button><button class="floor-btn ${currentFloor==='20'?'active':''}" data-floor="20">20층</button><button class="floor-btn ${currentFloor==='10'?'active':''}" data-floor="10">10층</button></div></div><div class="day-layout"><section class="floor-section floor-20" data-floor="20"><div class="floor-title"><h2>20층</h2><span class="floor-badge">${d.floors['20'].length===1?'통합 메뉴':d.floors['20'].length+'가지 메뉴'}</span></div><div class="menu-list">${d.floors['20'].map(m=>box(m,20)).join('')}</div></section><section class="floor-section floor-10" data-floor="10"><div class="floor-title"><h2>10층</h2><span class="floor-badge">${d.floors['10'].length}가지 메뉴</span></div><div class="menu-list">${d.floors['10'].map(m=>box(m,10)).join('')}</div></section></div></article>`}
+function applyFloor(){document.querySelectorAll('.floor-section').forEach(s=>s.classList.toggle('hidden',currentFloor!=='all'&&s.dataset.floor!==currentFloor));document.querySelectorAll('.day-layout').forEach(layout=>layout.classList.toggle('single-floor',currentFloor!=='all'))}
+function renderDateBar(){const today=key(new Date());mobileDateBar.innerHTML=[0,1,2,3,4].map(i=>{const d=addDays(currentMonday,i),k=key(d);const names=['월','화','수','목','금'];return `<button class="mobile-day ${k===selectedDate?'active':''} ${k===today?'today':''}" data-date="${k}" ${availableDates.includes(k)?'':'disabled'}><span class="num">${d.getDate()}</span><span>${names[i]}</span></button>`}).join('');mobileDateBar.querySelectorAll('.mobile-day').forEach(b=>b.addEventListener('click',()=>{selectedDate=b.dataset.date;render()}))}
+async function render(){
+  const fri=addDays(currentMonday,4);
+  const selected=parseKey(selectedDate);
+  const weekdays=['일요일','월요일','화요일','수요일','목요일','금요일','토요일'];
+  weekRange.textContent=`${selected.getFullYear()}년 ${selected.getMonth()+1}월 ${selected.getDate()}일 ${weekdays[selected.getDay()]}`;
+  calendarMonth=new Date(selected.getFullYear(),selected.getMonth(),1,12);
+  if(menuHeading) menuHeading.textContent='';
+  renderDateBar();
+  const d=await loadDay(selectedDate);
+  grid.innerHTML=d?card(d):'<div class="notice">선택한 날짜의 식단 데이터가 아직 없습니다.</div>';
+  grid.classList.add('single-day');
+  applyFloor();
 }
-document.querySelectorAll('.date-btn').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.date-btn').forEach(x=>x.classList.remove('active'));b.classList.add('active');currentDay=b.dataset.day;applyFilters()}));document.querySelectorAll('.floor-btn').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.floor-btn').forEach(x=>x.classList.remove('active'));b.classList.add('active');currentFloor=b.dataset.floor;applyFilters()}));weekSelect.addEventListener('change',render);
-
-setInitialView();
-render();
+async function init(){try{const r=await fetch(`./data/index.json?v=${Date.now()}`);availableDates=(await r.json()).dates||[]}catch{availableDates=[]}const today=new Date();const todayKey=key(today);currentMonday=mondayOf(today);if(![1,2,3,4,5].includes(today.getDay())||!availableDates.includes(todayKey)){const latest=availableDates[availableDates.length-1];if(latest){selectedDate=latest;currentMonday=mondayOf(parseKey(latest))}}else selectedDate=todayKey;if(!selectedDate)selectedDate=key(currentMonday);await render()}
+document.getElementById('prevWeek').addEventListener('click',()=>{const d=addDays(parseKey(selectedDate),-7);selectedDate=key(d);currentMonday=mondayOf(d);render()});
+document.getElementById('nextWeek').addEventListener('click',()=>{const d=addDays(parseKey(selectedDate),7);selectedDate=key(d);currentMonday=mondayOf(d);render()});
+function renderCalendar(){
+  const y=calendarMonth.getFullYear(),m=calendarMonth.getMonth();
+  const first=new Date(y,m,1,12),last=new Date(y,m+1,0,12);
+  const heads=['일','월','화','수','목','금','토'];
+  const todayKey=key(new Date());
+  const todayAvailable=availableDates.includes(todayKey);
+  let html=`<div class="calendar-head"><button type="button" id="calPrev" aria-label="이전 달">‹</button><span>${y}년 ${m+1}월</span><button type="button" id="calNext" aria-label="다음 달">›</button></div><div class="calendar-grid">${heads.map(x=>`<div class="calendar-weekday">${x}</div>`).join('')}`;
+  for(let i=0;i<first.getDay();i++)html+='<div class="calendar-empty"></div>';
+  for(let day=1;day<=last.getDate();day++){
+    const d=new Date(y,m,day,12),k=key(d),ok=availableDates.includes(k);
+    html+=`<button type="button" class="calendar-day ${k===pendingCalendarDate?'pending':''} ${k===todayKey?'today':''}" data-date="${k}" ${ok?'':'disabled'}>${day}</button>`;
+  }
+  html+=`</div><div class="calendar-footer"><button type="button" class="calendar-action calendar-today" id="calToday" ${todayAvailable?'':'disabled'}>↺ 오늘</button><button type="button" class="calendar-action calendar-confirm" id="calConfirm" ${pendingCalendarDate&&availableDates.includes(pendingCalendarDate)?'':'disabled'}>확인</button></div>`;
+  calendarPanel.innerHTML=html;
+  document.getElementById('calPrev').onclick=(e)=>{e.stopPropagation();calendarMonth=new Date(y,m-1,1,12);renderCalendar()};
+  document.getElementById('calNext').onclick=(e)=>{e.stopPropagation();calendarMonth=new Date(y,m+1,1,12);renderCalendar()};
+  calendarPanel.querySelectorAll('.calendar-day:not(:disabled)').forEach(b=>b.onclick=(e)=>{e.stopPropagation();pendingCalendarDate=b.dataset.date;renderCalendar()});
+  const todayBtn=document.getElementById('calToday');
+  if(todayBtn&&!todayBtn.disabled)todayBtn.onclick=(e)=>{e.stopPropagation();pendingCalendarDate=todayKey;selectedDate=todayKey;const td=parseKey(todayKey);calendarMonth=new Date(td.getFullYear(),td.getMonth(),1,12);currentMonday=mondayOf(td);calendarPanel.classList.add('hidden');render()};
+  const confirmBtn=document.getElementById('calConfirm');
+  if(confirmBtn&&!confirmBtn.disabled)confirmBtn.onclick=(e)=>{e.stopPropagation();selectedDate=pendingCalendarDate;currentMonday=mondayOf(parseKey(selectedDate));calendarPanel.classList.add('hidden');render()};
+}
+calendarButton.addEventListener('click',(e)=>{
+  e.stopPropagation();
+  const opening=calendarPanel.classList.contains('hidden');
+  if(opening){
+    pendingCalendarDate=selectedDate;
+    const selected=parseKey(selectedDate);
+    calendarMonth=new Date(selected.getFullYear(),selected.getMonth(),1,12);
+    renderCalendar();
+    calendarPanel.classList.remove('hidden');
+  }else calendarPanel.classList.add('hidden');
+});
+document.addEventListener('click',e=>{if(!calendarPanel.contains(e.target)&&e.target!==calendarButton)calendarPanel.classList.add('hidden')});
+document.addEventListener('click',e=>{const b=e.target.closest('.floor-btn');if(!b)return;document.querySelectorAll('.floor-btn').forEach(x=>x.classList.remove('active'));b.classList.add('active');currentFloor=b.dataset.floor;applyFloor()});
+init();
 </script>
 </body>
 </html>
