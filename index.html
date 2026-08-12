@@ -63,7 +63,8 @@ button{border:0;cursor:pointer;font:inherit}
   position:sticky;top:10px;z-index:30;
 }
 .brand{display:flex;align-items:center;gap:11px;font-weight:950;font-size:20px;letter-spacing:-.03em}
-.mini-nav{display:flex;gap:18px;font-size:13px;font-weight:800;color:var(--subtle-text)}
+.mini-nav{display:flex;align-items:center;gap:18px;font-size:13px;font-weight:800;color:var(--subtle-text)}
+.info-link{display:inline-flex;align-items:center;justify-content:center;color:inherit;text-decoration:none;font-size:18px;line-height:1}
 
 .hero{
   display:grid;
@@ -408,7 +409,8 @@ button{border:0;cursor:pointer;font:inherit}
   .wrap{width:min(calc(100% - 22px),760px);padding-top:10px}
   .topbar{top:6px;padding:11px 13px;border-radius:17px}
   .brand{font-size:16px}
-  .mini-nav{display:none}
+  .mini-nav{display:flex}
+  .campus-label{display:none}
   .hero{margin-bottom:18px}
   .hero-copy{padding:21px 22px}
   .hero-mobile-content{
@@ -474,7 +476,7 @@ button{border:0;cursor:pointer;font:inherit}
 <div class="wrap">
   <div class="topbar">
     <div class="brand"><span>싸밥서울</span></div>
-    <div class="mini-nav"><span>SSAFY 서울캠</span></div>
+    <div class="mini-nav"><span class="campus-label">SSAFY 서울캠</span><a class="info-link" href="https://app.notion.com/p/3baf2e21a8d58184808cc1b0fef38ff6?source=copy_link" target="_blank" rel="noopener noreferrer" aria-label="싸밥서울 소개">ⓘ</a></div>
   </div>
 
   <section class="hero">
