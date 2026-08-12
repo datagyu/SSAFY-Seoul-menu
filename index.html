@@ -138,6 +138,9 @@ button{border:0;cursor:pointer;font:inherit}
   background:#fffef8;color:#615c45;border:1px solid var(--line);
   font-size:12px;font-weight:900;white-space:nowrap;
 }
+.week-view-button.active{
+  background:var(--lemon);border-color:var(--lemon-deep);
+}
 
 .mobile-date-bar{
   display:grid;
@@ -616,6 +619,7 @@ function updateSelectedDate(){
 
 function showSingleDay(d){
   updateSelectedDate();
+  weekViewButton.classList.remove('active');
   grid.innerHTML=d?card(d):'<div class="notice">선택한 날짜의 식단 데이터가 아직 없습니다.</div>';
   grid.classList.add('single-day');
   grid.classList.remove('week-view');
@@ -708,6 +712,7 @@ async function render(){
   const sequence=++renderSequence;
 
   if(desktopWeekView&&!mobileMedia.matches){
+    weekViewButton.classList.add('active');
     const monday=new Date(currentMonday);
     const friday=addDays(monday,4);
     weekRange.textContent=`${monday.getFullYear()}년 ${monday.getMonth()+1}월 ${monday.getDate()}일 ~ ${friday.getMonth()+1}월 ${friday.getDate()}일`;
