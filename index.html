@@ -83,23 +83,19 @@ button{border:0;cursor:pointer;font:inherit}
 .today-card{
   padding:25px 26px;
   position:relative;overflow:hidden;
-  display:flex;flex-direction:column;justify-content:center;align-items:flex-start;
+  display:flex;align-items:center;justify-content:space-between;gap:18px;
   container-type:inline-size;
 }
-.today-card:before{
-  content:"SSAFY 파이팅";
+.today-content{flex:1;min-width:0}
+.today-badge{
   display:inline-flex;padding:6px 10px;border-radius:999px;
   background:var(--lemon-soft);color:#7e8795;
   font-size:11px;font-weight:950;letter-spacing:.08em;
 }
 .today-card h2{margin:14px 0 6px;font-size:24px;letter-spacing:-.04em}
-.today-character{position:absolute;right:32px;bottom:16px;width:clamp(99px,9vw,136px);height:auto;object-fit:contain;pointer-events:none;user-select:none}
+.today-character{width:clamp(99px,9vw,136px);height:auto;flex:0 0 auto;object-fit:contain;pointer-events:none;user-select:none}
 
 @container (max-width:390px){
-  .today-character{width:108px}
-}
-
-@container (max-width:340px){
   .today-character{display:none}
 }
 
@@ -459,8 +455,11 @@ button{border:0;cursor:pointer;font:inherit}
       <h1>오늘의 식단을<br><strong>한 눈에</strong> 확인하세요.</h1>
       <p class="subtitle">원하는 날짜를 선택해 20층과 10층의 메뉴를 확인하세요.</p>
     </div>
-    <aside class="today-card">
-      <h2>오늘도 맛있는 점심과 함께<br>행복한 SSAFY 생활 되세요!</h2>
+    <aside class="today-card" aria-label="오늘의 한마디">
+      <div class="today-content">
+        <span class="today-badge">SSAFY 파이팅</span>
+        <h2>오늘도 맛있는 점심과 함께<br>행복한 SSAFY 생활 되세요!</h2>
+      </div>
       <img src="./character.png" class="today-character" alt="" aria-hidden="true">
     </aside>
   </section>
