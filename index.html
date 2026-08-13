@@ -88,7 +88,6 @@ button{border:0;cursor:pointer;font:inherit}
   padding:25px 26px;
   position:relative;overflow:hidden;
   display:flex;align-items:center;justify-content:space-between;gap:18px;
-  container-type:inline-size;
 }
 .today-content{flex:1;min-width:0}
 .today-badge{
@@ -99,9 +98,6 @@ button{border:0;cursor:pointer;font:inherit}
 .today-card h2{margin:14px 0 6px;font-size:24px;letter-spacing:-.04em}
 .today-character{width:clamp(99px,9vw,136px);height:auto;flex:0 0 auto;object-fit:contain;pointer-events:none;user-select:none}
 
-@container (max-width:390px){
-  .today-character{width:clamp(72px,28cqw,99px)}
-}
 
 .date-controls{display:block;margin-bottom:16px}
 .date-navigator{
