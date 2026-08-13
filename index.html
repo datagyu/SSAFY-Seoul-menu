@@ -21,7 +21,6 @@
   --lemon:#f3efc8;
   --lemon-deep:#d2c587;
   --lemon-soft:#faf6df;
-  --leaf:#a6b1be;
   --floor20:#e3d79f;
   --floor20-soft:#faf4d8;
   --floor10:#a9b4c1;
@@ -174,7 +173,6 @@ button{border:0;cursor:pointer;font:inherit}
   position:absolute;bottom:4px;left:50%;
   transform:translateX(-50%);
 }
-.mobile-day:disabled{opacity:.38;cursor:not-allowed}
 
 .week-grid{display:block;overflow:visible;padding:4px 1px 13px}
 .day-card{
@@ -184,7 +182,6 @@ button{border:0;cursor:pointer;font:inherit}
   border-radius:23px;
   overflow:hidden;
   box-shadow:var(--shadow);
-  scroll-snap-align:start;
   transition:transform .2s ease,box-shadow .2s ease;
 }
 .day-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-hover)}
@@ -204,6 +201,21 @@ button{border:0;cursor:pointer;font:inherit}
   padding:18px;
 }
 .day-card.single-date-card .floor-section:first-of-type{border-top:1px solid var(--line)}
+.empty-menu-panel{
+  min-height:220px;
+  display:flex;align-items:center;justify-content:center;
+  padding:32px 20px;
+  border:1px solid var(--line);
+  border-radius:22px;
+  background:var(--card);
+  box-shadow:var(--shadow);
+  color:var(--muted);
+  font-size:16px;font-weight:850;
+  text-align:center;
+}
+.day-card:not(.single-date-card) .empty-menu-panel{
+  min-height:180px;border:0;border-radius:0;box-shadow:none;
+}
 
 .day-head{
   display:flex;align-items:center;justify-content:space-between;gap:16px;
@@ -307,8 +319,6 @@ button{border:0;cursor:pointer;font:inherit}
   font-size:11px;font-weight:800;
   position:relative;
 }
-.calendar-day:disabled{opacity:.28;cursor:not-allowed;background:#f3f0e8}
-.calendar-day.active{background:var(--lemon);border-color:var(--lemon-deep)}
 .calendar-day.today:after{
   content:"";position:absolute;left:50%;bottom:2px;transform:translateX(-50%);
   width:5px;height:5px;border-radius:50%;background:#383529;
@@ -405,14 +415,10 @@ button{border:0;cursor:pointer;font:inherit}
   .wrap{width:min(calc(100% - 22px),760px);padding-top:10px}
   .topbar{top:6px;padding:11px 13px;border-radius:17px}
   .brand{font-size:16px}
-  .mini-nav{display:flex}
   .campus-label{display:none}
   .hero{margin-bottom:18px}
   .hero-copy{padding:21px 22px}
-  .hero-mobile-content{
-    display:flex;align-items:center;justify-content:space-between;gap:14px;
-  }
-  .hero-text{flex:1;min-width:0}
+  .hero-mobile-content{gap:14px}
   .hero-mobile-character{
     width:clamp(86px,22vw,126px);
   }
@@ -421,12 +427,15 @@ button{border:0;cursor:pointer;font:inherit}
   .date-navigator{padding-bottom:12px}
   .mobile-date-bar{gap:6px}
   .week-view-button{display:none}
+  .empty-menu-panel{min-height:200px;font-size:15px}
   .week-grid{touch-action:pan-y}
   .week-grid.is-swiping{position:relative;overflow:hidden}
-  .week-grid.is-swiping .day-card{
-    position:absolute;inset:0;width:100%;
+  .week-grid.is-swiping > *{
     pointer-events:none;will-change:transform;
     backface-visibility:hidden;transform:translateZ(0);
+  }
+  .week-grid.is-swiping > .swipe-incoming{
+    position:absolute;top:4px;left:1px;right:1px;
   }
 }
 
@@ -494,7 +503,7 @@ button{border:0;cursor:pointer;font:inherit}
     </aside>
   </section>
 
-  <div class="controls date-controls">
+  <div class="date-controls">
     <div class="date-navigator">
       <button class="nav-arrow" id="prevWeek" aria-label="이전 주"><span aria-hidden="true">‹</span></button>
       <div class="date-center">
@@ -620,17 +629,22 @@ function applyFloor(root=document){
 
 function renderDateBar(){
   const today=key(new Date());
-  const names=['월','화','수','목','금'];
+  const shortNames=['일','월','화','수','목','금','토'];
+  const startDate=mobileMedia.matches
+    ? addDays(parseKey(selectedDate),-2)
+    : currentMonday;
+
   mobileDateBar.innerHTML=[0,1,2,3,4].map(i=>{
-    const d=addDays(currentMonday,i);
+    const d=addDays(startDate,i);
     const dateKey=key(d);
     const active=(mobileMedia.matches||!desktopWeekView)&&dateKey===selectedDate;
-    return `<button class="mobile-day ${active?'active':''} ${dateKey===today?'today':''}" data-date="${dateKey}" ${availableDates.includes(dateKey)?'':'disabled'}><span class="num">${d.getDate()}</span><span>${names[i]}</span></button>`;
+    return `<button class="mobile-day ${active?'active':''} ${dateKey===today?'today':''}" data-date="${dateKey}"><span class="num">${d.getDate()}</span><span>${shortNames[d.getDay()]}</span></button>`;
   }).join('');
 
   mobileDateBar.querySelectorAll('.mobile-day').forEach(button=>{
     button.addEventListener('click',()=>{
       selectedDate=button.dataset.date;
+      currentMonday=mondayOf(parseKey(selectedDate));
       desktopWeekView=false;
       render();
     });
@@ -644,11 +658,18 @@ function updateSelectedDate(){
   renderDateBar();
 }
 
+function emptyDayCard(dateKey,single=true){
+  const selected=parseKey(dateKey);
+  const dateLabel=`${selected.getMonth()+1}월 ${selected.getDate()}일`;
+  const weekdayLabel=`${weekdays[selected.getDay()]} · ${['SUN','MON','TUE','WED','THU','FRI','SAT'][selected.getDay()]}`;
+
+  return `<article class="day-card ${single?'single-date-card':''}" data-date="${dateKey}"><div class="day-head"><div class="day-head-copy"><span class="date">${dateLabel}</span><span class="weekday">${weekdayLabel}</span></div></div><div class="empty-menu-panel">등록된 식단 정보가 없습니다.</div></article>`;
+}
+
 function showSingleDay(d){
   updateSelectedDate();
   weekViewButton.classList.remove('active');
-  grid.innerHTML=d?card(d):'<div class="notice">선택한 날짜의 식단 데이터가 아직 없습니다.</div>';
-  grid.classList.add('single-day');
+  grid.innerHTML=d?card(d):emptyDayCard(selectedDate);
   grid.classList.remove('week-view');
   applyFloor();
 }
@@ -657,39 +678,33 @@ async function moveSelectedDay(direction){
   if(isSwipeAnimating)return;
 
   const selected=parseKey(selectedDate);
-  const dayIndex=Math.round((selected-currentMonday)/86400000);
-  const nextIndex=dayIndex+direction;
-  if(nextIndex<0||nextIndex>4)return;
-
-  const nextDate=key(addDays(currentMonday,nextIndex));
-  if(!availableDates.includes(nextDate))return;
+  const nextDate=key(addDays(selected,direction));
 
   const swipeSequence=renderSequence;
   const swipeStartDate=selectedDate;
   isSwipeAnimating=true;
   try{
     const nextDay=await loadDay(nextDate);
-    if(!nextDay||!mobileMedia.matches||swipeSequence!==renderSequence||selectedDate!==swipeStartDate)return;
+    if(!mobileMedia.matches||swipeSequence!==renderSequence||selectedDate!==swipeStartDate)return;
 
     if(prefersReducedMotion.matches){
       selectedDate=nextDate;
+      currentMonday=mondayOf(parseKey(nextDate));
       showSingleDay(nextDay);
       return;
     }
 
-    const outgoing=grid.querySelector('.day-card');
+    const outgoing=grid.firstElementChild;
     if(!outgoing)return;
 
     const template=document.createElement('template');
-    template.innerHTML=card(nextDay);
+    template.innerHTML=nextDay?card(nextDay):emptyDayCard(nextDate);
     const incoming=template.content.firstElementChild;
     applyFloor(incoming);
 
-    const outgoingHeight=outgoing.getBoundingClientRect().height;
-    grid.appendChild(incoming);
-    const incomingHeight=incoming.getBoundingClientRect().height;
-    grid.style.height=`${Math.max(outgoingHeight,incomingHeight)}px`;
+    incoming.classList.add('swipe-incoming');
     grid.classList.add('is-swiping');
+    grid.appendChild(incoming);
 
     const travel=direction>0?-100:100;
     const options={duration:300,easing:'cubic-bezier(.22,.61,.36,1)',fill:'forwards'};
@@ -711,12 +726,13 @@ async function moveSelectedDay(direction){
       incoming.remove();
       return;
     }
+    incoming.classList.remove('swipe-incoming');
     grid.replaceChildren(incoming);
     selectedDate=nextDate;
+    currentMonday=mondayOf(parseKey(nextDate));
     updateSelectedDate();
   }finally{
     grid.classList.remove('is-swiping');
-    grid.style.height='';
     isSwipeAnimating=false;
   }
 }
@@ -750,8 +766,7 @@ async function render(){
     );
     if(sequence!==renderSequence)return;
 
-    grid.innerHTML=days.map(d=>d?card(d,false):'<div class="notice">식단 데이터가 아직 없습니다.</div>').join('');
-    grid.classList.remove('single-day');
+    grid.innerHTML=days.map((d,i)=>d?card(d,false):emptyDayCard(key(addDays(monday,i)),false)).join('');
     grid.classList.add('week-view');
     applyFloor();
     return;
@@ -777,19 +792,8 @@ async function init(){
 
   const today=new Date();
   const todayKey=key(today);
+  selectedDate=todayKey;
   currentMonday=mondayOf(today);
-
-  if(![1,2,3,4,5].includes(today.getDay())||!availableDates.includes(todayKey)){
-    const latest=availableDates[availableDates.length-1];
-    if(latest){
-      selectedDate=latest;
-      currentMonday=mondayOf(parseKey(latest));
-    }
-  }else{
-    selectedDate=todayKey;
-  }
-
-  if(!selectedDate)selectedDate=key(currentMonday);
   desktopWeekView=!mobileMedia.matches;
   await render();
 }
@@ -822,7 +826,6 @@ function renderCalendar(){
   const last=new Date(y,m+1,0,12);
   const heads=['일','월','화','수','목','금','토'];
   const todayKey=key(new Date());
-  const todayAvailable=availableDates.includes(todayKey);
 
   let html=`<div class="calendar-head"><button type="button" id="calPrev" aria-label="이전 달">‹</button><span>${y}년 ${m+1}월</span><button type="button" id="calNext" aria-label="다음 달">›</button></div><div class="calendar-grid">${heads.map(x=>`<div class="calendar-weekday">${x}</div>`).join('')}`;
 
@@ -831,11 +834,10 @@ function renderCalendar(){
   for(let day=1;day<=last.getDate();day++){
     const d=new Date(y,m,day,12);
     const dateKey=key(d);
-    const available=availableDates.includes(dateKey);
-    html+=`<button type="button" class="calendar-day ${dateKey===pendingCalendarDate?'pending':''} ${dateKey===todayKey?'today':''}" data-date="${dateKey}" ${available?'':'disabled'}>${day}</button>`;
+    html+=`<button type="button" class="calendar-day ${dateKey===pendingCalendarDate?'pending':''} ${dateKey===todayKey?'today':''}" data-date="${dateKey}">${day}</button>`;
   }
 
-  html+=`</div><div class="calendar-footer"><button type="button" class="calendar-action calendar-today" id="calToday" ${todayAvailable?'':'disabled'}>↺ 오늘</button><button type="button" class="calendar-action calendar-confirm" id="calConfirm" ${pendingCalendarDate&&availableDates.includes(pendingCalendarDate)?'':'disabled'}>확인</button></div>`;
+  html+=`</div><div class="calendar-footer"><button type="button" class="calendar-action calendar-today" id="calToday">↺ 오늘</button><button type="button" class="calendar-action calendar-confirm" id="calConfirm" ${pendingCalendarDate?'':'disabled'}>확인</button></div>`;
   calendarPanel.innerHTML=html;
 
   document.getElementById('calPrev').onclick=event=>{
@@ -849,7 +851,7 @@ function renderCalendar(){
     renderCalendar();
   };
 
-  calendarPanel.querySelectorAll('.calendar-day:not(:disabled)').forEach(button=>{
+  calendarPanel.querySelectorAll('.calendar-day').forEach(button=>{
     button.onclick=event=>{
       event.stopPropagation();
       pendingCalendarDate=button.dataset.date;
