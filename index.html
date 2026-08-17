@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>싸밥서울</title>
+<title>싸밥서울 · SSAFY 서울캠퍼스 주간 식단</title>
 <link rel="manifest" href="./manifest.webmanifest?v=20260811-2">
-<meta name="theme-color" content="#F3EFC8">
+<meta name="theme-color" content="#F6F3EA">
 <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png">
 <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png?v=20260811-2">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -13,92 +13,137 @@
 <meta name="apple-mobile-web-app-title" content="싸밥서울">
 <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.min.css" />
 <style>
-:root{
-  --card:#fffdf8;
-  --text:#383529;
-  --muted:#776f61;
-  --subtle-text:#8c8373;
-  --lemon:#f3efc8;
-  --lemon-deep:#d2c587;
-  --lemon-soft:#faf6df;
-  --floor20:#e3d79f;
-  --floor20-soft:#faf4d8;
-  --floor10:#a9b4c1;
-  --floor10-soft:#eff3f7;
-  --line:#e8e1c9;
-  --line-soft:#eee8d8;
-  --shadow:0 12px 30px rgba(111,105,82,.10);
-  --shadow-hover:0 18px 38px rgba(111,105,82,.16);
-  --badge-a:#faf4cf;
-  --badge-b:#fbf0dc;
-  --badge-lunch:#eef2df;
-  --badge-brunch:#edf2f4;
-  --badge-salad:#eaf3e9;
-}
 
-*{box-sizing:border-box}
-html{scroll-behavior:smooth}
+
+*{
+  box-sizing:border-box;
+}
+html{
+  scroll-behavior:smooth;
+}
 body{
   margin:0;
   min-height:100vh;
   font-family:"Pretendard","Noto Sans KR",Arial,sans-serif;
   color:var(--text);
-  background:
-    radial-gradient(circle at 15% 2%,rgba(243,239,200,.55),transparent 24rem),
-    radial-gradient(circle at 90% 25%,rgba(166,177,190,.16),transparent 22rem),
-    linear-gradient(180deg,#fcfaf3 0%,#f8f5ea 100%);
 }
-button{border:0;cursor:pointer;font:inherit}
+button{
+  border:0;
+  cursor:pointer;
+  font:inherit;
+  -webkit-tap-highlight-color:transparent;
+}
 
-.wrap{width:min(1500px,calc(100% - 32px));margin:0 auto;padding:22px 0 54px}
-.topbar{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:15px 20px;margin-bottom:22px;
-  border:1px solid rgba(238,229,187,.8);
-  border-radius:22px;
-  background:rgba(255,255,250,.88);
-  backdrop-filter:blur(12px);
-  box-shadow:var(--shadow);
-  position:sticky;top:10px;z-index:30;
+.wrap{
+  width:min(1500px,calc(100% - 32px));
+  margin:0 auto;
+  padding:22px 0 54px;
 }
-.brand{display:flex;align-items:center;gap:11px;font-weight:950;font-size:20px;letter-spacing:-.03em}
-.mini-nav{display:flex;align-items:center;gap:18px;font-size:13px;font-weight:800;color:var(--subtle-text)}
-.info-link{display:inline-flex;align-items:center;justify-content:center;color:inherit;text-decoration:none;font-size:18px;line-height:1}
+.topbar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:15px 20px;
+  margin-bottom:22px;
+  top:10px;
+  z-index:200;
+}
+.brand{
+  display:flex;
+  align-items:center;
+  gap:11px;
+  font-weight:950;
+  font-size:20px;
+  letter-spacing:-.03em;
+}
+.mini-nav{
+  display:flex;
+  align-items:center;
+  gap:18px;
+  font-size:13px;
+  font-weight:800;
+}
+.info-link{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  color:inherit;
+  text-decoration:none;
+  font-size:18px;
+  line-height:1;
+}
 
 .hero{
   display:grid;
   grid-template-columns:minmax(0,1.1fr) minmax(320px,.9fr);
-  gap:22px;align-items:stretch;margin-bottom:22px;
+  gap:22px;
+  align-items:stretch;
+  margin-bottom:22px;
 }
-.hero-copy,.today-card{
-  border:1px solid var(--line);
-  border-radius:28px;
-  background:rgba(255,254,249,.94);
-  box-shadow:var(--shadow);
+
+.hero-copy{
+  padding:34px 36px;
 }
-.hero-copy{position:relative;overflow:hidden;padding:34px 36px}
-.hero-mobile-content{height:100%}
-.hero-text{min-width:0}
-.hero-mobile-character{display:none}
-.hero h1{margin:18px 0 10px;font-size:clamp(31px,4vw,54px);letter-spacing:-.055em;line-height:1.08}
-.hero h1 strong{color:#8f9baa}
-.subtitle{margin:0;max-width:650px;color:var(--muted);font-size:15px;line-height:1.7}
+.hero-mobile-content{
+  height:100%;
+}
+.hero-text{
+  min-width:0;
+}
+.hero-mobile-character{
+  display:none;
+}
+.hero h1{
+  margin:18px 0 10px;
+  font-size:clamp(31px,4vw,54px);
+  letter-spacing:-.055em;
+  line-height:1.08;
+}
+
+.subtitle{
+  margin:0;
+  max-width:650px;
+  font-size:15px;
+  line-height:1.7;
+}
 .today-card{
   padding:25px 26px;
-  position:relative;overflow:hidden;
-  display:flex;align-items:center;justify-content:space-between;gap:18px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:18px;
 }
-.today-content{flex:1;min-width:0}
+.today-content{
+  flex:1;
+  min-width:0;
+}
 .today-badge{
-  display:inline-flex;padding:6px 10px;border-radius:999px;
-  background:var(--lemon-soft);color:#7e8795;
-  font-size:11px;font-weight:950;letter-spacing:.08em;
+  display:inline-flex;
+  padding:6px 10px;
+  border-radius:999px;
+  font-size:11px;
+  font-weight:950;
+  letter-spacing:.08em;
 }
-.today-card h2{margin:14px 0 6px;font-size:24px;letter-spacing:-.04em}
-.today-character{width:clamp(99px,9vw,136px);height:auto;flex:0 0 auto;object-fit:contain;pointer-events:none;user-select:none}
+.today-card h2{
+  margin:14px 0 6px;
+  font-size:24px;
+  letter-spacing:-.04em;
+}
+.today-character{
+  width:clamp(99px,9vw,136px);
+  height:auto;
+  flex:0 0 auto;
+  object-fit:contain;
+  pointer-events:none;
+  user-select:none;
+}
 
 
-.date-controls{display:block;margin-bottom:16px}
+.date-controls{
+  display:block;
+  margin-bottom:16px;
+}
 .date-navigator{
   display:grid;
   grid-template-columns:auto 1fr auto;
@@ -106,40 +151,58 @@ button{border:0;cursor:pointer;font:inherit}
   align-items:center;
   gap:10px 14px;
   padding:11px 14px 14px;
-  border:1px solid var(--line);
-  background:rgba(255,254,249,.9);
-  border-radius:18px;
-  box-shadow:var(--shadow);
-  position:relative;
 }
-#prevWeek{grid-area:prev}
-#nextWeek{grid-area:next}
+#prevWeek{
+  grid-area:prev;
+}
+#nextWeek{
+  grid-area:next;
+}
 .nav-arrow{
-  width:38px;height:38px;padding:0;border-radius:50%;
-  background:#fffef8;border:1px solid var(--line);
-  font-size:24px;color:var(--text);
-  display:grid;place-items:center;line-height:1;
+  width:38px;
+  height:38px;
+  padding:0;
+  border-radius:50%;
+  font-size:24px;
+  display:grid;
+  place-items:center;
+  line-height:1;
 }
-.nav-arrow span{display:block;line-height:1;transform:translateY(-1px)}
+.nav-arrow span{
+  display:block;
+  line-height:1;
+  transform:translateY(-1px);
+}
 .date-center{
-  display:flex;align-items:center;justify-content:center;gap:8px;
-  position:relative;grid-area:center;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  grid-area:center;
 }
-.date-center strong{font-size:14px}
+.date-center strong{
+  font-size:14px;
+}
 .calendar-button{
-  cursor:pointer;width:36px;height:36px;padding:0;
-  display:grid;place-items:center;border-radius:12px;
-  background:var(--lemon-soft);font-size:17px;line-height:1;color:#6f684d;
+  cursor:pointer;
+  width:36px;
+  height:36px;
+  padding:0;
+  display:grid;
+  place-items:center;
+  border-radius:12px;
+  font-size:17px;
+  line-height:1;
 }
-.calendar-button span{display:block;line-height:1;transform:translate(-1px,0)}
 .week-view-button{
-  height:36px;padding:0 14px;border-radius:12px;
-  background:#fffef8;color:#615c45;border:1px solid var(--line);
-  font-size:12px;font-weight:900;white-space:nowrap;
+  height:36px;
+  padding:0 14px;
+  border-radius:12px;
+  font-size:12px;
+  font-weight:900;
+  white-space:nowrap;
 }
-.week-view-button.active{
-  background:var(--lemon);border-color:var(--lemon-deep);
-}
+
 
 .mobile-date-bar{
   display:grid;
@@ -151,42 +214,62 @@ button{border:0;cursor:pointer;font:inherit}
   justify-content:center;
 }
 .mobile-day{
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  gap:3px;min-height:58px;padding:8px 5px;
-  border-radius:14px;
-  background:#fffef9;
-  border:1px solid var(--line-soft);
-  font-size:11px;font-weight:850;color:var(--muted);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:3px;
+  min-height:58px;
+  padding:8px 5px;
+  font-size:11px;
+  font-weight:850;
   position:relative;
   transition:background-color .18s ease,border-color .18s ease,box-shadow .18s ease;
 }
-.mobile-day .num{font-size:16px;color:var(--text)}
-.mobile-day.active{
-  background:var(--lemon-soft);
-  border-color:#d8cd96;
-  box-shadow:inset 0 0 0 1px rgba(210,197,135,.16);
+.mobile-day .num{
+  font-size:16px;
+  color:var(--text);
 }
+
 .mobile-day.today:after{
   content:"";
-  width:6px;height:6px;border-radius:50%;
-  background:var(--text);
-  position:absolute;bottom:4px;left:50%;
+  width:6px;
+  height:6px;
+  border-radius:50%;
+  position:absolute;
+  bottom:4px;
+  left:50%;
   transform:translateX(-50%);
 }
 
-.week-grid{display:block;overflow:visible;padding:4px 1px 13px}
+.week-grid{
+  display:block;
+  overflow:visible;
+  padding:4px 1px 13px;
+}
 .day-card{
-  width:100%;min-width:0;
-  background:var(--card);
+  width:100%;
+  min-width:0;
   border:1px solid var(--line);
   border-radius:23px;
   overflow:hidden;
   box-shadow:var(--shadow);
   transition:transform .2s ease,box-shadow .2s ease;
 }
-.day-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-hover)}
-.day-card.single-date-card{overflow:visible;background:transparent;border:0;box-shadow:none}
-.day-card.single-date-card:hover{transform:none;box-shadow:none}
+.day-card:hover{
+  transform:translateY(-4px);
+  box-shadow:var(--shadow-hover);
+}
+.day-card.single-date-card{
+  overflow:visible;
+  background:transparent;
+  border:0;
+  box-shadow:none;
+}
+.day-card.single-date-card:hover{
+  transform:none;
+  box-shadow:none;
+}
 .day-card.single-date-card .day-head{
   border:1px solid var(--line);
   border-radius:20px;
@@ -194,63 +277,72 @@ button{border:0;cursor:pointer;font:inherit}
   box-shadow:var(--shadow);
 }
 .day-card.single-date-card .floor-section{
-  border:1px solid var(--line);
-  border-radius:22px;
-  background:var(--card);
-  box-shadow:var(--shadow);
   padding:18px;
 }
-.day-card.single-date-card .floor-section:first-of-type{border-top:1px solid var(--line)}
+.day-card.single-date-card .floor-section:first-of-type{
+  border-top:1px solid var(--line);
+}
 .empty-menu-panel{
   min-height:220px;
-  display:flex;align-items:center;justify-content:center;
+  display:flex;
+  align-items:center;
+  justify-content:center;
   padding:32px 20px;
-  border:1px solid var(--line);
   border-radius:22px;
-  background:var(--card);
-  box-shadow:var(--shadow);
   color:var(--muted);
-  font-size:16px;font-weight:850;
+  font-size:16px;
+  font-weight:850;
   text-align:center;
 }
 .day-card:not(.single-date-card) .empty-menu-panel{
-  min-height:180px;border:0;border-radius:0;box-shadow:none;
+  min-height:180px;
+  border:0;
+  border-radius:0;
+  box-shadow:none;
 }
 
 .day-head{
-  display:flex;align-items:center;justify-content:space-between;gap:16px;
+  display:flex;
+  align-items:center;
   padding:18px;
-  background:linear-gradient(135deg,#faf5dc,#eee4b3 75%);
-  color:#5b5336;
   position:relative;
 }
-.day-head-copy{min-width:0}
-.day-head .date{display:block;font-size:23px;font-weight:950;letter-spacing:-.04em}
-.day-head .weekday{display:block;margin-top:4px;font-size:12px;color:#82795b;font-weight:850}
+.day-head .date{
+  display:block;
+  font-weight:950;
+  letter-spacing:-.04em;
+}
+.day-head .weekday{
+  display:block;
+  margin-top:4px;
+  font-size:12px;
+  font-weight:850;
+}
 .floor-buttons{
-  display:flex;flex-direction:row;justify-content:flex-end;align-items:center;
-  gap:7px;width:auto;height:auto;flex:0 0 auto;
+  display:flex;
+  flex-direction:row;
+  justify-content:flex-end;
+  align-items:center;
+  gap:7px;
+  width:auto;
+  height:auto;
+  flex:0 0 auto;
   margin-left:auto;
 }
 .floor-btn{
-  width:64px;min-width:64px;height:34px;padding:0 10px;
-  display:flex;align-items:center;justify-content:center;
+  width:64px;
+  min-width:64px;
+  height:34px;
+  padding:0 10px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
   border-radius:999px;
-  background:#fffef8;
-  color:#615c45;
-  border:1px solid #ddd4b4;
-  font-size:12px;font-weight:850;
+  font-size:12px;
+  font-weight:850;
   transition:.18s;
 }
-.floor-btn:hover{transform:translateY(-1px);border-color:#cfc59c}
-.floor-btn.active[data-floor="all"],
-.floor-btn.active[data-floor="20"],
-.floor-btn.active[data-floor="10"]{
-  background:#8f8762;
-  color:#fff;
-  border-color:#8f8762;
-  box-shadow:0 4px 10px rgba(111,105,82,.16);
-}
+
 
 .day-layout{
   display:grid;
@@ -262,100 +354,158 @@ button{border:0;cursor:pointer;font:inherit}
   grid-template-columns:minmax(0,min(760px,100%));
   justify-content:center;
 }
-.floor-section{padding:15px;border-top:1px dashed #e6dec1}
-.floor-section:first-of-type{border-top:0}
-.floor-title{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:11px}
-.floor-title h2{display:flex;align-items:center;gap:8px;margin:0;font-size:16px}
-.floor-title h2:before{content:"🍽️";font-size:14px}
-.floor-badge{padding:5px 9px;border-radius:999px;font-size:10px;font-weight:950}
-.floor-20 .floor-badge{background:var(--floor20-soft);color:#7d7143}
-.floor-10 .floor-badge{background:var(--floor10-soft);color:#7b8898}
+.floor-section{
+  padding:15px;
+  border-top:1px dashed #e6dec1;
+}
+.floor-section:first-of-type{
+  border-top:0;
+}
+.floor-title{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  margin-bottom:11px;
+}
+.floor-title h2{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  margin:0;
+  font-size:16px;
+}
+.floor-title h2:before{
+  content:"🍽️";
+  font-size:14px;
+}
+.floor-badge{
+  padding:5px 9px;
+  border-radius:999px;
+  font-size:10px;
+  font-weight:950;
+}
 
-.menu-list{display:grid;gap:9px}
-.menu-box{border:1px solid #ece5ce;border-radius:15px;padding:12px;background:#fffef9}
-.menu-box.main20{border-left:5px solid var(--floor20)}
-.menu-box.main10{border-left:5px solid var(--floor10)}
+
+.menu-list{
+  display:grid;
+  gap:9px;
+}
+.menu-box{
+  border:1px solid #ece5ce;
+  padding:12px;
+}
+.menu-box.main20{
+  border-left:5px solid var(--floor20);
+}
+.menu-box.main10{
+  border-left:5px solid var(--floor10);
+}
 .menu-name{
-  display:flex;justify-content:space-between;align-items:center;gap:8px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:8px;
   margin:0 0 10px;
-  font-size:14px;font-weight:950;letter-spacing:-.02em;
+  font-size:14px;
+  font-weight:950;
+  letter-spacing:-.02em;
 }
 .type{
   flex:0 0 auto;
-  font-size:9px;padding:4px 7px;border-radius:999px;
-  background:#f4efdf;color:#6d6554;
-  border:1px solid rgba(113,104,80,.08);
+  font-size:9px;
+  padding:4px 7px;
+  border-radius:999px;
 }
-.type[data-type^="A"]{background:var(--badge-a);color:#756b42}
-.type[data-type^="B"]{background:var(--badge-b);color:#7c6853}
-.type[data-type*="도시락"]{background:var(--badge-lunch);color:#66705a}
-.type[data-type*="브런치"]{background:var(--badge-brunch);color:#66727a}
-.type[data-type*="샐러드"]{background:var(--badge-salad);color:#60715f}
+
+
 .items{
-  margin:0;padding:0;list-style:none;
-  color:#5c5546;font-size:12.5px;line-height:1.65;
+  margin:0;
+  padding:0;
+  list-style:none;
+  font-size:12.5px;
+  line-height:1.65;
   word-break:keep-all;
 }
-.items li::before{content:"•";margin-right:6px;color:#9aa5b4;font-weight:950}
+.items li::before{
+  content:"•";
+  margin-right:6px;
+  font-weight:950;
+}
 
 .calendar-panel{
-  position:absolute;top:44px;left:50%;transform:translateX(-50%);
-  z-index:60;width:300px;padding:14px;
-  border:1px solid var(--line);border-radius:16px;
-  background:#fffef9;box-shadow:var(--shadow-hover);
+  width:300px;
+  padding:14px;
+  border-radius:16px;
 }
 .calendar-head{
-  display:flex;align-items:center;justify-content:space-between;
-  margin-bottom:10px;font-size:13px;font-weight:900;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:10px;
+  font-size:13px;
+  font-weight:900;
 }
-.calendar-head button{color:#6f684d;-webkit-appearance:none;appearance:none}
-.calendar-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}
-.calendar-weekday{text-align:center;font-size:10px;color:var(--muted);padding:3px}
+.calendar-head button{
+  -webkit-appearance:none;
+  appearance:none;
+}
+.calendar-grid{
+  display:grid;
+  grid-template-columns:repeat(7,1fr);
+  gap:5px;
+}
+.calendar-weekday{
+  text-align:center;
+  font-size:10px;
+  color:var(--muted);
+  padding:3px;
+}
 .calendar-day{
-  height:34px;border-radius:9px;
-  background:#fffef8;border:1px solid var(--line);
-  color:#6f684d;
-  -webkit-appearance:none;appearance:none;
-  font-size:11px;font-weight:800;
+  height:34px;
+  border-radius:9px;
+  -webkit-appearance:none;
+  appearance:none;
+  font-size:11px;
+  font-weight:800;
   position:relative;
 }
 .calendar-day.today:after{
-  content:"";position:absolute;left:50%;bottom:2px;transform:translateX(-50%);
-  width:5px;height:5px;border-radius:50%;background:#383529;
+  content:"";
+  position:absolute;
+  left:50%;
+  bottom:2px;
+  transform:translateX(-50%);
+  width:5px;
+  height:5px;
+  border-radius:50%;
 }
-.calendar-day.pending{
-  background:var(--lemon);color:#5f5634;border-color:var(--lemon-deep);
-  box-shadow:0 4px 10px rgba(177,168,126,.16);
+
+.calendar-empty{
+  height:34px;
 }
-.calendar-empty{height:34px}
-.calendar-footer{
-  display:flex;align-items:center;justify-content:space-between;gap:10px;
-  margin-top:10px;padding-top:10px;border-top:1px solid var(--line);
-}
-.calendar-action{
-  min-width:72px;height:34px;padding:0 14px;border-radius:999px;
-  border:1px solid var(--line);
-  font-size:12px;font-weight:900;transition:.18s;
-}
-.calendar-today{background:#fffef8;color:#615c45;border-color:#ddd4b4}
-.calendar-confirm{
-  background:#8f8762;color:#fff;border-color:#8f8762;
-  box-shadow:0 4px 10px rgba(111,105,82,.16);
-}
-.calendar-action:hover:not(:disabled){transform:translateY(-1px)}
-.calendar-action:disabled{opacity:.38;cursor:not-allowed}
+
 
 .notice{
-  margin-top:20px;padding:15px 17px;border-radius:17px;
-  background:rgba(250,246,223,.52);
-  border:1px solid #e7dfbf;
-  color:#756d58;font-size:12.5px;line-height:1.65;
-  box-shadow:none;
+  margin-top:20px;
+  padding:15px 17px;
+  border-radius:17px;
+  font-size:12.5px;
+  line-height:1.65;
 }
-.hidden{display:none!important}
-.footer{margin-top:22px;text-align:center;color:#989178;font-size:11px;line-height:1.7}
-.footer b{color:#746b44}
-.footer p{margin:3px 0}
+.hidden{
+  display:none !important;
+}
+.footer{
+  margin-top:22px;
+  text-align:center;
+  font-size:11px;
+  line-height:1.7;
+}
+
+.footer p{
+  margin:3px 0;
+}
 
 @media(min-width:1101px){
   .hero{grid-template-columns:minmax(0,2.1fr) minmax(290px,1fr)}
@@ -383,13 +533,35 @@ button{border:0;cursor:pointer;font:inherit}
     padding-left:0;
     padding-right:0;
   }
+
+  /* 주간 보기: 헤더 / 20층 / 10층을 공통 행으로 맞춰
+     요일마다 20층 메뉴 높이가 달라도 10층 시작선이 동일하게 보이도록 한다. */
   .week-grid.week-view{
     display:grid;
     grid-template-columns:repeat(5,minmax(240px,1fr));
-    gap:16px;align-items:start;overflow-x:auto;
+    grid-template-rows:auto auto auto;
+    gap:16px;
+    align-items:stretch;
+    overflow-x:auto;
   }
-  .week-grid.week-view .day-layout{display:block}
-  .week-grid.week-view .day-card{min-width:240px}
+  .week-grid.week-view .day-card{
+    min-width:240px;
+    grid-row:span 3;
+    display:grid;
+    grid-template-rows:subgrid;
+  }
+  .week-grid.week-view .day-layout{display:contents}
+  .week-grid.week-view .empty-menu-panel{grid-row:span 2}
+  .week-grid.week-view .day-card:hover{transform:none;box-shadow:var(--shadow-hover)}
+}
+
+/* subgrid 미지원 브라우저에서는 기존 주간 카드 흐름을 유지한다. */
+@supports not (grid-template-rows:subgrid){
+  @media(min-width:901px){
+    .week-grid.week-view{grid-template-rows:none}
+    .week-grid.week-view .day-card{grid-row:auto;display:block}
+    .week-grid.week-view .day-layout{display:block}
+  }
 }
 
 @media(max-width:1100px){
@@ -465,7 +637,6 @@ button{border:0;cursor:pointer;font:inherit}
   .day-card{border-radius:21px}
   .date-navigator{padding:9px 10px 10px}
   .nav-arrow{width:34px;height:34px}
-  .calendar-button{padding:7px 9px}
   .day-card.single-date-card .day-head{margin-bottom:10px}
   .calendar-panel{width:min(290px,calc(100vw - 54px))}
   .day-head{gap:10px}
@@ -475,6 +646,545 @@ button{border:0;cursor:pointer;font:inherit}
 @media(max-width:420px){
   .wrap{width:calc(100% - 34px)}
 }
+
+/* ===== Olive & Plum Watercolor Pastel Tuning =====
+   Keeps the editorial structure, lifts overall brightness,
+   restores a soft olive-plum watercolor background,
+   and slightly increases plum saturation.
+*/
+:root{
+  --text:#3A342F;
+  --muted:#7A7269;
+  --floor20:#78405E;
+  --floor10:#989F6C;
+  --line:#E1DBCF;
+  --shadow:0 12px 30px rgba(72,58,64,.08);
+  --shadow-hover:0 18px 38px rgba(72,58,64,.13);
+  --glass-bg-strong:rgba(255,255,255,.68);
+  --glass-border:rgba(255,255,255,.62);
+  --glass-shadow:0 14px 40px rgba(66,48,59,.12);
+  --glass-shadow-soft:0 8px 24px rgba(66,48,59,.09);
+  --glass-highlight:inset 0 1px 0 rgba(255,255,255,.72), inset 0 -1px 0 rgba(255,255,255,.18);
+}
+
+
+.brand{
+  color:#583746;
+}
+.mini-nav{
+  color:#82776F;
+}
+
+.hero h1 strong{
+  color:#78405E;
+}
+.subtitle{
+  color:#756D64;
+}
+
+.today-badge{
+  color:#697046;
+}
+
+.nav-arrow,
+.week-view-button,
+.mobile-day,
+.calendar-day{
+  color:#453E38;
+}
+
+.calendar-button{
+  color:#6D744B;
+}
+
+
+.mobile-day.today:after,
+.calendar-day.today:after{
+  background:#78405E;
+}
+
+.day-head{
+  color:#44432F;
+}
+
+.day-head .weekday{
+  color:#767657;
+}
+
+.floor-btn{
+  color:#645D55;
+}
+
+.floor-btn:hover{
+  border-color:#AAA77F;
+}
+
+
+.floor-section{
+  border-top-color:#E4DED2;
+}
+
+.floor-20 .floor-badge{
+  color:#78405E;
+}
+
+.floor-10 .floor-badge{
+  color:#6D7349;
+}
+
+
+.type{
+  background:#F2EEE6;
+  color:#6D655C;
+}
+
+.type[data-type^="A"]{
+  color:#6B6F48;
+}
+.type[data-type^="B"]{
+  color:#78405E;
+}
+.type[data-type*="도시락"]{
+  color:#68714F;
+}
+.type[data-type*="브런치"]{
+  color:#74665F;
+}
+.type[data-type*="샐러드"]{
+  color:#63704F;
+}
+
+.items{
+  color:#625A53;
+}
+.items li::before{
+  color:#989F6C;
+}
+
+.calendar-head button{
+  color:#78405E;
+}
+
+
+.notice{
+  color:#706D52;
+}
+
+.footer{
+  color:#81776F;
+}
+.footer b{
+  color:#78405E;
+}
+
+
+/* ===== Olive Liquid Glass Theme =====
+   Inspired by Apple's Liquid Glass principles:
+   translucent floating controls, depth, restrained glass use,
+   high legibility, and content remaining visually primary.
+*/
+
+
+body{
+  background:radial-gradient(circle at 12% 8%, rgba(190,198,154,.50), transparent 28rem),
+    radial-gradient(circle at 86% 16%, rgba(216,220,187,.27), transparent 30rem),
+    radial-gradient(circle at 72% 82%, rgba(226,228,207,.23), transparent 27rem),
+    radial-gradient(circle at 18% 88%, rgba(213,217,183,.24), transparent 30rem),
+    linear-gradient(180deg,#F7F5EF 0%,#F2F1EB 54%,#F6F5F0 100%);
+  background-attachment:fixed;
+}
+
+/* Floating navigation / functional layer */
+.topbar,
+.date-navigator,
+.calendar-panel{
+  background:var(--glass-bg-strong);
+  border:1px solid var(--glass-border);
+  backdrop-filter:blur(24px) saturate(145%);
+  -webkit-backdrop-filter:blur(24px) saturate(145%);
+}
+
+.topbar,
+.calendar-panel{
+  box-shadow:var(--glass-shadow),var(--glass-highlight);
+}
+
+.topbar{
+  border-radius:24px;
+}
+
+.date-navigator{
+  border-radius:22px;
+  box-shadow:0 8px 24px rgba(66,48,59,.08),var(--glass-highlight);
+}
+
+/* Hero surfaces: glassy, but slightly denser than controls for readability */
+.hero-copy,
+.today-card{
+  background:rgba(255,255,255,.62);
+  border:1px solid rgba(255,255,255,.62);
+  backdrop-filter:blur(22px) saturate(135%);
+  -webkit-backdrop-filter:blur(22px) saturate(135%);
+  box-shadow:var(--glass-shadow),var(--glass-highlight);
+  position:relative;
+  overflow:hidden;
+}
+
+.topbar{
+  position:sticky;
+  overflow:hidden;
+}
+
+.date-navigator{
+  overflow:visible;
+}
+
+.hero-copy::before,
+.today-card::before,
+.topbar::before,
+.date-navigator::before,
+.calendar-panel::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background:linear-gradient(135deg,rgba(255,255,255,.34),rgba(255,255,255,0) 38%),
+    radial-gradient(circle at 78% 12%,rgba(255,255,255,.26),transparent 28%);
+  opacity:.75;
+}
+
+.hero-copy > *,
+.today-card > *,
+.topbar > *,
+.date-navigator > *,
+.calendar-panel > *{
+  position:relative;
+  z-index:1;
+}
+
+/* Content layer stays lighter and less glass-heavy */
+.day-card.single-date-card .floor-section,
+.day-card:not(.single-date-card),
+.empty-menu-panel{
+  background:rgba(255,253,248,.90);
+  border:1px solid rgba(255,255,255,.72);
+  box-shadow:var(--glass-shadow-soft),var(--glass-highlight);
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+}
+
+.menu-box{
+  background:rgba(255,255,255,.84);
+  border-color:rgba(124,111,100,.12);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.76);
+}
+
+/* Liquid-style controls */
+.nav-arrow,
+.calendar-button,
+.week-view-button,
+.mobile-day,
+.floor-btn,
+.calendar-day{
+  background:rgba(255,255,255,.62);
+  border:1px solid rgba(255,255,255,.70);
+  backdrop-filter:blur(16px) saturate(140%);
+  -webkit-backdrop-filter:blur(16px) saturate(140%);
+  box-shadow:0 6px 18px rgba(66,48,59,.08),
+    inset 0 1px 0 rgba(255,255,255,.82),
+    inset 0 -1px 0 rgba(255,255,255,.20);
+}
+
+.nav-arrow:hover,
+.calendar-button:hover,
+.week-view-button:hover,
+.mobile-day:hover,
+.floor-btn:hover,
+.calendar-day:hover{
+  transform:translateY(-1px);
+  background:rgba(255,255,255,.74);
+}
+
+/* Olive selected state */
+.mobile-day.active{
+  background:rgba(225,231,197,.68);
+  border-color:rgba(167,177,119,.55);
+  box-shadow:0 8px 20px rgba(104,111,70,.10),
+    inset 0 1px 0 rgba(255,255,255,.76);
+}
+
+/* Plum selected/action state */
+.week-view-button.active,
+.floor-btn.active[data-floor="all"],
+.floor-btn.active[data-floor="20"],
+.floor-btn.active[data-floor="10"]{
+  background:rgba(120,64,94,.84);
+  color:#fff;
+  border-color:rgba(255,255,255,.28);
+  box-shadow:0 8px 24px rgba(120,64,94,.20),
+    inset 0 1px 0 rgba(255,255,255,.28);
+}
+
+/* Softer floating day header */
+.day-head{
+  background:rgba(226,230,199,.78);
+  border:1px solid rgba(255,255,255,.58);
+  backdrop-filter:blur(14px) saturate(130%);
+  -webkit-backdrop-filter:blur(14px) saturate(130%);
+  box-shadow:0 8px 22px rgba(96,97,67,.08),
+    inset 0 1px 0 rgba(255,255,255,.62);
+}
+
+/* Badges as translucent capsules */
+.today-badge,
+.floor-badge,
+.type{
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+  border:1px solid rgba(255,255,255,.50);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.46);
+}
+
+.today-badge{
+  background:rgba(237,240,213,.72);
+}
+
+.floor-20 .floor-badge{
+  background:rgba(241,219,231,.74);
+}
+.floor-10 .floor-badge{
+  background:rgba(231,235,205,.74);
+}
+
+.type[data-type^="A"]{
+  background:rgba(238,239,213,.78);
+}
+.type[data-type^="B"]{
+  background:rgba(243,224,234,.78);
+}
+.type[data-type*="도시락"]{
+  background:rgba(234,238,218,.78);
+}
+.type[data-type*="브런치"]{
+  background:rgba(241,233,226,.78);
+}
+.type[data-type*="샐러드"]{
+  background:rgba(232,238,219,.78);
+}
+
+.notice{
+  background:rgba(239,241,216,.68);
+  border:1px solid rgba(255,255,255,.52);
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+  box-shadow:var(--glass-shadow-soft),var(--glass-highlight);
+}
+
+/* Slightly more fluid radii */
+.hero-copy,.today-card{
+  border-radius:30px;
+}
+.day-card.single-date-card .floor-section{
+  border-radius:24px;
+}
+.menu-box{
+  border-radius:17px;
+}
+.mobile-day{
+  border-radius:16px;
+}
+
+
+/* Layer order: sticky topbar > date/calendar controls > menu cards */
+.date-controls{
+  position:relative;
+  z-index:20;
+}
+
+.date-navigator{
+  position:relative;
+  z-index:auto;
+}
+
+.date-center{
+  position:relative;
+  z-index:10;
+}
+
+.calendar-panel{
+  position:absolute;
+  top:44px;
+  left:50%;
+  transform:translateX(-50%);
+  z-index:120;
+  overflow:hidden;
+}
+
+
+/* Respect reduced-transparency preferences where available */
+@media (prefers-reduced-transparency: reduce){
+  .topbar,
+  .date-navigator,
+  .calendar-panel,
+  .hero-copy,
+  .today-card,
+  .day-card.single-date-card .floor-section,
+  .day-card:not(.single-date-card),
+  .empty-menu-panel{
+    backdrop-filter:none;
+    -webkit-backdrop-filter:none;
+    background:#FBF8F1;
+  }
+}
+
+
+/* ===== Date Header Refresh ===== */
+.day-head{
+  justify-content:flex-start;
+  gap:14px;
+}
+.date-chip{
+  flex:0 0 auto;
+  width:52px;
+  height:52px;
+  border-radius:14px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:1px;
+  background:rgba(237,240,213,.72);
+  color:#44432F;
+  border:1px solid rgba(255,255,255,.50);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.46);
+  line-height:1;
+}
+.date-chip .chip-num{
+  font-size:20px;
+  font-weight:950;
+  letter-spacing:-.02em;
+}
+.date-chip .chip-mon{
+  font-size:9px;
+  font-weight:900;
+  opacity:.8;
+}
+.date-chip.is-today{
+  background:rgba(120,64,94,.84);
+  color:#fff;
+}
+.day-head-copy{
+  min-width:0;
+  flex:1;
+}
+.day-head .date{
+  font-size:19px;
+  letter-spacing:-.03em;
+}
+.day-head .weekday{
+  margin-top:3px;
+}
+.day-head .floor-buttons{
+  margin-left:auto;
+}
+
+/* 주간 카드에서는 날짜 정보를 조금 더 압축해 5열 가독성을 유지한다. */
+.day-card:not(.single-date-card) .day-head{
+  padding:12px 14px;
+  gap:10px;
+}
+.day-card:not(.single-date-card) .date-chip{
+  width:40px;
+  height:40px;
+  border-radius:11px;
+}
+.day-card:not(.single-date-card) .date-chip .chip-num{
+  font-size:15px;
+}
+.day-card:not(.single-date-card) .date-chip .chip-mon{
+  font-size:7.5px;
+}
+.day-card:not(.single-date-card) .day-head .date{
+  font-size:15px;
+}
+.day-card:not(.single-date-card) .day-head .weekday{
+  font-size:10.5px;
+}
+
+
+/* 한글 문구는 단어 중간에서 끊기지 않도록 유지 */
+.hero h1,
+.subtitle,
+.today-card h2{
+  word-break:keep-all;
+}
+
+
+/* 일일 메뉴: 날짜 칩 없이 날짜 정보와 층 필터를 같은 행에 유지 */
+.day-card.single-date-card .day-head-copy{
+  flex:1 1 auto;
+}
+.day-card.single-date-card .day-head .date{
+  white-space:nowrap;
+}
+.day-card.single-date-card .floor-buttons{
+  flex:0 0 auto;
+  margin-left:auto;
+}
+
+
+.calendar-day.selected{
+  background:rgba(120,64,94,.84);
+  color:#fff;
+  border-color:rgba(255,255,255,.28);
+  box-shadow:0 8px 20px rgba(120,64,94,.16),
+    inset 0 1px 0 rgba(255,255,255,.28);
+}
+
+
+.calendar-month-center{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:7px;
+}
+.calendar-today-icon{
+  width:30px;
+  height:30px;
+  padding:0;
+  display:grid;
+  place-items:center;
+  border-radius:10px;
+  background:rgba(255,255,255,.52);
+  color:#78405E;
+  border:1px solid rgba(255,255,255,.66);
+  backdrop-filter:blur(12px) saturate(135%);
+  -webkit-backdrop-filter:blur(12px) saturate(135%);
+  box-shadow:0 4px 12px rgba(66,48,59,.07),
+    inset 0 1px 0 rgba(255,255,255,.76);
+  font-size:16px;
+  line-height:1;
+  transition:background-color .18s ease,transform .18s ease,box-shadow .18s ease;
+}
+.calendar-today-icon:hover{
+  transform:translateY(-1px);
+  background:rgba(120,64,94,.12);
+  box-shadow:0 6px 16px rgba(66,48,59,.09),
+    inset 0 1px 0 rgba(255,255,255,.80);
+}
+
+
+/* 주간 보기에서 오늘 카드 강조 */
+.week-grid.week-view .today-week-card .day-head{
+  background:rgba(243,224,234,.90);
+  border-color:rgba(255,255,255,.58);
+  box-shadow:0 10px 26px rgba(120,64,94,.12),
+    inset 0 1px 0 rgba(255,255,255,.72);
+}
+.week-grid.week-view .today-week-card{
+  box-shadow:0 14px 34px rgba(120,64,94,.11),var(--glass-highlight);
+}
+
 </style>
 </head>
 <body>
@@ -497,7 +1207,7 @@ button{border:0;cursor:pointer;font:inherit}
     <aside class="today-card" aria-label="오늘의 한마디">
       <div class="today-content">
         <span class="today-badge">SSAFY 파이팅</span>
-        <h2>오늘도 맛있는 점심과 함께<br>행복한 SSAFY 생활 되세요!</h2>
+        <h2>오늘도 맛있는 점심과 함께 행복한 SSAFY 생활 되세요!</h2>
       </div>
       <img src="./character.png" class="today-character" alt="" aria-hidden="true">
     </aside>
@@ -508,7 +1218,7 @@ button{border:0;cursor:pointer;font:inherit}
       <button class="nav-arrow" id="prevWeek" aria-label="이전 주"><span aria-hidden="true">‹</span></button>
       <div class="date-center">
         <strong id="weekRange">날짜 불러오는 중...</strong>
-        <button class="calendar-button" id="calendarButton" type="button" aria-label="캘린더 열기" title="날짜 선택"><span aria-hidden="true">📅</span></button>
+        <button class="calendar-button" id="calendarButton" type="button" aria-label="캘린더 열기" title="날짜 선택"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="5" width="18" height="16" rx="3"></rect><path d="M16 3v4M8 3v4M3 10h18"></path></svg></button>
         <button class="week-view-button" id="weekViewButton" type="button">주간 메뉴</button>
         <div id="calendarPanel" class="calendar-panel hidden" aria-label="날짜 선택 캘린더"></div>
       </div>
@@ -535,7 +1245,6 @@ const prefersReducedMotion=window.matchMedia('(prefers-reduced-motion: reduce)')
 const dayCache=new Map();
 
 let calendarMonth;
-let pendingCalendarDate=null;
 let availableDates=[];
 let currentMonday;
 let selectedDate;
@@ -547,6 +1256,8 @@ let swipeStartX=0;
 let swipeStartY=0;
 
 const weekdays=['일요일','월요일','화요일','수요일','목요일','금요일','토요일'];
+const shortWeekdays=['일','월','화','수','목','금','토'];
+const englishWeekdays=['SUN','MON','TUE','WED','THU','FRI','SAT'];
 const pad=n=>String(n).padStart(2,'0');
 const key=d=>`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
 const parseKey=k=>{
@@ -608,14 +1319,25 @@ function box(menu,floor){
   return `<div class="menu-box main${floor}"><p class="menu-name">${escapeHTML(name)}<span class="type" data-type="${safeType}">${safeType}</span></p><ul class="items">${items.map(item=>`<li>${escapeHTML(item)}</li>`).join('')}</ul></div>`;
 }
 
+function dayHeadHTML(dateKey,dateLabel,weekdayLabel,isToday,extra='',showChip=true){
+  let chip='';
+  if(showChip){
+    const d=parseKey(dateKey);
+    chip=`<div class="date-chip ${isToday?'is-today':''}"><span class="chip-num">${d.getDate()}</span><span class="chip-mon">${d.getMonth()+1}월</span></div>`;
+  }
+  return `<div class="day-head">${chip}<div class="day-head-copy"><span class="date">${escapeHTML(dateLabel)}</span><span class="weekday">${escapeHTML(weekdayLabel)}</span></div>${extra}</div>`;
+}
+
 function card(d,single=true){
   const floor20=floorMenus(d,'20');
   const floor10=floorMenus(d,'10');
   const floorButtons=single
     ? `<div class="floor-buttons" aria-label="층 필터"><button class="floor-btn ${currentFloor==='all'?'active':''}" data-floor="all">전체</button><button class="floor-btn ${currentFloor==='20'?'active':''}" data-floor="20">20층</button><button class="floor-btn ${currentFloor==='10'?'active':''}" data-floor="10">10층</button></div>`
     : '';
+  const isToday=d?.date===key(new Date());
 
-  return `<article class="day-card ${single?'single-date-card':''}" data-date="${escapeHTML(d?.date)}"><div class="day-head"><div class="day-head-copy"><span class="date">${escapeHTML(d?.dateLabel)}</span><span class="weekday">${escapeHTML(d?.weekdayLabel)}</span></div>${floorButtons}</div><div class="day-layout"><section class="floor-section floor-20" data-floor="20"><div class="floor-title"><h2>20층</h2><span class="floor-badge">${floor20.length===1?'통합 메뉴':floor20.length+'가지 메뉴'}</span></div><div class="menu-list">${floor20.map(menu=>box(menu,20)).join('')}</div></section><section class="floor-section floor-10" data-floor="10"><div class="floor-title"><h2>10층</h2><span class="floor-badge">${floor10.length}가지 메뉴</span></div><div class="menu-list">${floor10.map(menu=>box(menu,10)).join('')}</div></section></div></article>`;
+  const cardClass=`day-card${single?' single-date-card':''}${!single&&isToday?' today-week-card':''}`;
+  return `<article class="${cardClass}" data-date="${escapeHTML(d?.date)}">${dayHeadHTML(d?.date,d?.dateLabel,d?.weekdayLabel,isToday,floorButtons,!single)}<div class="day-layout"><section class="floor-section floor-20" data-floor="20"><div class="floor-title"><h2>20층</h2><span class="floor-badge">${floor20.length===1?'통합 메뉴':floor20.length+'가지 메뉴'}</span></div><div class="menu-list">${floor20.map(menu=>box(menu,20)).join('')}</div></section><section class="floor-section floor-10" data-floor="10"><div class="floor-title"><h2>10층</h2><span class="floor-badge">${floor10.length}가지 메뉴</span></div><div class="menu-list">${floor10.map(menu=>box(menu,10)).join('')}</div></section></div></article>`;
 }
 
 function applyFloor(root=document){
@@ -629,7 +1351,6 @@ function applyFloor(root=document){
 
 function renderDateBar(){
   const today=key(new Date());
-  const shortNames=['일','월','화','수','목','금','토'];
   const startDate=mobileMedia.matches
     ? addDays(parseKey(selectedDate),-2)
     : currentMonday;
@@ -638,7 +1359,7 @@ function renderDateBar(){
     const d=addDays(startDate,i);
     const dateKey=key(d);
     const active=(mobileMedia.matches||!desktopWeekView)&&dateKey===selectedDate;
-    return `<button class="mobile-day ${active?'active':''} ${dateKey===today?'today':''}" data-date="${dateKey}"><span class="num">${d.getDate()}</span><span>${shortNames[d.getDay()]}</span></button>`;
+    return `<button class="mobile-day ${active?'active':''} ${dateKey===today?'today':''}" data-date="${dateKey}"><span class="num">${d.getDate()}</span><span>${shortWeekdays[d.getDay()]}</span></button>`;
   }).join('');
 
   mobileDateBar.querySelectorAll('.mobile-day').forEach(button=>{
@@ -661,9 +1382,11 @@ function updateSelectedDate(){
 function emptyDayCard(dateKey,single=true){
   const selected=parseKey(dateKey);
   const dateLabel=`${selected.getMonth()+1}월 ${selected.getDate()}일`;
-  const weekdayLabel=`${weekdays[selected.getDay()]} · ${['SUN','MON','TUE','WED','THU','FRI','SAT'][selected.getDay()]}`;
+  const weekdayLabel=`${weekdays[selected.getDay()]} · ${englishWeekdays[selected.getDay()]}`;
+  const isToday=dateKey===key(new Date());
 
-  return `<article class="day-card ${single?'single-date-card':''}" data-date="${dateKey}"><div class="day-head"><div class="day-head-copy"><span class="date">${dateLabel}</span><span class="weekday">${weekdayLabel}</span></div></div><div class="empty-menu-panel">등록된 식단 정보가 없습니다.</div></article>`;
+  const cardClass=`day-card${single?' single-date-card':''}${!single&&isToday?' today-week-card':''}`;
+  return `<article class="${cardClass}" data-date="${dateKey}">${dayHeadHTML(dateKey,dateLabel,weekdayLabel,isToday,'',!single)}<div class="empty-menu-panel">등록된 식단 정보가 없습니다.</div></article>`;
 }
 
 function showSingleDay(d){
@@ -766,7 +1489,10 @@ async function render(){
     );
     if(sequence!==renderSequence)return;
 
-    grid.innerHTML=days.map((d,i)=>d?card(d,false):emptyDayCard(key(addDays(monday,i)),false)).join('');
+    grid.innerHTML=days.map((d,i)=>{
+      const dateKey=key(addDays(monday,i));
+      return d?card(d,false):emptyDayCard(dateKey,false);
+    }).join('');
     grid.classList.add('week-view');
     applyFloor();
     return;
@@ -827,17 +1553,17 @@ function renderCalendar(){
   const heads=['일','월','화','수','목','금','토'];
   const todayKey=key(new Date());
 
-  let html=`<div class="calendar-head"><button type="button" id="calPrev" aria-label="이전 달">‹</button><span>${y}년 ${m+1}월</span><button type="button" id="calNext" aria-label="다음 달">›</button></div><div class="calendar-grid">${heads.map(x=>`<div class="calendar-weekday">${x}</div>`).join('')}`;
+  let html=`<div class="calendar-head"><button type="button" id="calPrev" aria-label="이전 달">‹</button><div class="calendar-month-center"><span>${y}년 ${m+1}월</span><button type="button" class="calendar-today-icon" id="calToday" aria-label="오늘로 이동" title="오늘">↺</button></div><button type="button" id="calNext" aria-label="다음 달">›</button></div><div class="calendar-grid">${heads.map(x=>`<div class="calendar-weekday">${x}</div>`).join('')}`;
 
   for(let i=0;i<first.getDay();i++)html+='<div class="calendar-empty"></div>';
 
   for(let day=1;day<=last.getDate();day++){
     const d=new Date(y,m,day,12);
     const dateKey=key(d);
-    html+=`<button type="button" class="calendar-day ${dateKey===pendingCalendarDate?'pending':''} ${dateKey===todayKey?'today':''}" data-date="${dateKey}">${day}</button>`;
+    html+=`<button type="button" class="calendar-day ${dateKey===selectedDate?'selected':''} ${dateKey===todayKey?'today':''}" data-date="${dateKey}">${day}</button>`;
   }
 
-  html+=`</div><div class="calendar-footer"><button type="button" class="calendar-action calendar-today" id="calToday">↺ 오늘</button><button type="button" class="calendar-action calendar-confirm" id="calConfirm" ${pendingCalendarDate?'':'disabled'}>확인</button></div>`;
+  html+=`</div>`;
   calendarPanel.innerHTML=html;
 
   document.getElementById('calPrev').onclick=event=>{
@@ -852,46 +1578,32 @@ function renderCalendar(){
   };
 
   calendarPanel.querySelectorAll('.calendar-day').forEach(button=>{
-    button.onclick=event=>{
+    button.onclick=async event=>{
       event.stopPropagation();
-      pendingCalendarDate=button.dataset.date;
+      selectedDate=button.dataset.date;
+      desktopWeekView=false;
+      currentMonday=mondayOf(parseKey(selectedDate));
+      await render();
       renderCalendar();
     };
   });
 
-  const todayBtn=document.getElementById('calToday');
-  if(todayBtn&&!todayBtn.disabled){
-    todayBtn.onclick=event=>{
-      event.stopPropagation();
-      pendingCalendarDate=todayKey;
-      selectedDate=todayKey;
-      desktopWeekView=false;
-      const todayDate=parseKey(todayKey);
-      calendarMonth=new Date(todayDate.getFullYear(),todayDate.getMonth(),1,12);
-      currentMonday=mondayOf(todayDate);
-      calendarPanel.classList.add('hidden');
-      render();
-    };
-  }
-
-  const confirmBtn=document.getElementById('calConfirm');
-  if(confirmBtn&&!confirmBtn.disabled){
-    confirmBtn.onclick=event=>{
-      event.stopPropagation();
-      selectedDate=pendingCalendarDate;
-      desktopWeekView=false;
-      currentMonday=mondayOf(parseKey(selectedDate));
-      calendarPanel.classList.add('hidden');
-      render();
-    };
-  }
+  document.getElementById('calToday').onclick=async event=>{
+    event.stopPropagation();
+    selectedDate=todayKey;
+    desktopWeekView=false;
+    const todayDate=parseKey(todayKey);
+    currentMonday=mondayOf(todayDate);
+    calendarMonth=new Date(todayDate.getFullYear(),todayDate.getMonth(),1,12);
+    await render();
+    renderCalendar();
+  };
 }
 
 calendarButton.addEventListener('click',event=>{
   event.stopPropagation();
   const opening=calendarPanel.classList.contains('hidden');
   if(opening){
-    pendingCalendarDate=selectedDate;
     const selected=parseKey(selectedDate);
     calendarMonth=new Date(selected.getFullYear(),selected.getMonth(),1,12);
     renderCalendar();
@@ -905,9 +1617,7 @@ document.addEventListener('click',event=>{
   if(!calendarPanel.contains(event.target)&&event.target!==calendarButton){
     calendarPanel.classList.add('hidden');
   }
-});
 
-document.addEventListener('click',event=>{
   const button=event.target.closest('.floor-btn');
   if(!button)return;
   document.querySelectorAll('.floor-btn').forEach(item=>item.classList.remove('active'));
@@ -916,8 +1626,8 @@ document.addEventListener('click',event=>{
   applyFloor();
 });
 
-mobileMedia.addEventListener('change',event=>{
-  desktopWeekView=!event.matches;
+mobileMedia.addEventListener('change',()=>{
+  if(mobileMedia.matches)desktopWeekView=false;
   currentMonday=mondayOf(parseKey(selectedDate));
   render();
 });
