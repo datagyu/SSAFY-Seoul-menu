@@ -141,7 +141,6 @@ button{
 
 
 .date-controls{
-  display:block;
   margin-bottom:16px;
 }
 .date-navigator{
@@ -243,7 +242,6 @@ button{
 }
 
 .week-grid{
-  display:block;
   overflow:visible;
   padding:4px 1px 13px;
 }
@@ -791,7 +789,6 @@ body{
     radial-gradient(circle at 72% 82%, rgba(226,228,207,.23), transparent 27rem),
     radial-gradient(circle at 18% 88%, rgba(213,217,183,.24), transparent 30rem),
     linear-gradient(180deg,#F7F5EF 0%,#F2F1EB 54%,#F6F5F0 100%);
-  background-attachment:scroll;
 }
 
 /* Floating navigation / functional layer */
@@ -1181,6 +1178,12 @@ body{
 }
 .week-grid.week-view .today-week-card{
   box-shadow:0 14px 34px rgba(120,64,94,.11),var(--glass-highlight);
+}
+
+/* 주간 카드: 외곽선은 카드가 담당하고 헤더는 하단 구분선만 사용 */
+.week-grid.week-view .day-head{
+  border:0;
+  border-bottom:1px solid rgba(255,255,255,.58);
 }
 
 </style>
