@@ -586,7 +586,7 @@ button{
 
 @media(max-width:900px){
   .wrap{width:min(calc(100% - 22px),760px);padding-top:10px}
-  .topbar{top:6px;padding:11px 13px;border-radius:17px}
+  .topbar{top:6px;padding:11px 13px}
   .brand{font-size:16px}
   .campus-label{display:none}
   .hero{margin-bottom:18px}
@@ -828,6 +828,7 @@ body{
   content:"";
   position:absolute;
   inset:0;
+  border-radius:inherit;
   pointer-events:none;
   background:linear-gradient(135deg,rgba(255,255,255,.34),rgba(255,255,255,0) 38%),
     radial-gradient(circle at 78% 12%,rgba(255,255,255,.26),transparent 28%);
