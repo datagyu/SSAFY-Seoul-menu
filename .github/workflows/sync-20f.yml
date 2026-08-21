@@ -1,0 +1,44 @@
+name: 20층 식단 동기화
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '15 22 * * 0-4'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sync-20f
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 저장소 체크아웃
+        uses: actions/checkout@v4
+        with:
+          ref: master
+
+      - name: Node.js 설정
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: 20층 식단 동기화
+        run: node scripts/sync-20f.mjs
+
+      - name: 변경사항 커밋
+        shell: bash
+        run: |
+          if git diff --quiet -- data; then
+            echo "변경사항이 없습니다."
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data
+          git commit -m "20층 식단 자동 동기화"
+          git push origin master
