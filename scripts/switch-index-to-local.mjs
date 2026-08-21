@@ -1,5 +1,6 @@
 import { readFile, writeFile } from 'node:fs/promises';
 
+// 현재 index.html의 외부 20층 로더만 정확히 제거하고 로컬 통합 JSON 로더로 교체한다.
 const filePath='index.html';
 let html=await readFile(filePath,'utf8');
 
