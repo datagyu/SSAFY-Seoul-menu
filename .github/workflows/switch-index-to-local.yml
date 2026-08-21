@@ -1,0 +1,52 @@
+name: index 로컬 데이터 전환
+
+on:
+  push:
+    paths:
+      - 'scripts/switch-index-to-local.mjs'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: switch-index-to-local
+  cancel-in-progress: false
+
+jobs:
+  migrate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 저장소 체크아웃
+        uses: actions/checkout@v4
+        with:
+          ref: master
+
+      - name: Node.js 설정
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: index 로컬 데이터 전환
+        run: node scripts/switch-index-to-local.mjs
+
+      - name: 전환 결과 검증
+        shell: bash
+        run: |
+          ! grep -q "FLOOR20_BASE" index.html
+          ! grep -q "normalize20F" index.html
+          grep -q "LOCAL_DATA_BASE='./data/'" index.html
+
+      - name: 변경사항 커밋
+        shell: bash
+        run: |
+          if git diff --quiet -- index.html; then
+            echo "변경사항이 없습니다."
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          git commit -m "20층·10층 로컬 JSON 통합 로딩"
+          git push origin master
