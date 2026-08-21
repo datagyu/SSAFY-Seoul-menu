@@ -304,11 +304,13 @@ button{
 }
 .day-head .date{
   display:block;
-  font-weight:950;}
+  font-weight:950;
+}
 .day-head .weekday{
   display:block;
   font-size:12px;
-  font-weight:850;}
+  font-weight:850;
+}
 .floor-buttons{
   display:flex;
   flex-direction:row;
@@ -1221,11 +1223,8 @@ const mobileMedia=window.matchMedia('(max-width: 900px)');
 const prefersReducedMotion=window.matchMedia('(prefers-reduced-motion: reduce)');
 const dayCache=new Map();
 const pendingDays=new Map();
-
-const API_BASE={
-  20:'https://raw.githubusercontent.com/C4T4767/baptimessafy/main/data/',
-  10:'https://raw.githubusercontent.com/TJ-media/ssabap-today/main/data-10f/'
-};
+const FLOOR20_BASE='https://raw.githubusercontent.com/C4T4767/baptimessafy/main/data/';
+const LOCAL_DATA_BASE='./data/';
 const weekdays=['일요일','월요일','화요일','수요일','목요일','금요일','토요일'];
 const shortWeekdays=['일','월','화','수','목','금','토'];
 const englishWeekdays=['SUN','MON','TUE','WED','THU','FRI','SAT'];
@@ -1327,31 +1326,18 @@ function normalize20F(data){
   return menus;
 }
 
-function normalize10F(data){
-  if(!Array.isArray(data?.meals))return [];
-  const menus=[];
-
-  for(const meal of data.meals){
-    const items=Array.isArray(meal?.items)?meal.items.filter(Boolean):[];
-    const name=items[0]||meal?.name||'';
-    const rest=items.length>1?items.slice(1):[];
-    if(name||rest.length)menus.push([name,meal?.courseName||'',rest]);
-  }
-  return menus;
-}
-
 function makeDay(k,floor20=[],floor10=[]){
   return {...dateMeta(k),floors:{'20':floor20,'10':floor10}};
 }
 
 async function fetchDay(k){
-  const [data20,data10]=await Promise.all([
-    fetchJSON(`${API_BASE[20]}${k}.json`),
-    fetchJSON(`${API_BASE[10]}${k}.json`)
+  const [data20,localData]=await Promise.all([
+    fetchJSON(`${FLOOR20_BASE}${k}.json`),
+    fetchJSON(`${LOCAL_DATA_BASE}${k}.json`)
   ]);
 
   const floor20=normalize20F(data20);
-  const floor10=normalize10F(data10);
+  const floor10=floorMenus(localData,'10');
 
   if(!floor20.length&&!floor10.length)return null;
   return makeDay(k,floor20,floor10);
