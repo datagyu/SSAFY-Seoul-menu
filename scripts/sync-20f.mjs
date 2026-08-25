@@ -30,6 +30,20 @@ function dateMeta(date){
   };
 }
 
+function mergeLeadingAmpersand(items){
+  const merged=[];
+  for(const item of items){
+    const name=String(item||'').trim();
+    if(!name)continue;
+    if(name.startsWith('&')&&merged.length){
+      merged[merged.length-1]+=name;
+    }else{
+      merged.push(name);
+    }
+  }
+  return merged;
+}
+
 function normalize20F(data){
   if(!Array.isArray(data?.meals))return [];
   const menus=[];
@@ -55,7 +69,8 @@ function normalize20F(data){
     }
 
     const type=String(meal?.courseName||'').replace(':',' ').trim();
-    if(name||items.length)menus.push([name,type,items]);
+    const normalizedItems=mergeLeadingAmpersand(items);
+    if(name||normalizedItems.length)menus.push([name,type,normalizedItems]);
   }
 
   return menus;
