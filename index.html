@@ -274,9 +274,6 @@ button{
 .day-card.single-date-card .floor-section{
   padding:18px;
 }
-.day-card.single-date-card .floor-section:first-of-type{
-  border-top:1px solid var(--line);
-}
 .empty-menu-panel{
   min-height:220px;
   display:flex;
@@ -348,9 +345,11 @@ button{
 }
 .floor-section{
   padding:15px;
+}
+.day-card:not(.single-date-card) .floor-section{
   border-top:1px dashed #E4DED2;
 }
-.floor-section:first-of-type{
+.day-card:not(.single-date-card) .floor-section:first-of-type{
   border-top:0;
 }
 .floor-title{
