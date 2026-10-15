@@ -60,7 +60,18 @@ function normalize20F(data){
       else if(!item?.isMain)items.push(itemName);
     }
 
-    const name=mainName||meal?.name||'';
+    let name=mainName||meal?.name||'';
+    const setName=String(meal?.setName||'').trim();
+    const mainPrefix=String(name).trim();
+    // 원본의 메인 메뉴명이 '&'로 끝나고, 이어지는 항목이 반찬에 있을 때만 세트명으로 복원한다.
+    if(mainPrefix.endsWith('&')&&setName.startsWith(mainPrefix)){
+      const trailingItem=setName.slice(mainPrefix.length).trim();
+      const duplicateIndex=items.findIndex(item=>String(item).trim()===trailingItem);
+      if(trailingItem&&duplicateIndex!==-1){
+        name=setName;
+        items.splice(duplicateIndex,1);
+      }
+    }
     if(!nutrition.length&&meal?.setName){
       items.push(...String(meal.setName)
         .split('&')
