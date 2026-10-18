@@ -1,0 +1,132 @@
+[
+  {
+    "theme": "autumn",
+    "width": 320,
+    "filled": {
+      "dateTop": 14.5,
+      "height": 125.5999984741211
+    },
+    "empty": {
+      "buttons": 0,
+      "dateTop": 14.5,
+      "height": 125.5999984741211
+    }
+  },
+  {
+    "theme": "autumn",
+    "width": 390,
+    "filled": {
+      "dateTop": 14.5,
+      "height": 69.5999984741211
+    },
+    "empty": {
+      "buttons": 0,
+      "dateTop": 14.5,
+      "height": 69.5999984741211
+    }
+  },
+  {
+    "theme": "autumn",
+    "width": 768,
+    "filled": {
+      "dateTop": 14.5,
+      "height": 69.5999984741211
+    },
+    "empty": {
+      "buttons": 0,
+      "dateTop": 14.5,
+      "height": 69.5999984741211
+    }
+  },
+  {
+    "theme": "autumn",
+    "width": 901,
+    "filled": {
+      "dateTop": 14.5,
+      "height": 69.5999984741211
+    },
+    "empty": {
+      "buttons": 0,
+      "dateTop": 14.5,
+      "height": 69.5999984741211
+    }
+  },
+  {
+    "theme": "autumn",
+    "width": 1440,
+    "filled": {
+      "dateTop": 14.5,
+      "height": 69.5999984741211
+    },
+    "empty": {
+      "buttons": 0,
+      "dateTop": 14.5,
+      "height": 69.5999984741211
+    }
+  },
+  {
+    "theme": "default",
+    "width": 320,
+    "filled": {
+      "dateTop": 14.5,
+      "height": 125.5999984741211
+    },
+    "empty": {
+      "buttons": 0,
+      "dateTop": 14.5,
+      "height": 125.5999984741211
+    }
+  },
+  {
+    "theme": "default",
+    "width": 390,
+    "filled": {
+      "dateTop": 14.5,
+      "height": 69.5999984741211
+    },
+    "empty": {
+      "buttons": 0,
+      "dateTop": 14.5,
+      "height": 69.5999984741211
+    }
+  },
+  {
+    "theme": "default",
+    "width": 768,
+    "filled": {
+      "dateTop": 14.5,
+      "height": 69.5999984741211
+    },
+    "empty": {
+      "buttons": 0,
+      "dateTop": 14.5,
+      "height": 69.5999984741211
+    }
+  },
+  {
+    "theme": "default",
+    "width": 901,
+    "filled": {
+      "dateTop": 14.5,
+      "height": 69.5999984741211
+    },
+    "empty": {
+      "buttons": 0,
+      "dateTop": 14.5,
+      "height": 69.5999984741211
+    }
+  },
+  {
+    "theme": "default",
+    "width": 1440,
+    "filled": {
+      "dateTop": 14.5,
+      "height": 69.5999984741211
+    },
+    "empty": {
+      "buttons": 0,
+      "dateTop": 14.5,
+      "height": 69.5999984741211
+    }
+  }
+]

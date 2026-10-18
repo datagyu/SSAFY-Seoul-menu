@@ -1,0 +1,29 @@
+/* Reusable seasonal palette. Component rules remain in base.css. */
+html[data-theme="autumn"] {
+  --text:#47372d;
+  --muted:#75604f;
+  --brand:#934529;
+  --accent:#a34e2e;
+  --accent-soft:#f6e3d6;
+  --floor20:#a34e2e;
+  --floor10:#686832;
+  --floor10-soft:#eeebd5;
+  --line:#e4d2bb;
+  --page-bg:radial-gradient(ellipse at 0 0,#eed1a5,transparent 45%),linear-gradient(160deg,#faf3e7,#f4e9da 65%,#eee4cf);
+  --surface:#fffdf8;
+  --surface-soft:rgba(255,249,238,.84);
+  --panel:#f1e4ce;
+  --calendar-bg:#fff8ed;
+  --control-bg:#fffaf1;
+  --control-hover:#f6e9d7;
+  --date-selected:#f3dfbd;
+  --date-selected-border:#ccaa76;
+  --badge-bg:#f4e9da;
+  --badge-text:#76563d;
+}
+html[data-theme="autumn"] .hero-copy::after {
+  content:"";position:absolute;right:-8px;bottom:-20px;
+  width:125px;height:125px;pointer-events:none;opacity:.14;transform:rotate(-18deg);
+  background:url('../themes/leaf.svg') center/contain no-repeat;
+}
+html[data-theme="autumn"] .hero-mobile-content { position:relative;z-index:1; }

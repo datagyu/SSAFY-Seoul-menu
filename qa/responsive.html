@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>싸밥서울 로컬 검증</title>
+<style>body{margin:0;background:#ddd;font-family:Arial,sans-serif}nav{padding:10px;display:flex;flex-wrap:wrap;gap:10px}iframe{border:0;display:block;background:white}a{color:#333}</style>
+<nav aria-label="검증 화면 크기">
+<a href="?width=320">320</a><a href="?width=390">390</a><a href="?width=768">768</a><a href="?width=900">900</a><a href="?width=901">901</a><a href="?width=1100">1100</a><a href="?width=1440">1440</a>
+<a href="?width=390&theme=default">기존 모바일</a><a href="?width=1440&theme=default">기존 데스크톱</a>
+</nav><iframe title="식단 미리보기" id="preview"></iframe>
+<script>
+const params=new URLSearchParams(location.search);
+const width=Number(params.get('width'))||390;
+const frame=document.getElementById('preview');
+frame.width=Math.max(320,Math.min(1920,width));frame.height=900;
+frame.src='../?theme='+(params.get('theme')==='default'?'default':'autumn');
+</script></html>

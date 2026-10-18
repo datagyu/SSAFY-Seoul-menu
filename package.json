@@ -1,0 +1,20 @@
+{
+  "name": "ssafy-seoul-menu",
+  "private": true,
+  "scripts": {
+    "test": "node --test --test-isolation=none tests/*.test.mjs",
+    "check:preview": "node scripts/check-preview.mjs",
+    "build:css": "tailwindcss -i ./styles/app.css -o ./assets/app.css --minify",
+    "watch:css": "tailwindcss -i ./styles/app.css -o ./assets/app.css --watch",
+    "preview": "node scripts/preview.mjs"
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.3.0",
+    "tailwindcss": "^4.3.0"
+  },
+  "overrides": {
+    "@tailwindcss/cli": {
+      "@parcel/watcher": "2.6.0"
+    }
+  }
+}
