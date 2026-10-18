@@ -150,9 +150,9 @@ button,a { touch-action:manipulation; }
 .menu-box { min-width:0;padding:12px;background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--menu-accent);border-radius:14px; }
 .floor-20 { --menu-accent:var(--floor20); }
 .floor-10 { --menu-accent:var(--floor10); }
-.menu-name { @apply flex flex-col items-start;gap:6px;margin:0 0 10px; }
-.menu-title { font-size:15px;font-weight:700;line-height:1.45;letter-spacing:-.02em;word-break:keep-all;overflow-wrap:anywhere; }
-.type { color:var(--badge-text);background:var(--badge-bg); }
+.menu-name { @apply grid items-start;grid-template-columns:minmax(0,1fr) auto;gap:8px;margin:0 0 10px; }
+.menu-title { font-size:15px;font-weight:700;line-height:1.45;letter-spacing:-.02em;word-break:keep-all;overflow-wrap:anywhere;text-wrap:balance; }
+.type { color:var(--badge-text);background:var(--badge-bg);white-space:nowrap; }
 .type[data-type^="A"],.type[data-type*="도시락"],.type[data-type*="샐러드"] { color:var(--floor10);background:var(--floor10-soft); }
 .type[data-type^="B"] { color:var(--floor20);background:var(--accent-soft); }
 .items { @apply m-0 p-0;list-style:none;color:var(--muted);font-size:14px;font-weight:400;line-height:1.7;word-break:keep-all;overflow-wrap:anywhere; }
