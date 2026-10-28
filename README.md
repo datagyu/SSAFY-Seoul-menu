@@ -1,6 +1,6 @@
 # 싸밥서울 로컬 미리보기
 
-배포 전 점검 결과는 `VERIFICATION.md`에 정리했습니다. `npm test`로 자동 테스트, 서버 실행 후 `npm run check:preview`로 리소스 경로를 재검증할 수 있습니다.
+검증 기록과 스크린샷은 로컬에만 보관하며 Git 추적에서 제외합니다. `npm test`로 자동 테스트, 서버 실행 후 `npm run check:preview`로 리소스 경로를 재검증할 수 있습니다.
 
 `node scripts/preview.mjs` 실행 후 http://127.0.0.1:4173 에 접속합니다.
 

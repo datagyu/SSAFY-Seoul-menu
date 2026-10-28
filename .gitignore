@@ -1,2 +1,19 @@
 node_modules/
 .npm-cache/
+
+# Codex local state, caches, and task records
+.codex/
+.codex-*/
+codex-cache/
+codex-logs/
+codex-artifacts/
+codex-*.log
+codex-*.jsonl
+
+# Local verification records and generated screenshots
+/VERIFICATION.md
+/qa/*-results.json
+/qa/screenshots/
+/qa/clarity/
+/playwright-report/
+/test-results/
