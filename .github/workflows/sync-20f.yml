@@ -27,6 +27,8 @@ jobs:
           node-version: '20'
 
       - name: 20층 식단 동기화
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: node scripts/sync-20f.mjs
 
       - name: 변경사항 커밋

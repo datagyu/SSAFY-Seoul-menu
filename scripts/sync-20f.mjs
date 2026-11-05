@@ -88,7 +88,12 @@ function normalize20F(data){
 }
 
 async function fetchJSON(url){
-  const response=await fetch(url,{headers:{Accept:'application/vnd.github+json'}});
+  const headers={Accept:'application/vnd.github+json'};
+  // 토큰은 GitHub API 요청에만 전달하고 raw 파일 요청에는 노출하지 않는다.
+  if(new URL(url).hostname==='api.github.com'&&process.env.GITHUB_TOKEN){
+    headers.Authorization=`Bearer ${process.env.GITHUB_TOKEN}`;
+  }
+  const response=await fetch(url,{headers});
   if(!response.ok)throw new Error(`${response.status} ${response.statusText}: ${url}`);
   return response.json();
 }
