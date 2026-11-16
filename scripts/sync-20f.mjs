@@ -60,29 +60,8 @@ function normalize20F(data){
       else if(!item?.isMain)items.push(itemName);
     }
 
-    let name=mainName||meal?.name||'';
-    const setName=String(meal?.setName||'').trim();
-    const mainPrefix=String(name).trim();
-    // 메인명이 '&'로 끝나면 세트명에 이어진 반찬들을 찾아 전체 메뉴명으로 복원한다.
-    // 예: '등심돈가스&생선가스&옥수수스프'. 반찬 이름 자체에 '&'가 있어도 처리한다.
-    if(mainPrefix.endsWith('&')&&setName.startsWith(mainPrefix)){
-      let remaining=setName.slice(mainPrefix.length).trim();
-      const matchedIndices=[];
-      while(remaining){
-        const match=items
-          .map((item,index)=>({value:String(item).trim(),index}))
-          .filter(({value,index})=>!matchedIndices.includes(index)&&value&&
-            (remaining===value||remaining.startsWith(`${value}&`)))
-          .sort((a,b)=>b.value.length-a.value.length)[0];
-        if(!match)break;
-        matchedIndices.push(match.index);
-        remaining=remaining.slice(match.value.length).replace(/^&/,'').trim();
-      }
-      if(!remaining&&matchedIndices.length){
-        name=setName;
-        for(const index of matchedIndices.sort((a,b)=>b-a))items.splice(index,1);
-      }
-    }
+    // 대표 메뉴명에 잘못 붙은 맨 끝 '&'만 제거한다. 세트명으로 항목들을 합치지 않는다.
+    const name=String(mainName||meal?.name||'').trim().replace(/&$/,'');
     if(!nutrition.length&&meal?.setName){
       items.push(...String(meal.setName)
         .split('&')
