@@ -3,4 +3,5 @@
 @import "tailwindcss/utilities.css" layer(utilities);
 @import "./base.css";
 @import "./autumn.css";
+@import "./winter.css";
 @source "../index.html";

@@ -1,0 +1,77 @@
+html[data-theme="winter"] {
+  --text:#1c2c42;
+  --muted:#4d6077;
+  --brand:#203d63;
+  --accent:#24588b;
+  --accent-soft:#e4effb;
+  --floor20:var(--accent);
+  --floor10:#645184;
+  --floor10-soft:#eee8f7;
+  --line:#d1deec;
+  --page-bg:radial-gradient(ellipse at 90% 0%,#e7e9fa,transparent 48%),
+    linear-gradient(155deg,#e5f1fa,#f3f7fc 60%,#eef2fa);
+  --surface:#fff;
+  --surface-soft:rgba(251,253,255,.88);
+  --panel:#e9f0f8;
+  --calendar-bg:#fbfdff;
+  --control-bg:#fbfdff;
+  --control-hover:#edf4fc;
+  --date-selected:#dceafb;
+  --date-selected-border:#779bc5;
+  --badge-bg:#eef3f9;
+  --badge-text:#4d6077;
+  --shadow-content:0 4px 16px rgba(30,59,97,.05);
+  --shadow-floating:0 6px 20px rgba(30,59,97,.10);
+}
+
+html[data-theme="winter"] .hero-copy {
+  color:#f7fbff;
+  border-color:#304b70;
+  background:linear-gradient(112deg,#152942 10%,#203c61 60%,#405e84);
+}
+
+html[data-theme="winter"] .hero-copy::before {
+  content:"";
+  position:absolute;
+  inset:0 0 0 45%;
+  pointer-events:none;
+  background:
+    radial-gradient(circle at 19% 33%,#f2f8ff 1px,transparent 2px),
+    radial-gradient(circle at 36% 19%,#b7ceed 1px,transparent 2px),
+    radial-gradient(circle at 54% 47%,#e3efff 1.5px,transparent 2.5px),
+    radial-gradient(circle at 68% 14%,#e3efff 1px,transparent 2px),
+    radial-gradient(circle at 95% 39%,#e3efff 1.5px,transparent 2.5px),
+    radial-gradient(circle at 81% 31%,#eef6ff 14px,#d6e7fc 15px,transparent 16px),
+    radial-gradient(circle at 81% 31%,rgba(192,218,250,.26),transparent 50px);
+}
+
+html[data-theme="winter"] .hero-copy::after {
+  content:"";
+  position:absolute;
+  inset:0 0 0 46%;
+  pointer-events:none;
+  background:
+    radial-gradient(ellipse 92% 53% at 100% 122%,#d6e7fa 98%,transparent 100%),
+    radial-gradient(ellipse 78% 46% at 90% 110%,#96b5d8 98%,transparent 100%),
+    radial-gradient(ellipse 66% 48% at 113% 99%,#6386b0 98%,transparent 100%);
+  mask-image:linear-gradient(90deg,transparent,#000 75%);
+}
+
+html[data-theme="winter"] .hero-mobile-content { position:relative;z-index:1; }
+html[data-theme="winter"] .hero h1 strong { color:#a9dbff; }
+html[data-theme="winter"] .subtitle { color:#d9e6f6; }
+
+html[data-theme="winter"] .today-card {
+  background:radial-gradient(circle at 86% 48%,#e4eafa,transparent 62%),var(--surface);
+}
+
+html[data-theme="winter"] :is(.hero-mobile-character,.today-character) {
+  border-radius:50%;
+  border:2px solid #dce9f9;
+  box-shadow:0 0 0 4px rgba(177,203,235,.32);
+}
+
+@media (max-width:1100px) {
+  html[data-theme="winter"] .hero-copy::before { opacity:.55; }
+  html[data-theme="winter"] .hero-copy::after { opacity:.32; }
+}

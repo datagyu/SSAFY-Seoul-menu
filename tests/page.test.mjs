@@ -174,15 +174,29 @@ test('animated swipe commits new date; interrupted animation preserves newer sta
 
 test('theme start/end in Korea time, preview overrides and open-page expiry',()=>{
   const source=fs.readFileSync('themes/seasonal.js','utf8');
+  const colors={autumn:'#F6EBDD',winter:'#E5F1FA','':'#F7F5EF'};
   for(const [date,query,expected] of [
     ['2026-10-17T23:59:59+09:00','',''],['2026-10-18T00:00:00+09:00','','autumn'],
     ['2026-11-17T23:59:59+09:00','','autumn'],['2026-11-18T00:00:00+09:00','',''],
-    ['2027-01-01T00:00:00+09:00','?theme=autumn','autumn'],['2026-10-20T00:00:00+09:00','?theme=default','']]){
+    ['2026-11-30T23:59:59+09:00','',''],['2026-12-01T00:00:00+09:00','','winter'],
+    ['2027-02-28T23:59:59+09:00','','winter'],['2027-03-01T00:00:00+09:00','',''],
+    ['2027-01-01T00:00:00+09:00','?theme=autumn','autumn'],
+    ['2026-10-20T00:00:00+09:00','?theme=winter','winter'],
+    ['2026-12-20T00:00:00+09:00','?theme=default',''],
+    ['2026-12-20T00:00:00+09:00','?theme=unknown','winter']]){
     let now=Date.parse(date),tick,visible,meta;
     const document={documentElement:{dataset:{}},querySelector:()=>({setAttribute:(k,v)=>meta=v}),addEventListener:(e,fn)=>visible=fn};
     vm.runInNewContext(source,{document,location:{search:query},URLSearchParams,Date:{now:()=>now,parse:Date.parse},setInterval:fn=>tick=fn});
-    assert.equal(document.documentElement.dataset.theme||'',expected);assert.equal(meta,expected?'#F6EBDD':'#F7F5EF');
-    if(!query){now=Date.parse('2026-11-18T00:00:00+09:00');tick();visible();assert.equal(document.documentElement.dataset.theme,undefined);}
+    assert.equal(document.documentElement.dataset.theme||'',expected);
+    assert.equal(meta,colors[expected]);
+    if(!query){
+      now=Date.parse('2026-12-01T00:00:00+09:00');tick();
+      assert.equal(document.documentElement.dataset.theme,'winter');
+      assert.equal(meta,colors.winter);
+      now=Date.parse('2027-03-01T00:00:00+09:00');visible();
+      assert.equal(document.documentElement.dataset.theme,undefined);
+      assert.equal(meta,colors['']);
+    }
   }
 });
 
