@@ -10,7 +10,7 @@
     {
       name: 'winter',
       color: '#E5F1FA',
-      start: Date.parse('2026-12-01T00:00:00+09:00'),
+      start: Date.parse('2026-11-19T00:00:00+09:00'),
       end: Date.parse('2027-03-01T00:00:00+09:00'),
     },
   ];

@@ -178,7 +178,7 @@ test('theme start/end in Korea time, preview overrides and open-page expiry',()=
   for(const [date,query,expected] of [
     ['2026-10-17T23:59:59+09:00','',''],['2026-10-18T00:00:00+09:00','','autumn'],
     ['2026-11-17T23:59:59+09:00','','autumn'],['2026-11-18T00:00:00+09:00','',''],
-    ['2026-11-30T23:59:59+09:00','',''],['2026-12-01T00:00:00+09:00','','winter'],
+    ['2026-11-18T23:59:59+09:00','',''],['2026-11-19T00:00:00+09:00','','winter'],
     ['2027-02-28T23:59:59+09:00','','winter'],['2027-03-01T00:00:00+09:00','',''],
     ['2027-01-01T00:00:00+09:00','?theme=autumn','autumn'],
     ['2026-10-20T00:00:00+09:00','?theme=winter','winter'],
@@ -190,7 +190,7 @@ test('theme start/end in Korea time, preview overrides and open-page expiry',()=
     assert.equal(document.documentElement.dataset.theme||'',expected);
     assert.equal(meta,colors[expected]);
     if(!query){
-      now=Date.parse('2026-12-01T00:00:00+09:00');tick();
+      now=Date.parse('2026-11-19T00:00:00+09:00');tick();
       assert.equal(document.documentElement.dataset.theme,'winter');
       assert.equal(meta,colors.winter);
       now=Date.parse('2027-03-01T00:00:00+09:00');visible();
