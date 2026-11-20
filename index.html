@@ -12,7 +12,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="싸밥서울">
 <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.min.css" />
-<link rel="stylesheet" href="./assets/app.css?v=20261119">
+<link rel="stylesheet" href="./assets/app.css?v=20261120-3">
 <script src="./themes/seasonal.js?v=20261119-2"></script>
 </head>
 <body>
@@ -181,7 +181,7 @@ function box(menu){
   const safeType=escapeHTML(type);
   const typeHTML=safeType?`<span class="type" data-type="${safeType}">${safeType}</span>`:'';
   const itemHTML=items.map(item=>`<li>${escapeHTML(item)}</li>`).join('');
-  return `<div class="menu-box"><p class="menu-name"><span class="menu-title">${escapeHTML(name)}</span>${typeHTML}</p><ul class="items">${itemHTML}</ul></div>`;
+  return `<div class="menu-slot"><div class="menu-box"><p class="menu-title">${escapeHTML(name)}</p>${typeHTML}<ul class="items" role="list">${itemHTML}</ul></div></div>`;
 }
 
 function dayHeadHTML(dateKey,dateLabel,weekdayLabel,isToday,extra='',showChip=true){

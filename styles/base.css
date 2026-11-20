@@ -147,17 +147,16 @@ button,a { touch-action:manipulation; }
 .today-badge,.floor-10 .floor-badge { background:var(--floor10-soft);color:var(--floor10); }
 .floor-20 .floor-badge { background:var(--accent-soft);color:var(--floor20); }
 .menu-list { @apply grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr));gap:12px;align-items:start; }
-.menu-box { min-width:0;padding:12px;background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--menu-accent);border-radius:14px; }
-.floor-20 { --menu-accent:var(--floor20); }
-.floor-10 { --menu-accent:var(--floor10); }
-.menu-name { @apply grid items-start;grid-template-columns:minmax(0,1fr) auto;gap:8px;margin:0 0 10px; }
-.menu-title { font-size:15px;font-weight:700;line-height:1.45;letter-spacing:-.02em;word-break:keep-all;overflow-wrap:anywhere;text-wrap:balance; }
-.type { color:var(--badge-text);background:var(--badge-bg);white-space:nowrap; }
+.menu-box {
+  @apply grid items-start;
+  grid-template-columns:minmax(0,1fr) auto;row-gap:10px;
+  min-width:0;padding:12px;background:var(--surface);border:1px solid var(--line);border-radius:14px;
+}
+.menu-title { margin:0;text-align:center;font-size:15px;font-weight:700;line-height:1.45;letter-spacing:-.02em;word-break:keep-all;overflow-wrap:anywhere;text-wrap:balance; }
+.type { margin-inline-start:8px;color:var(--badge-text);background:var(--badge-bg);white-space:nowrap; }
 .type[data-type^="A"],.type[data-type*="도시락"],.type[data-type*="샐러드"] { color:var(--floor10);background:var(--floor10-soft); }
 .type[data-type^="B"] { color:var(--floor20);background:var(--accent-soft); }
-.items { @apply m-0 p-0;list-style:none;color:var(--muted);font-size:14px;font-weight:400;line-height:1.7;word-break:keep-all;overflow-wrap:anywhere; }
-.items li { padding-left:10px;position:relative; }
-.items li::before { content:"•";position:absolute;left:0;color:var(--floor10); }
+.items { @apply m-0 p-0;grid-column:1;list-style:none;text-align:center;color:var(--muted);font-size:14px;font-weight:400;line-height:1.7;word-break:keep-all;overflow-wrap:anywhere; }
 .floor-empty,.empty-menu-panel { @apply flex items-center justify-center text-center;color:var(--muted);font-size:14px;min-height:160px;line-height:1.7; }
 .floor-empty { padding:24px 12px; }
 .date-chip { @apply flex flex-col items-center justify-center;flex:0 0 auto;width:40px;height:44px;border:1px solid var(--line);border-radius:10px;background:var(--date-selected);line-height:1.2; }
@@ -231,6 +230,10 @@ button,a { touch-action:manipulation; }
 @media(hover:hover) {
   :is(.nav-arrow,.calendar-button,.week-view-button,.mobile-day,.floor-btn,.calendar-day,.calendar-head button):not(.active):not(.selected):hover { background:var(--control-hover);border-color:var(--date-selected-border); }
   .info-link:hover { background:var(--control-hover); }
+}
+@media(hover:hover) and (prefers-reduced-motion:no-preference) {
+  .menu-box { transition:transform 180ms ease-out,box-shadow 180ms ease-out; }
+  .menu-slot:hover .menu-box { transform:translateY(-4px);box-shadow:var(--shadow-floating); }
 }
 @media(max-width:900px) {
   .week-grid.is-swiping { position:relative;overflow:hidden; }
